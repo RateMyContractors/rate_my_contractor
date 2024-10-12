@@ -42,6 +42,14 @@ List <Widget> contractor = [
     rating: 4.7,
     tags: ["HVAC", "Air Conditioning", "Heating"],
   ),
+  const ProfileCard(
+    id: 5,
+    companyName: "Cool Air HVAC",
+    ownerName: "Sarah Brown",
+    image: "/placeholder.svg?height=100&width=100",
+    rating: 4.7,
+    tags: ["HVAC", "Air Conditioning", "Heating"],
+  ),
 ];
 
 
@@ -52,18 +60,32 @@ class ResultsPage extends StatelessWidget{  //defined class that extends statefu
   Widget build(BuildContext context) { //build function is used to describe how the UI should look like, BuildContext gives info about the location of the widget in the app tree
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Contractor List"),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.only(right: 240,left:240),
-        itemCount: contractor.length,
-        itemBuilder: (context,index){
-          return contractor[index];
-        },
-        
-      ),
-    );
-  }
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: SearchBar(
+            hintText: 'Search',
+              onChanged: (value) {},
+            ),
+          ),
+          Expanded(
+          child: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            itemCount: contractor.length,
+            itemBuilder: (context,index){
+              return contractor[index];
+            },
+          ),
+         ),
+         const Row(children: [
+          Text("End of Results")
+         ],)
+      ],
+    ),
+  );
+}
 }
 
 //creating a class for the tags
