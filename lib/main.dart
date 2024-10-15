@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_contractor/results_page.dart';
-
+import 'contractor_page.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -14,11 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 77, 117, 79),
-
+        scaffoldBackgroundColor: const Color.fromARGB(255, 231, 228, 245),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'), 
+      //home: const ContractorPage(),
     );
   }
 }
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       hintText: 'Search by name, phone, or email',
                       onChanged: (value) {
                         setState(() {
-                          searchQuery = value; //user input being assigned as recieved 
+                          searchQuery = value; 
                           });
                           } ,
                         ),
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ],  
-              ),
+              ),  
             ),
           ],
         ),

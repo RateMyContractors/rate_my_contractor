@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart'; //pre-designed widgets and tools are being imported
+import 'package:flutter/material.dart';
+import 'package:rate_my_contractor/contractor_page.dart'; //pre-designed widgets and tools are being imported
 
 //Contractor List - sample input data
 List <Widget> contractor = [
@@ -9,6 +10,7 @@ List <Widget> contractor = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.5,
     tags: ["Plumbing", "Emergency Repairs", "Installation"],
+    phone: '', email: '',
   ),
   const ProfileCard(
     id: 2,
@@ -17,6 +19,7 @@ List <Widget> contractor = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 5,
     tags: ["Electrical", "Wiring", "Lighting"],
+    phone: '123', email: '123',
   ),
   const ProfileCard(
     id: 3,
@@ -25,6 +28,7 @@ List <Widget> contractor = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4,
     tags: ["Landscaping", "Lawn Care", "Tree Trimming"],
+    phone: '', email: '',
   ),
   const ProfileCard(
     id: 4,
@@ -33,6 +37,7 @@ List <Widget> contractor = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.8,
     tags: ["General Repairs", "Carpentry", "Painting"],
+    phone: '', email: '',
   ),
   const ProfileCard(
     id: 5,
@@ -41,6 +46,7 @@ List <Widget> contractor = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.7,
     tags: ["HVAC", "Air Conditioning", "Heating"],
+    phone: '', email: '',
   ),
   const ProfileCard(
     id: 5,
@@ -49,6 +55,7 @@ List <Widget> contractor = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.7,
     tags: ["HVAC", "Air Conditioning", "Heating"],
+    phone: '', email: '',
   ),
 ];
 
@@ -134,16 +141,19 @@ class ProfileCard extends StatelessWidget {
   final int id;
   final String companyName;
   final String ownerName;
+  final String phone;
+  final String email;
   final String image;
   final double rating;
-  //final List tags;
   final List<String> tags;
-
+  
   const ProfileCard({
     super.key,
     required this.id,
     required this.companyName,
     required this.ownerName,
+    required this.phone,
+    required this.email,
     required this.image,
     required this.rating,
     required this.tags, 
@@ -151,7 +161,19 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+          onTap: () {
+        // Navigate to the ContractorDetailPage
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ContractorPage(
+              contractor: this,
+            ),
+          ),
+        );
+      },
+      child: Container(
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color.fromARGB(255, 217, 202, 202),
@@ -229,7 +251,8 @@ class ProfileCard extends StatelessWidget {
               ],
             ),
           ),
-        );
+        ),
+       );
       }
     }
 
