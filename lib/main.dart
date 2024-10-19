@@ -31,10 +31,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String searchQuery = '';
-  
-  get child => null; //user input 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,8 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-
-      
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -91,29 +85,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: SearchBar(
                       hintText: 'Search by name, phone, or email',
                       onChanged: (value) {
-                        setState(() {
-                          searchQuery = value; //user input being assigned as recieved 
-                          });
+                          setState(() {});
                           } ,
                         ),
                       ),
                       const SizedBox(width: 10),
                       ElevatedButton(
-                         onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(//go to other pg, find query
-                            builder: (context) => const ResultsPage(),
-                          ),
-                        );
-                       },
+                         onPressed: (){},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 255, 1, 221), // Change the button color here
-                        minimumSize: const Size(50, 50), // Change the size of the button
-                        padding: const EdgeInsets.all(16), // Adjust padding for size
-                        //shape: RoundedRectangleBorder(
-                        //borderRadius: BorderRadius.circular(12), // Rounded corners if needed
-                      //),
+                        backgroundColor: const Color.fromARGB(255, 123, 127, 211), 
+                        minimumSize: const Size(50, 50), 
+                        padding: const EdgeInsets.all(16), 
                       ),
                       child: const Text(
                         'Search',    //Search button                
