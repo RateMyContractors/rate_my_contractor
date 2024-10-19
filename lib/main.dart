@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_contractor/results_page.dart';
-import 'contractor_page.dart';
+
 void main() {
   runApp(const MyApp());
 }

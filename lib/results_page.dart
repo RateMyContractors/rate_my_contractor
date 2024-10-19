@@ -10,7 +10,8 @@ List <Widget> contractor = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.5,
     tags: ["Plumbing", "Emergency Repairs", "Installation"],
-    phone: '', email: '',
+    phone: '+1 (631)859-4514', 
+    email: 'john@smithshomeservices.com',
   ),
   const ProfileCard(
     id: 2,
@@ -167,12 +168,20 @@ class ProfileCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ContractorPage(
-              contractor: this,
+            builder: (context) => ContractorPage(contractor: ProfileCard(       
+            id: id,
+            companyName: companyName,
+            ownerName: ownerName,
+            phone: phone,
+            email: email,
+            image: image,
+            rating: rating,
+            tags: tags,
+            )
             ),
           ),
-        );
-      },
+        ); 
+      }, 
       child: Container(
           decoration: BoxDecoration(
             border: Border.all(
