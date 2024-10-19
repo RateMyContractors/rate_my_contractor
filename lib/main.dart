@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rate_my_contractor/results_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color.fromARGB(255, 77, 117, 79),
 
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'), 
     );
   }
 }
@@ -32,7 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 202, 234, 250),
       
       appBar: AppBar(
         backgroundColor: Colors.transparent,
