@@ -33,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String searchQuery = '';
   
-  get child => null; //user input 
+  get child => null; 
 
   @override
   Widget build(BuildContext context) {

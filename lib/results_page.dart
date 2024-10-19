@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart'; //pre-designed widgets and tools are being imported
+import 'package:flutter/material.dart'; 
+import 'widgets/tag_widget.dart';
 
-//Contractor List - sample input data
 List <Widget> contractor = [
   const ProfileCard(
     id: 1,
@@ -53,11 +53,11 @@ List <Widget> contractor = [
 ];
 
 
-class ResultsPage extends StatelessWidget{  //defined class that extends statefulwidget (means app changes over time)
-  const ResultsPage({super.key}); //constructor for creating the class (when creating a new object from the class the cunstroctor is automatically called to initialize it in which the constructor is passing information (like the key) when creating widgets)
-  //the super key is a key used by flutter to keep track of widgets in which super refers to the parent class in which it is passing the key of the constructor of the stateless widget. Key is being used to uniquely identify widgets
+class ResultsPage extends StatelessWidget{  
+  const ResultsPage({super.key}); 
+
   @override
-  Widget build(BuildContext context) { //build function is used to describe how the UI should look like, BuildContext gives info about the location of the widget in the app tree
+  Widget build(BuildContext context) { 
     return Scaffold(
       appBar: AppBar(
       ),
@@ -88,55 +88,12 @@ class ResultsPage extends StatelessWidget{  //defined class that extends statefu
 }
 }
 
-//creating a class for the tags
-//this can be added later: this widget accepts text and color, in which depending on the tag, the color of the oval should be different
-class OvalTags extends StatelessWidget {
-  final String tag;
-
-  const OvalTags({
-    super.key,
-    required this.tag
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(96, 198, 193, 201),
-        borderRadius: BorderRadius.all(Radius.elliptical(100, 100)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: Text(
-          tag,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12.0,
-          )
-
-        ))
-    );
-  }
-}
-
-/*
-    Contractor(
-      id: 1,
-      companyName: "Smith Plumbing Co.",
-      ownerName: "John Smith",
-      image: "/placeholder.svg?height=100&width=100",
-      rating: 4.5,
-      tags: ["Plumbing", "Emergency Repairs", "Installation"],
-    ),
-*/
-
 class ProfileCard extends StatelessWidget {
   final int id;
   final String companyName;
   final String ownerName;
   final String image;
   final double rating;
-  //final List tags;
   final List<String> tags;
 
   const ProfileCard({
