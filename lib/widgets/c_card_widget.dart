@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
-
 class ContractorCard extends StatelessWidget{
   final int id;
   final String companyName;

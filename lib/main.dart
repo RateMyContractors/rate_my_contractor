@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_contractor/results_page.dart';
+import 'package:rate_my_contractor/contractor_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Contractor Webapp',
       theme: ThemeData(
         scaffoldBackgroundColor: const Color.fromARGB(255, 231, 228, 245),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'), 
+      home: const ResultsPage(), 
       //home: const ContractorPage(),
     );
   }
@@ -36,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         actions: <Widget>[
           Row(
           mainAxisAlignment: MainAxisAlignment.end, 
@@ -47,7 +48,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ),
               IconButton(
-              icon: const Text('RateMyContracter'),
+              icon: const Text('RateMyContracter',
+              style: TextStyle(color: Color(0xFFFF5C00)),
+              ),
               onPressed: () {},
               ), 
             ]
@@ -63,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(
                       fontSize: 50.0,
                       fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -70,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Fastest way to browse, review and see contracters in your area!',
                     style: TextStyle(
                       fontSize: 25.0,
-                      color: Color.fromARGB(255, 100, 100, 100)
+                      color: Color.fromARGB(255, 255, 255, 255)
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -98,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         'Search',    //Search button                
                         style: TextStyle(
                         fontSize: 20.0,
-                        color: Color.fromARGB(255, 0, 0, 0)),
+                        color: Color.fromARGB(255, 255, 255, 255)),
                       ),
                     ),
                   ],  

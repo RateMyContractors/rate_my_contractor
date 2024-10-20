@@ -12,7 +12,8 @@ List <Widget> contractor = [
     tags: ["Plumbing", "Emergency Repairs", "Installation"],
     phone: '+1 (631)859-4514', 
     email: 'john@smithshomeservices.com',
-  ),
+    aboutUs: 'Hi, I\'m John Smith, a home improvement expert with over 10 years of experience specializing in house painting and flooring repairs. Whether you\'re looking to refresh your home\'s interior with a fresh coat of paint or fix damaged flooring, I bring quality craftsmanship and attention to detail to every project. I’m committed to making your space look its best, and I work closely with clients to ensure they’re happy with the results. Reach out today for a free consultation!',
+    ),
   const ProfileCard(
     id: 2,
     companyName: "HEHEHE",
@@ -21,6 +22,7 @@ List <Widget> contractor = [
     rating: 5,
     tags: ["Electrical", "Wiring", "Lighting"],
     phone: '123', email: '123',
+    aboutUs: 'Hi, I\'m Jane Doe, a home improvement expert with over 10 years of experience specializing in house painting and flooring repairs. Whether you\'re looking to refresh your home\'s interior with a fresh coat of paint or fix damaged flooring, I bring quality craftsmanship and attention to detail to every project. I’m committed to making your space look its best, and I work closely with clients to ensure they’re happy with the results. Reach out today for a free consultation!',
   ),
   const ProfileCard(
     id: 3,
@@ -30,6 +32,7 @@ List <Widget> contractor = [
     rating: 4,
     tags: ["Landscaping", "Lawn Care", "Tree Trimming"],
     phone: '', email: '',
+    aboutUs: 'blah blah blah',
   ),
   const ProfileCard(
     id: 4,
@@ -39,6 +42,7 @@ List <Widget> contractor = [
     rating: 4.8,
     tags: ["General Repairs", "Carpentry", "Painting"],
     phone: '', email: '',
+    aboutUs: 'blah blah blah',
   ),
   const ProfileCard(
     id: 5,
@@ -48,6 +52,7 @@ List <Widget> contractor = [
     rating: 4.7,
     tags: ["HVAC", "Air Conditioning", "Heating"],
     phone: '', email: '',
+    aboutUs: 'blah blah blah',
   ),
   const ProfileCard(
     id: 5,
@@ -57,6 +62,7 @@ List <Widget> contractor = [
     rating: 4.7,
     tags: ["HVAC", "Air Conditioning", "Heating"],
     phone: '', email: '',
+    aboutUs: 'blah blah blah',
   ),
 ];
 
@@ -147,7 +153,8 @@ class ProfileCard extends StatelessWidget {
   final String image;
   final double rating;
   final List<String> tags;
-  
+  final String aboutUs;
+
   const ProfileCard({
     super.key,
     required this.id,
@@ -158,6 +165,7 @@ class ProfileCard extends StatelessWidget {
     required this.image,
     required this.rating,
     required this.tags, 
+    required this.aboutUs,
   });
 
   @override
@@ -177,6 +185,7 @@ class ProfileCard extends StatelessWidget {
             image: image,
             rating: rating,
             tags: tags,
+            aboutUs: aboutUs,
             )
             ),
           ),
