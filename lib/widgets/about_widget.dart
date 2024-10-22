@@ -10,10 +10,17 @@ class AboutUsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFFFF5C00)),
-          borderRadius: const BorderRadius.all(Radius.circular(10),
+          color: Colors.white,
+          border: Border.all(color: Colors.grey, width: 1.0),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 5.0,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
-      ),
       padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +29,7 @@ class AboutUsWidget extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,
-              color: Color.fromARGB(255, 255, 18, 227)
+              color: Color.fromARGB(255, 0, 0, 0)
             )),
             Text(
               aboutUs,
