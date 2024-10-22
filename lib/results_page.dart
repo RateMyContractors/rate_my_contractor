@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart'; 
 import 'widgets/tag_widget.dart';
+import 'models/contractor.dart';
 
-List <Widget> contractor = [
-  const ProfileCard(
+List <Contractor> contractors = [
+  const Contractor (
     id: 1,
     companyName: "Smith Plumbing Co.",
     ownerName: "John Smith",
@@ -10,7 +11,7 @@ List <Widget> contractor = [
     rating: 4.5,
     tags: ["Plumbing", "Emergency Repairs", "Installation"],
   ),
-  const ProfileCard(
+  const Contractor(
     id: 2,
     companyName: "HEHEHE",
     ownerName: "Jane Doe",
@@ -18,7 +19,7 @@ List <Widget> contractor = [
     rating: 5,
     tags: ["Electrical", "Wiring", "Lighting"],
   ),
-  const ProfileCard(
+  const Contractor(
     id: 3,
     companyName: "Green Landscaping",
     ownerName: "HEHEHEH",
@@ -26,7 +27,7 @@ List <Widget> contractor = [
     rating: 4,
     tags: ["Landscaping", "Lawn Care", "Tree Trimming"],
   ),
-  const ProfileCard(
+  const Contractor(
     id: 4,
     companyName: "Handy Home Repairs",
     ownerName: "Mike Johnson",
@@ -34,7 +35,7 @@ List <Widget> contractor = [
     rating: 4.8,
     tags: ["General Repairs", "Carpentry", "Painting"],
   ),
-  const ProfileCard(
+  const Contractor(
     id: 5,
     companyName: "Cool Air HVAC",
     ownerName: "Sarah Brown",
@@ -42,7 +43,7 @@ List <Widget> contractor = [
     rating: 4.7,
     tags: ["HVAC", "Air Conditioning", "Heating"],
   ),
-  const ProfileCard(
+  const Contractor(
     id: 5,
     companyName: "Cool Air HVAC",
     ownerName: "Sarah Brown",
@@ -73,9 +74,9 @@ class ResultsPage extends StatelessWidget{
           Expanded(
           child: ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            itemCount: contractor.length,
+            itemCount: contractors.length,
             itemBuilder: (context,index){
-              return contractor[index];
+              return _ProfileCard(contractor: contractors[index]);
             },
           ),
          ),
@@ -88,22 +89,12 @@ class ResultsPage extends StatelessWidget{
 }
 }
 
-class ProfileCard extends StatelessWidget {
-  final int id;
-  final String companyName;
-  final String ownerName;
-  final String image;
-  final double rating;
-  final List<String> tags;
+class _ProfileCard extends StatelessWidget {
+  final Contractor contractor;
 
-  const ProfileCard({
+  const _ProfileCard({
     super.key,
-    required this.id,
-    required this.companyName,
-    required this.ownerName,
-    required this.image,
-    required this.rating,
-    required this.tags, 
+    required this.contractor,
   });
 
   @override
@@ -139,12 +130,12 @@ class ProfileCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(companyName,
+                      Text(contractor.companyName,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
                           )),
-                      Text(ownerName,
+                      Text(contractor.ownerName,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0,
@@ -153,7 +144,7 @@ class ProfileCard extends StatelessWidget {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                        children: tags.map((tag) {
+                        children: contractor.tags.map((tag) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: OvalTags(tag: tag),
@@ -172,7 +163,7 @@ class ProfileCard extends StatelessWidget {
                       children: [
                         const Icon(Icons.star, color: Color.fromARGB(255, 255, 222, 59)),
                         Text(
-                          rating.toString(),
+                          contractor.rating.toString(),
                           style: const TextStyle(
                            fontWeight: FontWeight.bold,
                            fontSize: 20.0,
