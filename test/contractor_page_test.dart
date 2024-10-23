@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
+import 'package:rate_my_contractor/models/contractor.dart';
 import 'package:rate_my_contractor/results_page.dart';
 
 void main(){ 
-  var testContractor = const ProfileCard(
+  var testContractor = const Contractor(
     id: 4,
     companyName: "Handy Home Repairs",
     ownerName: "Mike Johnson",

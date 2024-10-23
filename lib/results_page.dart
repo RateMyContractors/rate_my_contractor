@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:rate_my_contractor/contractor_page.dart'; //pre-designed widgets and tools are being imported
+import 'package:flutter/material.dart'; 
+import 'widgets/tag_widget.dart';
+import 'models/contractor.dart';
+import 'contractor_page.dart';
 
-//Contractor List - sample input data
-List <Widget> contractor = [
-  const ProfileCard(
+List <Contractor> contractors = [
+  const Contractor (
     id: 1,
     companyName: "Smith Plumbing Co.",
     ownerName: "John Smith",
@@ -14,7 +15,7 @@ List <Widget> contractor = [
     email: 'john@smithshomeservices.com',
     aboutUs: 'Hi, I\'m John Smith, a home improvement expert with over 10 years of experience specializing in house painting and flooring repairs. Whether you\'re looking to refresh your home\'s interior with a fresh coat of paint or fix damaged flooring, I bring quality craftsmanship and attention to detail to every project. I’m committed to making your space look its best, and I work closely with clients to ensure they’re happy with the results. Reach out today for a free consultation!',
     ),
-  const ProfileCard(
+  const Contractor(
     id: 2,
     companyName: "HEHEHE",
     ownerName: "Jane Doe",
@@ -24,7 +25,7 @@ List <Widget> contractor = [
     phone: '123', email: '123',
     aboutUs: 'Hi, I\'m Jane Doe, a home improvement expert with over 10 years of experience specializing in house painting and flooring repairs. Whether you\'re looking to refresh your home\'s interior with a fresh coat of paint or fix damaged flooring, I bring quality craftsmanship and attention to detail to every project. I’m committed to making your space look its best, and I work closely with clients to ensure they’re happy with the results. Reach out today for a free consultation!',
   ),
-  const ProfileCard(
+  const Contractor(
     id: 3,
     companyName: "Green Landscaping",
     ownerName: "HEHEHEH",
@@ -34,7 +35,7 @@ List <Widget> contractor = [
     phone: '', email: '',
     aboutUs: 'blah blah blah',
   ),
-  const ProfileCard(
+  const Contractor(
     id: 4,
     companyName: "Handy Home Repairs",
     ownerName: "Mike Johnson",
@@ -44,7 +45,7 @@ List <Widget> contractor = [
     phone: '', email: '',
     aboutUs: 'blah blah blah',
   ),
-  const ProfileCard(
+  const Contractor(
     id: 5,
     companyName: "Cool Air HVAC",
     ownerName: "Sarah Brown",
@@ -54,7 +55,7 @@ List <Widget> contractor = [
     phone: '', email: '',
     aboutUs: 'blah blah blah',
   ),
-  const ProfileCard(
+  const Contractor(
     id: 5,
     companyName: "Cool Air HVAC",
     ownerName: "Sarah Brown",
@@ -67,11 +68,11 @@ List <Widget> contractor = [
 ];
 
 
-class ResultsPage extends StatelessWidget{  //defined class that extends statefulwidget (means app changes over time)
-  const ResultsPage({super.key}); //constructor for creating the class (when creating a new object from the class the cunstroctor is automatically called to initialize it in which the constructor is passing information (like the key) when creating widgets)
-  //the super key is a key used by flutter to keep track of widgets in which super refers to the parent class in which it is passing the key of the constructor of the stateless widget. Key is being used to uniquely identify widgets
+class ResultsPage extends StatelessWidget{  
+  const ResultsPage({super.key}); 
+
   @override
-  Widget build(BuildContext context) { //build function is used to describe how the UI should look like, BuildContext gives info about the location of the widget in the app tree
+  Widget build(BuildContext context) { 
     return Scaffold(
       appBar: AppBar(
       ),
@@ -87,9 +88,9 @@ class ResultsPage extends StatelessWidget{  //defined class that extends statefu
           Expanded(
           child: ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            itemCount: contractor.length,
+            itemCount: contractors.length,
             itemBuilder: (context,index){
-              return contractor[index];
+              return _ProfileCard(contractor: contractors[index]);
             },
           ),
          ),
@@ -102,94 +103,24 @@ class ResultsPage extends StatelessWidget{  //defined class that extends statefu
 }
 }
 
-//creating a class for the tags
-//this can be added later: this widget accepts text and color, in which depending on the tag, the color of the oval should be different
-class OvalTags extends StatelessWidget {
-  final String tag;
+class _ProfileCard extends StatelessWidget {
+  final Contractor contractor;
 
-  const OvalTags({
+  const _ProfileCard({
     super.key,
-    required this.tag
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(96, 198, 193, 201),
-        borderRadius: BorderRadius.all(Radius.elliptical(100, 100)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: Text(
-          tag,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12.0,
-          )
-
-        ))
-    );
-  }
-}
-
-/*
-    Contractor(
-      id: 1,
-      companyName: "Smith Plumbing Co.",
-      ownerName: "John Smith",
-      image: "/placeholder.svg?height=100&width=100",
-      rating: 4.5,
-      tags: ["Plumbing", "Emergency Repairs", "Installation"],
-    ),
-*/
-
-class ProfileCard extends StatelessWidget {
-  final int id;
-  final String companyName;
-  final String ownerName;
-  final String phone;
-  final String email;
-  final String image;
-  final double rating;
-  final List<String> tags;
-  final String aboutUs;
-
-  const ProfileCard({
-    super.key,
-    required this.id,
-    required this.companyName,
-    required this.ownerName,
-    required this.phone,
-    required this.email,
-    required this.image,
-    required this.rating,
-    required this.tags, 
-    required this.aboutUs,
+    required this.contractor,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
           onTap: () {
-        // Navigate to the ContractorDetailPage
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ContractorPage(contractor: ProfileCard(       
-            id: id,
-            companyName: companyName,
-            ownerName: ownerName,
-            phone: phone,
-            email: email,
-            image: image,
-            rating: rating,
-            tags: tags,
-            aboutUs: aboutUs,
-            )
+            builder: (context) => ContractorPage(contractor: contractor),
             ),
-          ),
-        ); 
+          );
       }, 
       child: Container(
           decoration: BoxDecoration(
@@ -216,18 +147,18 @@ class ProfileCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 30), //controls spacing
+                const SizedBox(width: 30), 
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(companyName,
+                      Text(contractor.companyName,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
                           )),
-                      Text(ownerName,
+                      Text(contractor.ownerName,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0,
@@ -236,7 +167,7 @@ class ProfileCard extends StatelessWidget {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                        children: tags.map((tag) {
+                        children: contractor.tags.map((tag) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: OvalTags(tag: tag),
@@ -255,7 +186,7 @@ class ProfileCard extends StatelessWidget {
                       children: [
                         const Icon(Icons.star, color: Color.fromARGB(255, 255, 222, 59)),
                         Text(
-                          rating.toString(),
+                          contractor.rating.toString(),
                           style: const TextStyle(
                            fontWeight: FontWeight.bold,
                            fontSize: 20.0,

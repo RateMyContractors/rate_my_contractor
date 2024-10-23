@@ -18,8 +18,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color.fromARGB(255, 231, 228, 245),
         useMaterial3: true,
       ),
-      home: const ResultsPage(), 
-      //home: const ContractorPage(),
+      home: const MyHomePage(title: 'Contractor Home Page'), 
     );
   }
 }
@@ -48,10 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ),
               IconButton(
-              icon: const Text('RateMyContracter',
-              style: TextStyle(color: Color(0xFFFF5C00)),
-              ),
-              onPressed: () {},
+                icon: const Text('RateMyContracter'),
+                onPressed: () {},
               ), 
             ]
             ),
@@ -92,7 +89,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       const SizedBox(width: 10),
                       ElevatedButton(
-                         onPressed: (){},
+                         onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ResultsPage())
+                          );
+                         },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 123, 127, 211), 
                         minimumSize: const Size(50, 50), 

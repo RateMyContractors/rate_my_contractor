@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'widgets/about_widget.dart';
-import 'widgets/c_card_widget.dart';
+import 'widgets/contractor_card.dart';
 import 'widgets/portfolio_widget.dart';
-import 'package:rate_my_contractor/results_page.dart';
+import 'models/contractor.dart';
 
 class ContractorPage extends StatelessWidget {
-  final ProfileCard contractor;
+  final Contractor contractor;
   const ContractorPage({super.key, required this.contractor});
 
 
