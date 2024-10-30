@@ -14,7 +14,7 @@ current_os = platform.system()
 if current_os == "Windows":
     service = Service(executable_path="drivers/chromedriver.exe")  
 elif current_os == "Darwin": 
-    service = Service(executable_path="")  
+    service = Service(executable_path="drivers/chromedriver")  
 else:
     raise Exception("Unsupported operating system")
 
