@@ -5,6 +5,9 @@ class Contractor {
   final String image;
   final double rating;
   final List<String> tags;
+  final String phone;
+  final String email;
+  final String aboutUs;
 
   const Contractor({
     required this.id,
@@ -13,5 +16,8 @@ class Contractor {
     required this.image,
     required this.rating,
     required this.tags, 
+    required this.phone,
+    required this.email,
+    required this.aboutUs,
   });
 }

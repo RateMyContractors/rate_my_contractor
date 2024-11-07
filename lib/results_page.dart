@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'; 
 import 'widgets/tag_widget.dart';
 import 'models/contractor.dart';
+import 'contractor_page.dart';
 
 List <Contractor> contractors = [
   const Contractor (
@@ -10,7 +11,10 @@ List <Contractor> contractors = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.5,
     tags: ["Plumbing", "Emergency Repairs", "Installation"],
-  ),
+    phone: '+1 (631)859-4514', 
+    email: 'john@smithshomeservices.com',
+    aboutUs: 'Hi, I\'m John Smith, a home improvement expert with over 10 years of experience specializing in house painting and flooring repairs. Whether you\'re looking to refresh your home\'s interior with a fresh coat of paint or fix damaged flooring, I bring quality craftsmanship and attention to detail to every project. I’m committed to making your space look its best, and I work closely with clients to ensure they’re happy with the results. Reach out today for a free consultation!',
+    ),
   const Contractor(
     id: 2,
     companyName: "HEHEHE",
@@ -18,6 +22,8 @@ List <Contractor> contractors = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 5,
     tags: ["Electrical", "Wiring", "Lighting"],
+    phone: '123', email: '123',
+    aboutUs: 'Hi, I\'m Jane Doe, a home improvement expert with over 10 years of experience specializing in house painting and flooring repairs. Whether you\'re looking to refresh your home\'s interior with a fresh coat of paint or fix damaged flooring, I bring quality craftsmanship and attention to detail to every project. I’m committed to making your space look its best, and I work closely with clients to ensure they’re happy with the results. Reach out today for a free consultation!',
   ),
   const Contractor(
     id: 3,
@@ -26,6 +32,8 @@ List <Contractor> contractors = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4,
     tags: ["Landscaping", "Lawn Care", "Tree Trimming"],
+    phone: '', email: '',
+    aboutUs: 'blah blah blah',
   ),
   const Contractor(
     id: 4,
@@ -34,6 +42,8 @@ List <Contractor> contractors = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.8,
     tags: ["General Repairs", "Carpentry", "Painting"],
+    phone: '', email: '',
+    aboutUs: 'blah blah blah',
   ),
   const Contractor(
     id: 5,
@@ -42,6 +52,8 @@ List <Contractor> contractors = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.7,
     tags: ["HVAC", "Air Conditioning", "Heating"],
+    phone: '', email: '',
+    aboutUs: 'blah blah blah',
   ),
   const Contractor(
     id: 5,
@@ -50,6 +62,8 @@ List <Contractor> contractors = [
     image: "/placeholder.svg?height=100&width=100",
     rating: 4.7,
     tags: ["HVAC", "Air Conditioning", "Heating"],
+    phone: '', email: '',
+    aboutUs: 'blah blah blah',
   ),
 ];
 
@@ -99,7 +113,16 @@ class _ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+          onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ContractorPage(contractor: contractor),
+            ),
+          );
+      }, 
+      child: Container(
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color.fromARGB(255, 217, 202, 202),
@@ -124,7 +147,7 @@ class _ProfileCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 30), //controls spacing
+                const SizedBox(width: 30), 
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +200,8 @@ class _ProfileCard extends StatelessWidget {
               ],
             ),
           ),
-        );
+        ),
+       );
       }
     }
 
