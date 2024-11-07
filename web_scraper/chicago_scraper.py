@@ -2,12 +2,23 @@ import pandas as pd
 import numpy as np
 import time
 import platform
+from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
+import os
+from supabase import create_client, Client
+from datetime import datetime
+import pytz
 
+load_dotenv()
+
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_SR")
+
+supabase: Client = create_client(url, key)
 
 current_os = platform.system()
 
@@ -17,7 +28,6 @@ elif current_os == "Darwin":
     service = Service(executable_path="drivers/chromedriver")  
 else:
     raise Exception("Unsupported operating system")
-
 
 options = webdriver.ChromeOptions()
 options.add_argument("--headless=new")
@@ -33,7 +43,7 @@ table_titles = [title.text for title in titles]
 table_content = []
 wait = WebDriverWait(driver, 5)
 current = 1
-max = 3
+max = 1
 
 table_rows = wait.until(expected_conditions.presence_of_all_elements_located((By.CSS_SELECTOR,'table#paginatedTable tbody tr')))
 
@@ -62,8 +72,84 @@ data['Tags'] = data['License Type'].apply(lambda x: "General" if "General Contra
                                         else "Plumbing" if "Plumbing Contractor" in x 
                                         else "")
 
-print(data)
-data.to_csv('contractor.csv', index=False)
+for ind in data.index: #data.index is the label for each row, so for every one index in the dataframe
+    '''check if company_name exists in contractors table'''
+    addr = data['Address'][ind]
+    parts = addr.split(",")
+    if len(parts) == 3:
+        town = parts[1]
+    if len(parts) == 4:
+        town = parts[2]
+
+    license_number = data['License Number'][ind]
+    license_type = data['License Type'][ind]
+    license_expiration = data['License Expiration Date'][ind]
+    insurance_expiration = data['Insurance / Bond Expiration Date'][ind]
+    is_active = data['License Inactive?'][ind]
+
+    if license_expiration is None or license_expiration.strip() == "":
+        license_expiration = None
+    if insurance_expiration is None or insurance_expiration.strip() == "": 
+        insurance_expiration = None
+
+    list_company_names = supabase.table("Contractors").select("id").eq("company_name", data['Name'][ind]).execute()
+    if list_company_names.data: 
+        contractor_ids = supabase.table("Contractors").select("id").eq("company_name", data['Name'][ind]).execute()
+        '''obtain generated id '''
+        contractor_id = contractor_ids.data[0]['id']
+        '''
+        use generated id to update the information with new info that was given on the item, do not use the name of the ocmpany anymore to update
+        '''
+        supabase.table("Contractors").update({
+            "company_name": data['Name'][ind],
+            "address": data['Address'][ind],
+            "phone": data['Phone'][ind],
+            "updated_at": datetime.now(pytz.utc).isoformat()
+        }).eq("id", contractor_id).execute()
+        '''for each license assoicated with the contractor i have to check if a matching entry exists in the licenses table'''
+        license_data = supabase.table("Licenses").select("*").eq("contractor_id", contractor_id).eq("license_number", license_number).eq("license_type", license_type).eq("town",town).execute()
+        if license_data.data: #checks if their is a matching entry that exist in the licenses table
+            supabase.table("Licenses").update({
+            "license_number": license_number,
+            "license_type": license_type,
+            "town": town,
+            "license_expiration": license_expiration,
+            "insurance_expiration": insurance_expiration,
+            "is_active": is_active,
+            "contractor_id": contractor_id,
+            "updated_at": datetime.now(pytz.utc).isoformat()
+             }).eq("id", contractor_id).execute()
+        else:
+            supabase.table("Licenses").insert({
+            "license_number": license_number,
+            "license_type": license_type,
+            "town": town,
+            "license_expiration": license_expiration,
+            "insurance_expiration": insurance_expiration,
+            "is_active": is_active,
+            "contractor_id": contractor_id,
+            }).execute()
+    else:
+        '''if it doesnt exist add a new contractor'''
+        supabase.table("Contractors").insert({
+            "company_name": data['Name'][ind],
+            "address": data['Address'][ind],
+            "phone": data['Phone'][ind]
+            }).execute()
+        #obtain generated id 
+        contractor_ids = supabase.table("Contractors").select("id").eq("company_name", data['Name'][ind]).execute()
+        contractor_id = contractor_ids.data[0]['id']
+        '''inster the license code here too'''
+        supabase.table("Licenses").insert({
+            "license_number": license_number,
+            "license_type": license_type,
+            "town": town,
+            "license_expiration": license_expiration,
+            "insurance_expiration": insurance_expiration,
+            "is_active": is_active,
+            "contractor_id": contractor_id,
+            }).execute()
 driver.quit()
+
 
 
