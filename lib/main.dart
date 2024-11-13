@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_contractor/results_page.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async{
+  await dotenv.load();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_KEY']!,
+  );
   runApp(const MyApp());
 }
 
@@ -34,7 +42,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         actions: <Widget>[
