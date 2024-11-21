@@ -1,75 +1,17 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+import 'package:rate_my_contractor/contractor_page.dart'; 
+import 'contractor_list/domain/models/contractor.dart';
 import 'widgets/tag_widget.dart';
-import 'models/contractor.dart';
-import 'contractor_page.dart';
-
-List <Contractor> contractors = [
-  const Contractor (
-    id: 1,
-    companyName: "Smith Plumbing Co.",
-    ownerName: "John Smith",
-    image: "/placeholder.svg?height=100&width=100",
-    rating: 4.5,
-    tags: ["Plumbing", "Emergency Repairs", "Installation"],
-    phone: '+1 (631)859-4514', 
-    email: 'john@smithshomeservices.com',
-    aboutUs: 'Hi, I\'m John Smith, a home improvement expert with over 10 years of experience specializing in house painting and flooring repairs. Whether you\'re looking to refresh your home\'s interior with a fresh coat of paint or fix damaged flooring, I bring quality craftsmanship and attention to detail to every project. I’m committed to making your space look its best, and I work closely with clients to ensure they’re happy with the results. Reach out today for a free consultation!',
-    ),
-  const Contractor(
-    id: 2,
-    companyName: "HEHEHE",
-    ownerName: "Jane Doe",
-    image: "/placeholder.svg?height=100&width=100",
-    rating: 5,
-    tags: ["Electrical", "Wiring", "Lighting"],
-    phone: '123', email: '123',
-    aboutUs: 'Hi, I\'m Jane Doe, a home improvement expert with over 10 years of experience specializing in house painting and flooring repairs. Whether you\'re looking to refresh your home\'s interior with a fresh coat of paint or fix damaged flooring, I bring quality craftsmanship and attention to detail to every project. I’m committed to making your space look its best, and I work closely with clients to ensure they’re happy with the results. Reach out today for a free consultation!',
-  ),
-  const Contractor(
-    id: 3,
-    companyName: "Green Landscaping",
-    ownerName: "HEHEHEH",
-    image: "/placeholder.svg?height=100&width=100",
-    rating: 4,
-    tags: ["Landscaping", "Lawn Care", "Tree Trimming"],
-    phone: '', email: '',
-    aboutUs: 'blah blah blah',
-  ),
-  const Contractor(
-    id: 4,
-    companyName: "Handy Home Repairs",
-    ownerName: "Mike Johnson",
-    image: "/placeholder.svg?height=100&width=100",
-    rating: 4.8,
-    tags: ["General Repairs", "Carpentry", "Painting"],
-    phone: '', email: '',
-    aboutUs: 'blah blah blah',
-  ),
-  const Contractor(
-    id: 5,
-    companyName: "Cool Air HVAC",
-    ownerName: "Sarah Brown",
-    image: "/placeholder.svg?height=100&width=100",
-    rating: 4.7,
-    tags: ["HVAC", "Air Conditioning", "Heating"],
-    phone: '', email: '',
-    aboutUs: 'blah blah blah',
-  ),
-  const Contractor(
-    id: 5,
-    companyName: "Cool Air HVAC",
-    ownerName: "Sarah Brown",
-    image: "/placeholder.svg?height=100&width=100",
-    rating: 4.7,
-    tags: ["HVAC", "Air Conditioning", "Heating"],
-    phone: '', email: '',
-    aboutUs: 'blah blah blah',
-  ),
-];
 
 
-class ResultsPage extends StatelessWidget{  
-  const ResultsPage({super.key}); 
+//first try to use bloc provider here 
+class ResultsPage extends StatelessWidget{
+  final List<Contractor> contractors;
+
+  //do a bloc builder here to build the search results
+//here we also replace the whole page with loading
+//use contractors data to display it 
+  const ResultsPage({super.key, required this.contractors}); 
 
   @override
   Widget build(BuildContext context) { 
@@ -115,12 +57,12 @@ class _ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
           onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ContractorPage(contractor: contractor),
-            ),
-          );
+        // Navigator.push(
+        //   //context,
+        //   // MaterialPageRoute(
+        //   //   builder: (context) => ContractorPage(contractor: contractor),
+        //   //   ),
+        //   );
       }, 
       child: Container(
           decoration: BoxDecoration(
@@ -158,23 +100,23 @@ class _ProfileCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 20.0,
                           )),
-                      Text(contractor.ownerName,
+                      Text(contractor.ownerName ?? '', //if no owner name found
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0,
                               color: Colors.grey,
                             )),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                        children: contractor.tags.map((tag) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: OvalTags(tag: tag),
-                          );
-                        }).toList(),
-                        ),
-                      ),
+                      // SingleChildScrollView(
+                      //   scrollDirection: Axis.horizontal,
+                      //   child: Row(
+                      //   children: contractor.tags.map((tag) {
+                      //     return Padding(
+                      //       padding: const EdgeInsets.only(right: 8.0),
+                      //       child: OvalTags(tag: tag),
+                      //     );
+                      //   }).toList(),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -205,3 +147,25 @@ class _ProfileCard extends StatelessWidget {
       }
     }
 
+// import 'package:flutter/material.dart';
+
+// class ResultsPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Results'),
+//         backgroundColor: Colors.blue, // Customize as needed
+//       ),
+//       body: Center(
+//         child: Text(
+//           'Results will be displayed here!',
+//           style: TextStyle(
+//             fontSize: 18,
+//             color: Colors.grey[600],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
