@@ -32,7 +32,12 @@ class SearchInvalid extends SearchState {
     List<Object> get props => [errormsg, isButtonOn];
 } 
 
-class SearchInProgress extends SearchState{} //show a circle loading symbol
+class SearchInProgress extends SearchState{
+    final bool isButtonOn;
+    const SearchInProgress({this.isButtonOn = false});
+    @override
+    List<Object> get props => [isButtonOn];  
+} //show a circle loading symbol
 
 class SearchValid extends SearchState {
   final bool isButtonOn;

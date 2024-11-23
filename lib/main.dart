@@ -58,8 +58,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //bool isButtonOn = false;
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,11 +147,20 @@ class _MyHomePageState extends State<MyHomePage> {
                           minimumSize: const Size(50, 50),
                           padding: const EdgeInsets.all(16),
                         ),
-                        child: const Text(
+                        child: state is SearchInProgress
+                          ? const SizedBox(
+                              width: 20, // Adjust the size as needed
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                strokeWidth: 2.0,
+                              ),
+                            )
+                          : const Text(
                           'Search', //Search button
                           style: TextStyle(
-                              fontSize: 20.0,
-                              color: Color.fromARGB(255, 255, 255, 255)),
+                            fontSize: 20.0,
+                            color: Color.fromARGB(255, 255, 255, 255)),
                         ),
                       ),
                     ],

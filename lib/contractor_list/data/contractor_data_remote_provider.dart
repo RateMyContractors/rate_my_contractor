@@ -17,7 +17,7 @@ class ContractorDataRemoteProvider {
         final contractorJson = await _supabaseClient
         .from('Contractors')  // your table name in Supabase
         .select('*')        //.ilike('company_name', '%$query%');
-        .or('company_name.ilike.%$query%,address.ilike.%$query%,phone.ilike.%$query%'); //not sure what would happen if we added email or owner since we have them all in NUll in our DB
+        .or('company_name.ilike.%$query%,address.ilike.%$query%,phone.ilike.%$query%,owner.ilike.%$query%,phone.ilike.%$query%'); //not sure what would happen if we added email or owner since we have them all in NUll in our DB
         print(query);
         List<ContractorDto> contractorObjList = contractorJson.map<ContractorDto>((contractor) => ContractorDto.fromJson(contractor)).toList();
         return contractorObjList;
