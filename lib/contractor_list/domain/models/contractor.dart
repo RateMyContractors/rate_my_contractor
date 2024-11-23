@@ -14,7 +14,7 @@ class Contractor extends Equatable  {
   final String? ownerName;
   final String? image;
   final double? rating;
-  final List<String>? tags; //add to table?
+  final List<String> tags; //add to table?
   final String phone;
   final String? email;
   final String? aboutUs;
@@ -27,7 +27,7 @@ class Contractor extends Equatable  {
     this.ownerName,
     this.image,
     this.rating,
-    this.tags,
+    required this.tags,
     required this.phone,
     this.email,
     this.aboutUs,

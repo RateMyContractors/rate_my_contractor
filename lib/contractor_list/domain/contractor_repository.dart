@@ -25,8 +25,10 @@ class ContractorRepository {
         ownerName: dataSetContractors[i].owner,
         phone: dataSetContractors[i].phone,
         email: dataSetContractors[i].email,
-        licenses: dataSetLicenses
+        licenses: dataSetLicenses,
+        tags: dataSetLicenses.map((licenses) => licenses.licenseType).toList() //might not work
       ));
+   
     }
     return listOfContractors;
   }

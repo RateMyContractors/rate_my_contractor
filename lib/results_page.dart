@@ -106,17 +106,17 @@ class _ProfileCard extends StatelessWidget {
                               fontSize: 15.0,
                               color: Colors.grey,
                             )),
-                      // SingleChildScrollView(
-                      //   scrollDirection: Axis.horizontal,
-                      //   child: Row(
-                      //   children: contractor.tags.map((tag) {
-                      //     return Padding(
-                      //       padding: const EdgeInsets.only(right: 8.0),
-                      //       child: OvalTags(tag: tag),
-                      //     );
-                      //   }).toList(),
-                      //   ),
-                      // ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                        children: contractor.tags.map((tag) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: OvalTags(tag: tag),
+                          );
+                        }).toList(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
