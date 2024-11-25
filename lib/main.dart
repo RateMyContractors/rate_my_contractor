@@ -1,13 +1,11 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
+import 'package:rate_my_contractor/error_search_page.dart';
 import 'package:rate_my_contractor/results_page.dart';
-import 'package:rate_my_contractor/contractor_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
-import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
 
 
@@ -87,7 +85,11 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           } else if (state is SearchInProgress) {
             const CircularProgressIndicator();
-          } 
+          } else if (state is SearchFailure) {
+            Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ErrorSearchPage(errormsg: state.errormsg))
+            );
+          }
         },
       child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state){

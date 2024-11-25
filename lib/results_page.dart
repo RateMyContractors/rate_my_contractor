@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rate_my_contractor/contractor_page.dart'; 
 import 'contractor_list/domain/models/contractor.dart';
 import 'widgets/tag_widget.dart';
 

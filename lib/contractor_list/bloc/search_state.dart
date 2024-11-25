@@ -21,7 +21,13 @@ class SearchSuccess extends SearchState {
     String toString() => 'SearchSuccess { items: $contractors.length} }';
 } //gonna show the list of contractors reuested ;;; this will have access to the list of contractors
 
-class SearchFailure extends SearchState {} //show an error page
+class SearchFailure extends SearchState {
+  final String errormsg;
+  const SearchFailure(this.errormsg);
+
+  @override
+  List<Object> get props => [errormsg];
+} //show an error page
 
 class SearchInvalid extends SearchState {
     final String errormsg;

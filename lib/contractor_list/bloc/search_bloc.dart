@@ -23,10 +23,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     on<SearchButtonPressed>( 
       (event, emit) async {
-        emit(SearchInProgress()); //emit the loading state
-        await Future<void>.delayed(const Duration(seconds:1));
-        final contractors = await repository.getContractors(event.query);
-        emit(SearchSuccess(contractors));
+        try{
+          emit(SearchInProgress()); //emit the loading state
+          await Future<void>.delayed(const Duration(seconds:1));
+          final contractors = await repository.getContractors(event.query);
+          emit(SearchSuccess(contractors));
+        } catch(error) {
+          emit(SearchFailure('$error'));
+        }
       });
   }
 }
