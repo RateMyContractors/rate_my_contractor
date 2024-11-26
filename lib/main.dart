@@ -79,10 +79,17 @@ class _MyHomePageState extends State<MyHomePage> {
       body: 
       BlocListener<SearchBloc, SearchState>(
         listener: (context, state){
-          //bool isButtonOn = false;
           if (state.status == SearchStateStatus.success) {
-            Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ResultsPage(contractors: state.contractors)),
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => BlocProvider.value(
+                                    value: BlocProvider.of<SearchBloc>(context),
+                                    child: ResultsPage(
+                                      contractors: state.contractors
+                                    ),
+                                  )
+                                ),
             );
           } else if (state.status == SearchStateStatus.loading) {
             // isButtonOn = state.isButtonOn;

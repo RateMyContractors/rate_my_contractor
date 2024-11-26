@@ -19,13 +19,32 @@ class ResultsPage extends StatelessWidget{
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: SearchBar(
-            hintText: 'Search',
-              onChanged: (value) {},
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [   
+              Padding(
+                padding: const EdgeInsets.all(9.0),
+                child: SearchBar(
+                hintText: 'Search',
+                  onChanged: (value) {},
+                ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 123, 127, 211), 
+                  textStyle: const TextStyle(fontSize: 20),
+                  padding: const EdgeInsets.all(16),
+                ),
+                onPressed: () {},
+                child: const Text('Search', //Search button
+                          style: TextStyle(
+                          fontSize: 20.0,
+                          color: Color.fromARGB(255, 255, 255, 255))
+                )
+              )
+            ],
           ),
+
           Expanded(
           child: ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),

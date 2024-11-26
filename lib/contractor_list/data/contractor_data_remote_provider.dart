@@ -25,21 +25,19 @@ class ContractorDataRemoteProvider {
         return throw(Exception("data fetch failed: contractor table"));
       }
   }
-  Future<List<LicenseDto>> getLicenses(String contractorId) async { //return licenses based on the existing contractor ids
-      try{
-        final licensesJson = await _supabaseClient
-          .from('Licenses')
-          .select('*')
-          .eq('contractor_id', contractorId);
-        
+  
+  Future<List<LicenseDto>> getLicenses(List<String> contractorIds) async {
+     try{
+       final licensesJson = await _supabaseClient
+         .from('Licenses')
+         .select('*')
+         .inFilter('contractor_id', contractorIds);
+
         List<LicenseDto> licenseObjList = licensesJson.map((license) => LicenseDto.fromJson(license)).toList();
-        //licenseJson.map((json) => LicenseDto.fromJson(json))  ----> map() applies a specific transformation to each element in like a list || toList() gathers all of the transsformed elements and collects them into  a list
-        //licenseJson.map((json) ----> for each json map in licenseJson (each user), map() applies the function (json) => License.fromJson(json)
-        //the function LicenseDto.fromJson(json) convers each json map into a user object
-        //License.fromJson(Licensejson) tells the JSON data to use the blueprint to make a License instance from it
         return licenseObjList;
-      }catch(error){
-        return throw(Exception("data fetch failed: licenses table"));
-      }
-    }
+
+      } catch(error){
+       return throw(Exception("data fetch failed: licenses table"));
+     }
+   }
 }
