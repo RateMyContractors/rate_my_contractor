@@ -12,25 +12,47 @@ class ContractorRepository {
   final ContractorDataRemoteProvider _contractorDataRemoteProvider;
 
   Future<List<Contractor>> getContractors(String query) async { 
-    // final List<ContractorDto> dataSetContractors = await _contractorDataRemoteProvider.getContractors(query); //fetches raw data from provider and stores it in dataSetContractors
-    // //final List<LicenseDto> dataSetLicenses = await _contractorDataRemoteProvider.getLicenses(query); //get a set of contractor ids from the first data set 
-    // List<Contractor> listOfContractors = [];
+    final List<ContractorDto> dataSetContractors = await _contractorDataRemoteProvider.getContractors(query); //fetches raw data from provider and stores it in dataSetContractors
+    final List<String> contractorIds = [];
+    List<Contractor> listOfContractors = [];
+    for (var dsContractor in dataSetContractors) {
+       contractorIds.add(dsContractor.id);
+    }
+    List<LicenseDto> dataSetLicenses = await _contractorDataRemoteProvider.getLicenses(contractorIds);
 
-    // for (int i = 0; i < dataSetContractors.length; i++){ //get all licenses that match the set of contractors
-    //   final List<LicenseDto> dataSetLicenses = await _contractorDataRemoteProvider.getLicenses(dataSetContractors[i].id);
-    //   listOfContractors.add(Contractor(
-    //     id: dataSetContractors[i].id, 
-    //     companyName: dataSetContractors[i].companyname, 
-    //     address: dataSetContractors[i].address,
-    //     ownerName: dataSetContractors[i].owner,
-    //     phone: dataSetContractors[i].phone,
-    //     email: dataSetContractors[i].email,
-    //     licenses: dataSetLicenses,
-    //     tags: dataSetLicenses.map((licenses) => licenses.licenseType).toList() //might not work
-    //   ));
-   
-    // }
-    // return listOfContractors;
-    throw Exception('Failed to fetch contractors'); //comment this out to test failed page
+
+
+    // for every contractor
+    // if a license matches to it make it into a list
+    // then set that  list into licenses
+    for (int i = 0; i < dataSetContractors.length; i++){
+        List<LicenseDto> licensesMatch = [];
+        for (var license in dataSetLicenses){
+          if (license.contractorId == dataSetContractors[i].id) {
+            licensesMatch.add(license);
+          }
+        }
+        listOfContractors.add(Contractor(
+            id: dataSetContractors[i].id, 
+            companyName: dataSetContractors[i].companyname, 
+            address: dataSetContractors[i].address,
+            ownerName: dataSetContractors[i].owner,
+            phone: dataSetContractors[i].phone,
+            email: dataSetContractors[i].email,
+            licenses: licensesMatch,
+            tags: licensesMatch.map((licenses) => licenses.licenseType).toList() //might not work
+          )); 
+    }
+    return listOfContractors;
   }
 }
+/*          listOfContractors.add(Contractor(
+            id: dataSetContractors[i].id, 
+            companyName: dataSetContractors[i].companyname, 
+            address: dataSetContractors[i].address,
+            ownerName: dataSetContractors[i].owner,
+            phone: dataSetContractors[i].phone,
+            email: dataSetContractors[i].email,
+            licenses: dataSetLicenses,
+            tags: dataSetLicenses.map((licenses) => licenses.licenseType).toList() //might not work
+          )); */

@@ -80,8 +80,16 @@ class _MyHomePageState extends State<MyHomePage> {
       BlocListener<SearchBloc, SearchState>(
         listener: (context, state){
           if (state is SearchSuccess) {
-            Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ResultsPage(contractors: state.contractors)),
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => BlocProvider.value(
+                                    value: BlocProvider.of<SearchBloc>(context),
+                                    child: ResultsPage(
+                                      contractors: state.contractors
+                                    ),
+                                  )
+                                ),
             );
           } else if (state is SearchInProgress) {
             const CircularProgressIndicator();

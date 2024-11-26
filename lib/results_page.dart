@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
+import 'package:rate_my_contractor/error_search_page.dart';
 import 'contractor_list/domain/models/contractor.dart';
 import 'widgets/tag_widget.dart';
 
@@ -17,7 +20,27 @@ class ResultsPage extends StatelessWidget{
     return Scaffold(
       appBar: AppBar(
       ),
-      body: Column(
+      body: 
+      BlocListener<SearchBloc, SearchState>(
+        listener: (context, state){
+          if (state is SearchFailure) {
+            Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ErrorSearchPage(errormsg: state.errormsg))
+            );
+          }
+        },
+    
+      child: BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state){
+          // bool isButtonOn = false;
+          // String validQuery = '';
+          // if (state is SearchInvalid){
+          //   isButtonOn = state.isButtonOn; 
+          // } else if (state is SearchValid){
+          //   validQuery = state.query;
+          //   isButtonOn = state.isButtonOn;
+          // } 
+      return Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(9.0),
@@ -39,8 +62,13 @@ class ResultsPage extends StatelessWidget{
           Text("End of Results")
          ],)
       ],
-    ),
-  );
+    );
+       }
+      
+  )
+      )
+    );
+      
 }
 }
 
@@ -143,6 +171,7 @@ class _ProfileCard extends StatelessWidget {
           ),
         ),
        );
+      
       }
     }
 
