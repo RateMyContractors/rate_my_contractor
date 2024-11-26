@@ -9,27 +9,29 @@ part 'search_event.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ContractorRepository repository;
 
-  SearchBloc(this.repository): super(SearchInitial()) {
+  SearchBloc(this.repository): super(SearchState.initial()) {
      //call state here directly dont call getcontractors and if it isnt empty call it
-     //////BRIDGET AND INIKASS WQUESITON 11:03 PM -> How are we able to determine whats a valid input or not, like what if the user is using the search to look up using ids, using names/case sensitiveness
     on<SearchTextUpdated>(
       (event, emit) async{
         if(event.query.isEmpty){
-          emit(const SearchInvalid("User input failed to enter anyhting"));
+          emit(state.copyWith(isButtonOn: false, errormsg: 'User input failed to enter anyhting', query: event.query,
+          status: SearchStateStatus.invalid));
         } else {
-          emit(SearchValid(event.query));
+          emit(state.copyWith(isButtonOn:true, query: event.query, status: SearchStateStatus.valid));
         }
       });
 
     on<SearchButtonPressed>( 
       (event, emit) async {
         try{
-          emit(SearchInProgress()); //emit the loading state
+          emit(state.copyWith(isButtonOn: false, status: SearchStateStatus.loading)); //emit the loading state
+          //print(state.query);
           await Future<void>.delayed(const Duration(seconds:1));
-          final contractors = await repository.getContractors(event.query);
-          emit(SearchSuccess(contractors));
+          final contractors = await repository.getContractors(state.query);//state.query
+          //print(state.query);
+          emit(state.copyWith(contractors: contractors, status: SearchStateStatus.success));
         } catch(error) {
-          emit(SearchFailure('$error'));
+          emit(state.copyWith(errormsg: '$error', status: SearchStateStatus.failure));
         }
       });
   }

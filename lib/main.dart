@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             IconButton(
-              icon: const Text('RateMyContracter'),
+              icon: const Text('RateMyContractor'),
               onPressed: () {},
             ),
           ]),
@@ -79,13 +79,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: 
       BlocListener<SearchBloc, SearchState>(
         listener: (context, state){
-          if (state is SearchSuccess) {
+          //bool isButtonOn = false;
+          if (state.status == SearchStateStatus.success) {
             Navigator.push(context,
             MaterialPageRoute(builder: (context) => ResultsPage(contractors: state.contractors)),
             );
-          } else if (state is SearchInProgress) {
+          } else if (state.status == SearchStateStatus.loading) {
+            // isButtonOn = state.isButtonOn;
             const CircularProgressIndicator();
-          } else if (state is SearchFailure) {
+          } else if (state.status == SearchStateStatus.failure) {
             Navigator.push(context,
             MaterialPageRoute(builder: (context) => ErrorSearchPage(errormsg: state.errormsg))
             );
@@ -93,14 +95,14 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state){
-          bool isButtonOn = false;
-          String validQuery = '';
-          if (state is SearchInvalid){
-            isButtonOn = state.isButtonOn; 
-          } else if (state is SearchValid){
-            validQuery = state.query;
-            isButtonOn = state.isButtonOn;
-          } 
+          // //bool isButtonOn = false;
+          //String validQuery = '';
+          // // if (state is SearchInvalid){
+          // //   isButtonOn = state.isButtonOn; 
+          // // } else if (state is SearchValid){
+          // //   validQuery = state.query;
+          // //   isButtonOn = state.isButtonOn;
+          // // } 
           return Center( //block builder
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 15),
                 const Text(
-                  'Fastest way to browse, review and see contracters in your area!',
+                  'Fastest way to browse, review and see contractors in your area!',
                   style: TextStyle(
                       fontSize: 25.0,
                       color: Color.fromARGB(255, 255, 255, 255)),
@@ -128,7 +130,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       Expanded(
                         child: SearchBar(
                           hintText: 'Search by name, phone, or email',
-                          //controller: _controller, //the controller will manage text
                           onChanged: (value) {
                             context.read<SearchBloc>().add(SearchTextUpdated(query: value));
                             //setState(() {});
@@ -137,19 +138,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       const SizedBox(width: 10),
                       ElevatedButton(
-                        onPressed: isButtonOn ? () { //just need state.isButtonOn
-                          context.read<SearchBloc>().add(SearchButtonPressed(query: validQuery));
+                        onPressed: state.isButtonOn ? () { //just need state.isButtonOn
+                        context.read<SearchBloc>().add(SearchButtonPressed(query: state.query));
+                        //print('Search text updated: $state.query'); 
                         }
                         : null,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:isButtonOn
+                          backgroundColor:state.isButtonOn
                               //const Color.fromARGB(255, 123, 127, 211),
                               ? const Color.fromARGB(255, 123, 127, 211)
                               : Colors.grey,
                           minimumSize: const Size(50, 50),
                           padding: const EdgeInsets.all(16),
                         ),
-                        child: state is SearchInProgress
+                        child: state.status == SearchStateStatus.loading
                           ? const SizedBox(
                               width: 20, // Adjust the size as needed
                               height: 20,

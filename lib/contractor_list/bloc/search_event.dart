@@ -18,7 +18,7 @@ class SearchTextUpdated extends SearchEvent {
   List<Object> get props => [query];
 
   @override
-  String toString() => 'Search Commenced {text: $query}';
+  String toString() => 'Search Commenced {query: $query}';
 }
 
 class SearchButtonPressed extends SearchEvent {
@@ -30,6 +30,6 @@ class SearchButtonPressed extends SearchEvent {
   List<Object> get props => [query];
 
   @override
-  String toString() => 'Search Commenced {text: $query}';
+  String toString() => 'Search Commenced {query: $query}';
 }
 

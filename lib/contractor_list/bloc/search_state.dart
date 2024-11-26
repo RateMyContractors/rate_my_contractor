@@ -1,57 +1,54 @@
 //apps state in particular moments
 part of 'search_bloc.dart';
 
-abstract class SearchState extends Equatable{ //Equatable tells Dart, "Don't just compare where they are in memory; check their actual content."
-  const SearchState();
-//bloc rebuilds the UI everytime the state changes
-//using equatable with states will allow bloc to not rebuild the UI if two states are identical
-  @override
-  List<Object> get props => [];
-}
 
-class SearchInitial extends SearchState {} //going to show nothing 
-
-class SearchSuccess extends SearchState {
-  final List<Contractor> contractors;
-  const SearchSuccess(this.contractors);
-    //u have to do the thing below because then bloc wont be able to compare the states
-    @override
-    List<Object> get props => [contractors];
-    @override
-    String toString() => 'SearchSuccess { items: $contractors.length} }';
-} //gonna show the list of contractors reuested ;;; this will have access to the list of contractors
-
-class SearchFailure extends SearchState {
-  final String errormsg;
-  const SearchFailure(this.errormsg);
-
-  @override
-  List<Object> get props => [errormsg];
-} //show an error page
-
-class SearchInvalid extends SearchState {
-    final String errormsg;
-    final bool isButtonOn;
-    const SearchInvalid(this.errormsg,{this.isButtonOn = false});
-    //u have to do the thing below because then bloc wont be able to compare the states
-    @override
-    List<Object> get props => [errormsg, isButtonOn];
-} 
-
-class SearchInProgress extends SearchState{
-    final bool isButtonOn;
-    const SearchInProgress({this.isButtonOn = false});
-    @override
-    List<Object> get props => [isButtonOn];  
-} //show a circle loading symbol
-
-class SearchValid extends SearchState {
+enum SearchStateStatus {initial, loading, failure, success, invalid, valid}
+class SearchState extends Equatable{
+  final SearchStateStatus status;
   final bool isButtonOn;
-  final String query; //use copyWith to persist it thru states
+  final String query;
+  final String errormsg;
+  final List<Contractor> contractors;
 
-  const SearchValid(this.query, {this.isButtonOn = true});
+  SearchState({
+    required this.isButtonOn,
+    required this.query,
+    required this.errormsg,
+    required this.contractors,
+    required this.status
+  });
 
-    @override
-    List<Object> get props => [query, isButtonOn];
-  
-} 
+  // Default initial state
+  factory SearchState.initial() { //set initial vals in the constructor
+    return SearchState(
+      status: SearchStateStatus.initial,
+      isButtonOn: false,
+      query: '',
+      errormsg: '',
+      contractors: []
+    );
+  }
+
+  SearchState copyWith({
+    bool? isButtonOn,
+    String? query, 
+    String? errormsg,
+    List<Contractor>? contractors,
+    required SearchStateStatus status
+  }) {
+    return SearchState(
+      isButtonOn: isButtonOn ?? this.isButtonOn,
+      query: query ?? this.query,
+      errormsg: errormsg ?? this.errormsg, 
+      contractors: contractors ?? this.contractors,
+      status: status,
+    );
+  }
+
+  @override
+  List<Object?> get props => [status, isButtonOn, query, errormsg, contractors];
+
+  @override
+  String toString() =>
+      'SearchState(isButtonOn: $isButtonOn, query: $query, errormsg: $errormsg, contractors: $contractors, status: $status)';
+}
