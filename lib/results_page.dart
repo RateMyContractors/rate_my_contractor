@@ -6,14 +6,20 @@ import 'widgets/tag_widget.dart';
 //first try to use bloc provider here 
 class ResultsPage extends StatelessWidget{
   final List<Contractor> contractors;
-
+  final bool search_visibility;
   //do a bloc builder here to build the search results
 //here we also replace the whole page with loading
 //use contractors data to display it 
-  const ResultsPage({super.key, required this.contractors}); 
+  const ResultsPage({super.key, required this.contractors, required this.search_visibility}); 
 
   @override
   Widget build(BuildContext context) { 
+    bool error_visibility;
+    if(search_visibility == true){
+      error_visibility = false;
+    } else {
+      error_visibility = true;
+    }
     return Scaffold(
       appBar: AppBar(
       ),
@@ -44,19 +50,35 @@ class ResultsPage extends StatelessWidget{
               )
             ],
           ),
-
-          Expanded(
-          child: ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            itemCount: contractors.length,
-            itemBuilder: (context,index){
-              return _ProfileCard(contractor: contractors[index]);
-            },
+          Visibility(
+            visible: search_visibility,
+            child: Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  itemCount: contractors.length,
+                  itemBuilder: (context,index){
+                    return _ProfileCard(contractor: contractors[index]);
+                  },
+              ),
+            ), 
           ),
-         ),
-         const Row(children: [
-          Text("End of Results")
-         ],)
+          Visibility(
+            visible: error_visibility,
+            child: Expanded(
+              child:  Container(
+                color: Colors.red,
+                constraints: const BoxConstraints.expand(),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:[ 
+                    Text('Search Failed',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text('An error occured here we would put the error msg')
+                  ]
+                ),
+              )
+            )
+          ), 
       ],
     ),
   );
