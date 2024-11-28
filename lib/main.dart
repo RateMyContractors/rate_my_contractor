@@ -79,12 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: 
       BlocListener<SearchBloc, SearchState>(
         listener: (context, state){
+          var currBlocContext = context;
           if (state.status == SearchStateStatus.success) {
             Navigator.push(
-              context,
+              currBlocContext,
               MaterialPageRoute(
                 builder: (_) => BlocProvider.value(
-                                    value: BlocProvider.of<SearchBloc>(context),
+                                    value: BlocProvider.of<SearchBloc>(currBlocContext),
                                     child: ResultsPage(
                                       contractors: state.contractors
                                     ),

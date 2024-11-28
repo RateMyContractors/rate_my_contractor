@@ -14,35 +14,32 @@ class ContractorRepository {
   Future<List<Contractor>> getContractors(String query) async { 
     final List<ContractorDto> dataSetContractors = await _contractorDataRemoteProvider.getContractors(query); //fetches raw data from provider and stores it in dataSetContractors
     final List<String> contractorIds = [];
-    List<Contractor> listOfContractors = [];
+    //List<Contractor> listOfContractors = [];
+    
     for (var dsContractor in dataSetContractors) {
        contractorIds.add(dsContractor.id);
     }
+
     List<LicenseDto> dataSetLicenses = await _contractorDataRemoteProvider.getLicenses(contractorIds);
 
+    List<Contractor> listOfContractors = dataSetContractors.map((contractor) { //iterate through all the contractors
+        List<LicenseDto> licensesMatch = dataSetLicenses //iterate through all the licenses and return all the licenses that match contractor id
+        .where((license) => license.contractorId == contractor.id)
+        .toList();
 
-
-    // for every contractor
-    // if a license matches to it make it into a list
-    // then set that  list into licenses
-    for (int i = 0; i < dataSetContractors.length; i++){
-        List<LicenseDto> licensesMatch = [];
-        for (var license in dataSetLicenses){
-          if (license.contractorId == dataSetContractors[i].id) {
-            licensesMatch.add(license);
-          }
-        }
-        listOfContractors.add(Contractor(
-            id: dataSetContractors[i].id, 
-            companyName: dataSetContractors[i].companyname, 
-            address: dataSetContractors[i].address,
-            ownerName: dataSetContractors[i].owner,
-            phone: dataSetContractors[i].phone,
-            email: dataSetContractors[i].email,
-            licenses: licensesMatch,
-            tags: licensesMatch.map((licenses) => licenses.licenseType).toList() //might not work
-          )); 
-    }
+        return Contractor( //return a contractor obj for each contractor in the contractor list
+          id: contractor.id, 
+          companyName: contractor.companyname, 
+          address: contractor.address,
+          ownerName: contractor.owner,
+          phone: contractor.phone,
+          email: contractor.email,
+          licenses: licensesMatch,
+          tags: licensesMatch.map((licenses) => licenses.licenseType).toList()
+        );
+      }
+    ).toList();
+  
     return listOfContractors;
   }
 }
