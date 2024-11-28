@@ -12,7 +12,7 @@ class ContractorRepository {
   final ContractorDataRemoteProvider _contractorDataRemoteProvider;
 
   Future<List<Contractor>> getContractors(String query) async { 
-    throw Exception('error');
+    //throw("eror");
     final List<ContractorDto> dataSetContractors = await _contractorDataRemoteProvider.getContractors(query); //fetches raw data from provider and stores it in dataSetContractors
     final List<String> contractorIds = [];
     //List<Contractor> listOfContractors = [];

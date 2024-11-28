@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'contractor_list/domain/models/contractor.dart';
 import 'widgets/tag_widget.dart';
 
 
 //first try to use bloc provider here 
 class ResultsPage extends StatelessWidget{
-  final List<Contractor> contractors;
+  List<Contractor> contractors;
   final bool search_visibility;
   //do a bloc builder here to build the search results
 //here we also replace the whole page with loading
 //use contractors data to display it 
-  const ResultsPage({super.key, required this.contractors, required this.search_visibility}); 
+  ResultsPage({super.key, required this.contractors, required this.search_visibility}); 
 
   @override
   Widget build(BuildContext context) { 
-    bool error_visibility;
-    if(search_visibility == true){
-      error_visibility = false;
-    } else {
-      error_visibility = true;
-    }
     return Scaffold(
       appBar: AppBar(
       ),
-      body: Column(
+      body:
+      BlocListener<SearchBloc, SearchState>(
+        listener: (context, state){
+          if(state.status == SearchStateStatus.success) {
+            contractors = state.contractors;
+          }
+        },
+        child: BlocBuilder<SearchBloc, SearchState>(
+          builder: (context, state){
+
+          
+
+        return  Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -32,7 +40,9 @@ class ResultsPage extends StatelessWidget{
                 padding: const EdgeInsets.all(9.0),
                 child: SearchBar(
                 hintText: 'Search',
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    context.read<SearchBloc>().add(SearchTextUpdated(query: value));
+                  },
                 ),
               ),
               ElevatedButton(
@@ -41,7 +51,9 @@ class ResultsPage extends StatelessWidget{
                   textStyle: const TextStyle(fontSize: 20),
                   padding: const EdgeInsets.all(16),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.read<SearchBloc>().add(SearchButtonPressed(query: state.query));
+                },
                 child: const Text('Search', //Search button
                           style: TextStyle(
                           fontSize: 20.0,
@@ -51,7 +63,9 @@ class ResultsPage extends StatelessWidget{
             ],
           ),
           Visibility(
-            visible: search_visibility,
+            visible: search_visibility == true && state.status != SearchStateStatus.failure && state.status != SearchStateStatus.loading
+                    ? true
+                    : false,
             child: Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -63,7 +77,9 @@ class ResultsPage extends StatelessWidget{
             ), 
           ),
           Visibility(
-            visible: error_visibility,
+            visible: state.status == SearchStateStatus.failure
+                      ? true
+                      : false,
             child: Expanded(
               child:  Container(
                 color: Colors.red,
@@ -79,8 +95,35 @@ class ResultsPage extends StatelessWidget{
               )
             )
           ), 
+          Visibility(
+            visible: state.status == SearchStateStatus.loading
+                     ? true
+                     : false,
+            child: Expanded(
+              child:  Container(
+                color: const Color.fromARGB(255, 152, 148, 148),
+                constraints: const BoxConstraints.expand(),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:[ 
+                    SizedBox(
+                              width: 20, // Adjust the size as needed
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                strokeWidth: 2.0,
+                              ),
+                            )
+                  ]
+                ),
+              )
+            )
+          ), 
       ],
-    ),
+    );
+    }
+   )
+      )
   );
 }
 }
