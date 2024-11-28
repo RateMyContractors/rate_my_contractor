@@ -84,12 +84,12 @@ class ResultsPage extends StatelessWidget{
               child:  Container(
                 color: Colors.red,
                 constraints: const BoxConstraints.expand(),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:[ 
-                    Text('Search Failed',
+                    const Text('Search Failed',
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('An error occured here we would put the error msg')
+                    Text(state.errormsg)
                   ]
                 ),
               )
