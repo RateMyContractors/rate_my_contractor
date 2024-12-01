@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     value: BlocProvider.of<SearchBloc>(currBlocContext),
                                     child: ResultsPage(
                                       contractors: state.contractors,
-                                      search_visibility: true,
+                                      
                                     ),
                                   )
                                 ),
@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     value: BlocProvider.of<SearchBloc>(currBlocContext),
                                     child: ResultsPage(
                                       contractors: state.contractors,
-                                      search_visibility: false,
+                                      
                                     ),
                                   )
                                 ),

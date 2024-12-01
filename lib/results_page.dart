@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
+import 'package:rate_my_contractor/contractor_page.dart';
 import 'contractor_list/domain/models/contractor.dart';
 import 'widgets/tag_widget.dart';
 
@@ -8,11 +9,11 @@ import 'widgets/tag_widget.dart';
 //first try to use bloc provider here 
 class ResultsPage extends StatelessWidget{
   List<Contractor> contractors;
-  final bool search_visibility;
+  
   //do a bloc builder here to build the search results
 //here we also replace the whole page with loading
 //use contractors data to display it 
-  ResultsPage({super.key, required this.contractors, required this.search_visibility}); 
+  ResultsPage({super.key, required this.contractors}); 
 
   @override
   Widget build(BuildContext context) { 
@@ -63,7 +64,7 @@ class ResultsPage extends StatelessWidget{
             ],
           ),
           Visibility(
-            visible: search_visibility == true && state.status != SearchStateStatus.failure && state.status != SearchStateStatus.loading
+            visible:state.status == SearchStateStatus.success
                     ? true
                     : false,
             child: Expanded(
@@ -140,12 +141,12 @@ class _ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
           onTap: () {
-        // Navigator.push(
-        //   //context,
-        //   // MaterialPageRoute(
-        //   //   builder: (context) => ContractorPage(contractor: contractor),
-        //   //   ),
-        //   );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ContractorPage(contractor: contractor),
+            ),
+          );
       }, 
       child: Container(
           decoration: BoxDecoration(
