@@ -88,7 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                     value: BlocProvider.of<SearchBloc>(currBlocContext),
                                     child: ResultsPage(
                                       contractors: state.contractors,
-                                      search_visibility: true,
                                     ),
                                   )
                                 ),
@@ -104,7 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                     value: BlocProvider.of<SearchBloc>(currBlocContext),
                                     child: ResultsPage(
                                       contractors: state.contractors,
-                                      search_visibility: false,
                                     ),
                                   )
                                 ),
@@ -113,14 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       child: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state){
-          // //bool isButtonOn = false;
-          //String validQuery = '';
-          // // if (state is SearchInvalid){
-          // //   isButtonOn = state.isButtonOn; 
-          // // } else if (state is SearchValid){
-          // //   validQuery = state.query;
-          // //   isButtonOn = state.isButtonOn;
-          // // } 
           return Center( //block builder
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -158,7 +148,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ElevatedButton(
                         onPressed: state.isButtonOn ? () { //just need state.isButtonOn
                         context.read<SearchBloc>().add(SearchButtonPressed(query: state.query));
-                        //print('Search text updated: $state.query'); 
                         }
                         : null,
                         style: ElevatedButton.styleFrom(

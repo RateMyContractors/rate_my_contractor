@@ -10,7 +10,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ContractorRepository repository;
 
   SearchBloc(this.repository): super(SearchState.initial()) {
-     //call state here directly dont call getcontractors and if it isnt empty call it
     on<SearchTextUpdated>(
       (event, emit) async{
         if(event.query.isEmpty){
@@ -36,8 +35,3 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       });
   }
 }
-//have the bloc instead of a controller manage the texts in the bloc
-//make sure that its a valid query 
-
-
-/* hide the search button or disable it when the user doesnt enter anything or if its invalid*/

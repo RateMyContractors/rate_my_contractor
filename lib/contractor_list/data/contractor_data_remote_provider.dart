@@ -1,7 +1,3 @@
-/*
-The data provider is responsible for providing raw data
--- exposses simple apis to perform crud operations (create data, read data, update data, delete data)
-*/
 import 'package:rate_my_contractor/contractor_list/data/models/contractor_dto.dart';
 import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

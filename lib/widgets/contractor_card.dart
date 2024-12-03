@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
 class ContractorCard extends StatelessWidget{
-  final int id;
+  final String id;
   final String companyName;
-  final String ownerName;
+  final String? ownerName;
   final String phone;
-  final String email;
-  final String image;
-  final double rating;
+  String? email;
+  final String? image;
+  final double? rating;
   final List<String> tags;
 
-  const ContractorCard({
+  ContractorCard({
     super.key,
     required this.id,
     required this.companyName,
-    required this.ownerName,
+    this.ownerName,
     required this.phone,
-    required this.email,
-    required this.image,
-    required this.rating,
+    this.email,
+    this.image,
+    this.rating,
     required this.tags,
   });
   
@@ -103,7 +103,7 @@ class ContractorCard extends StatelessWidget{
                           const Icon(Icons.mail, color: Color.fromRGBO(150, 150, 170, 1), size: 20.0),
                           const SizedBox(width:8.0),
                           Text(
-                            email,
+                            email = "null",
                             style: const TextStyle(
                               fontSize: 14.0,
                               color: Color.fromARGB(255, 0, 0, 0),

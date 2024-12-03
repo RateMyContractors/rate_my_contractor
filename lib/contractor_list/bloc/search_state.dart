@@ -1,4 +1,3 @@
-//apps state in particular moments
 part of 'search_bloc.dart';
 
 
