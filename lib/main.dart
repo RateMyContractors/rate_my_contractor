@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
-import 'package:rate_my_contractor/error_search_page.dart';
 import 'package:rate_my_contractor/results_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -120,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               builder: (_) => BlocProvider.value(
                                     value: BlocProvider.of<SearchBloc>(
                                         currBlocContext),
-                                    child: ResultsPage(),
+                                    child: const ResultsPage(),
                                   )),
                         );
                       },

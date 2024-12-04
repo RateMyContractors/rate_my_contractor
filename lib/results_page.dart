@@ -7,6 +7,8 @@ import 'widgets/tag_widget.dart';
 
 //first try to use bloc provider here
 class ResultsPage extends StatelessWidget {
+  const ResultsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +107,6 @@ class _ProfileCard extends StatelessWidget {
   final Contractor contractor;
 
   const _ProfileCard({
-    super.key,
     required this.contractor,
   });
 
