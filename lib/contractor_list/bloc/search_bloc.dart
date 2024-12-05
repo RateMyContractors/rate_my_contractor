@@ -5,33 +5,42 @@ import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 part 'search_state.dart';
 part 'search_event.dart';
-//have a try catch here and emit error state 
+
+//have a try catch here and emit error state
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ContractorRepository repository;
 
-  SearchBloc(this.repository): super(SearchState.initial()) {
-    on<SearchTextUpdated>(
-      (event, emit) async{
-        if(event.query.isEmpty){
-          emit(state.copyWith(isButtonOn: false, errormsg: 'User input failed to enter anyhting', query: event.query,
-          status: SearchStateStatus.invalid));
-        } else {
-          emit(state.copyWith(isButtonOn:true, query: event.query, status: SearchStateStatus.valid));
-        }
-      });
+  SearchBloc(this.repository) : super(SearchState.initial()) {
+    on<SearchTextUpdated>((event, emit) async {
+      if (event.query.isEmpty) {
+        emit(state.copyWith(
+            isButtonOn: false,
+            errormsg: 'User input failed to enter anyhting',
+            query: event.query,
+            status: SearchStateStatus.invalid));
+      } else {
+        emit(state.copyWith(
+            isButtonOn: true,
+            query: event.query,
+            status: SearchStateStatus.valid));
+      }
+    });
 
-    on<SearchButtonPressed>( 
-      (event, emit) async {
-        try{
-          emit(state.copyWith(isButtonOn: false, status: SearchStateStatus.loading)); //emit the loading state
-          //print(state.query);
-          await Future<void>.delayed(const Duration(seconds:1)); //change this back to 1
-          final contractors = await repository.getContractors(state.query);//state.query
-          //print(state.query);
-          emit(state.copyWith(contractors: contractors, status: SearchStateStatus.success));
-        } catch(error) {
-          emit(state.copyWith(errormsg: '$error', status: SearchStateStatus.failure));
-        }
-      });
+    on<SearchButtonPressed>((event, emit) async {
+      try {
+        emit(state.copyWith(
+            isButtonOn: false,
+            status: SearchStateStatus.loading)); //emit the loading state
+        await Future<void>.delayed(
+            const Duration(seconds: 1)); //change this back to 1
+        final contractors =
+            await repository.getContractors(event.query); //state.query
+        emit(state.copyWith(
+            contractors: contractors, status: SearchStateStatus.success));
+      } catch (error) {
+        emit(state.copyWith(
+            errormsg: '$error', status: SearchStateStatus.failure));
+      }
+    });
   }
 }

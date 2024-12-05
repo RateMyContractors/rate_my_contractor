@@ -52,7 +52,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String query = '';
+  String landingQuery = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: SearchBar(
                         hintText: 'Search by name, phone, or email',
                         onChanged: (value) {
-                          query = value;
+                          landingQuery = value;
                           //setState(() {});
                         },
                       ),
@@ -111,8 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         var currBlocContext = context;
                         //pass the query to the bloc
+                        print("current $landingQuery");
                         BlocProvider.of<SearchBloc>(currBlocContext)
-                            .add(SearchButtonPressed(query: query));
+                            .add(SearchButtonPressed(query: landingQuery));
                         Navigator.push(
                           currBlocContext,
                           MaterialPageRoute(
