@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
+from selenium.common.exceptions import NoSuchElementException
 import os
 from supabase import create_client, Client
 from datetime import datetime
@@ -28,7 +29,7 @@ def setup_driver() -> webdriver.Chrome:
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
 
-    driver = webdriver.Chrome(options=options, service=service) #this is what should be returned
+    driver = webdriver.Chrome(options=options, service=service) 
 
     return driver
 
@@ -36,9 +37,17 @@ def fetch_table_data(pages: int, driver: webdriver.Chrome) -> pd.DataFrame:
     url = "https://webapps1.chicago.gov/licensedcontractors/all"
 
     driver.get(url)
-    table = driver.find_element(By.ID, 'paginatedTable')
-    titles = table.find_elements(By.TAG_NAME, 'th')
-    table_titles = [title.text for title in titles]
+    
+    try:
+        table = driver.find_element(By.ID, 'paginatedTable')
+    except NoSuchElementException:
+        print("Table was not found")
+
+    try:
+        titles = table.find_elements(By.TAG_NAME, 'th')
+        table_titles = [title.text for title in titles]
+    except NoSuchElementException:
+        print("Table titles were not found")
 
     table_content = []
     wait = WebDriverWait(driver, 5)
@@ -84,10 +93,8 @@ def update_database(data: pd.DataFrame, supabase):
         '''check if company_name exists in contractors table'''
         addr = data['Address'][ind]
         parts = addr.split(",")
-        if len(parts) == 3:
-            town = parts[1]
-        if len(parts) == 4:
-            town = parts[2]
+
+        town = parts[-2] if len(parts) >= 3 else None
 
         license_number = data['License Number'][ind]
         license_type = data['License Type'][ind]
@@ -158,12 +165,19 @@ def update_database(data: pd.DataFrame, supabase):
 
 def main(pages:int):
     load_dotenv()
+
     url = os.environ.get("SUPABASE_URL")
+    if not url:
+        raise Exception("SUPABASE_URL not set")
+    
     key = os.environ.get("SUPABASE_SR")
+    if not key: 
+        raise Exception("SUPABASE_SR not set")
+    
     supabase = create_client(url, key)
 
     driver = setup_driver()
-    data, titles = fetch_table_data(pages,driver)
+    data, titles = fetch_table_data(pages,driver) 
     process_data = processing_data(data, titles)
     update_database(process_data, supabase)
     driver.quit()
@@ -175,3 +189,7 @@ if __name__ == "__main__":
 
 
 
+'''
+- add a default for pages (set it to 1 page), 
+- change max to something else
+'''
