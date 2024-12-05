@@ -13,7 +13,7 @@ from supabase import create_client, Client
 from datetime import datetime
 import pytz
 
-from web_scraper.utils.const.chicago_scraper_constants import CONTRACTOR, DARWIN_DRIVER, LICENSES, WINDOWS_DRIVER
+from utils.const.chicago_scraper_constants import CONTRACTOR, DARWIN_DRIVER, LICENSES, WINDOWS_DRIVER
 
 def setup_driver() -> webdriver.Chrome:
     current_os = platform.system()
@@ -158,8 +158,8 @@ def update_database(data: pd.DataFrame, supabase):
 
 def main(pages:int):
     load_dotenv()
-    url: str = os.environ.get("SUPABASE_URL")
-    key: str = os.environ.get("SUPABASE_SR")
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_SR")
     supabase = create_client(url, key)
 
     driver = setup_driver()
