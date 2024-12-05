@@ -31,10 +31,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(state.copyWith(
             isButtonOn: false,
             status: SearchStateStatus.loading)); //emit the loading state
-        await Future<void>.delayed(
-            const Duration(seconds: 1)); //change this back to 1
         final contractors =
-            await repository.getContractors(event.query); //state.query
+            await repository.getContractors(state.query); //state.query
         emit(state.copyWith(
             contractors: contractors, status: SearchStateStatus.success));
       } catch (error) {

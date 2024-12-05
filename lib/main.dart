@@ -101,8 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: SearchBar(
                         hintText: 'Search by name, phone, or email',
                         onChanged: (value) {
-                          landingQuery = value;
-                          //setState(() {});
+                          BlocProvider.of<SearchBloc>(context)
+                              .add(SearchTextUpdated(query: value));
                         },
                       ),
                     ),
@@ -111,9 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         var currBlocContext = context;
                         //pass the query to the bloc
-                        print("current $landingQuery");
                         BlocProvider.of<SearchBloc>(currBlocContext)
-                            .add(SearchButtonPressed(query: landingQuery));
+                            .add(SearchButtonPressed());
                         Navigator.push(
                           currBlocContext,
                           MaterialPageRoute(

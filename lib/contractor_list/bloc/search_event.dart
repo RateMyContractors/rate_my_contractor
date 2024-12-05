@@ -1,6 +1,6 @@
 part of 'search_bloc.dart';
 
-abstract class SearchEvent extends Equatable{
+abstract class SearchEvent extends Equatable {
   const SearchEvent();
 
   @override
@@ -20,14 +20,5 @@ class SearchTextUpdated extends SearchEvent {
 }
 
 class SearchButtonPressed extends SearchEvent {
-  const SearchButtonPressed({required this.query});
-
-  final String query;
-
-  @override
-  List<Object> get props => [query];
-
-  @override
-  String toString() => 'Search Commenced {query: $query}';
+  const SearchButtonPressed();
 }
-

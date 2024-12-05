@@ -38,9 +38,7 @@ class ResultsPage extends StatelessWidget {
                         padding: const EdgeInsets.all(16),
                       ),
                       onPressed: () {
-                        context
-                            .read<SearchBloc>()
-                            .add(SearchButtonPressed(query: state.query));
+                        context.read<SearchBloc>().add(SearchButtonPressed());
                       },
                       child: const Text('Search', //Search button
                           style: TextStyle(
