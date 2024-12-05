@@ -52,14 +52,14 @@ def fetch_table_data(pages: int, driver: webdriver.Chrome) -> pd.DataFrame:
     table_content = []
     wait = WebDriverWait(driver, 5)
     current = 0
-    max = pages - 1
+    pages_requested = pages - 1
 
     table_rows = wait.until(expected_conditions.presence_of_all_elements_located((By.CSS_SELECTOR,'table#paginatedTable tbody tr')))
     for row in table_rows:
         row_data = [item.text for item in row.find_elements(By.TAG_NAME, 'td')] 
         table_content.append(row_data)
 
-    while current < max: 
+    while current < pages_requested: 
         try :
             next_bttn = driver.find_element(By.ID, 'paginatedTable_next')
             next_bttn.find_element(By.TAG_NAME, 'a').click()
@@ -185,11 +185,9 @@ def main(pages:int):
 if __name__ == "__main__":
     pages = input("How many pages would you like to scrape? ")
     main(int(pages))
-    main()
 
 
 
 '''
 - add a default for pages (set it to 1 page), 
-- change max to something else
 '''
