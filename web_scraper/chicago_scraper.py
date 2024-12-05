@@ -13,14 +13,15 @@ from supabase import create_client, Client
 from datetime import datetime
 import pytz
 
+from web_scraper.utils.const.chicago_scraper_constants import CONTRACTOR, DARWIN_DRIVER, LICENSES, WINDOWS_DRIVER
 
 def setup_driver() -> webdriver.Chrome:
     current_os = platform.system()
 
     if current_os == "Windows":
-        service = Service(executable_path="drivers/chromedriver.exe")  
+        service = Service(executable_path=WINDOWS_DRIVER)  
     elif current_os == "Darwin": 
-        service = Service(executable_path="drivers/chromedriver")  
+        service = Service(executable_path=DARWIN_DRIVER)  
     else:
         raise Exception("Unsupported operating system")
 
@@ -99,22 +100,22 @@ def update_database(data: pd.DataFrame, supabase):
         if insurance_expiration is None or insurance_expiration.strip() == "": 
             insurance_expiration = None
 
-        list_company_names = supabase.table("Contractors").select("id").eq("company_name", data['Name'][ind]).execute()
+        list_company_names = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
         if list_company_names.data: 
-            contractor_ids = supabase.table("Contractors").select("id").eq("company_name", data['Name'][ind]).execute()
+            contractor_ids = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
 
             contractor_id = contractor_ids.data[0]['id']
 
-            supabase.table("Contractors").update({
+            supabase.table(CONTRACTOR).update({
                 "company_name": data['Name'][ind],
                 "address": data['Address'][ind],
                 "phone": data['Phone'][ind],
                 "updated_at": datetime.now(pytz.utc).isoformat()
             }).eq("id", contractor_id).execute()
             '''for each license assoicated with the contractor i have to check if a matching entry exists in the licenses table'''
-            license_data = supabase.table("Licenses").select("*").eq("contractor_id", contractor_id).eq("license_number", license_number).eq("license_type", license_type).eq("town",town).execute()
+            license_data = supabase.table(LICENSES).select("*").eq("contractor_id", contractor_id).eq("license_number", license_number).eq("license_type", license_type).eq("town",town).execute()
             if license_data.data: #checks if their is a matching entry that exist in the licenses table
-                supabase.table("Licenses").update({
+                supabase.table(LICENSES).update({
                 "license_number": license_number,
                 "license_type": license_type,
                 "town": town,
@@ -125,7 +126,7 @@ def update_database(data: pd.DataFrame, supabase):
                 "updated_at": datetime.now(pytz.utc).isoformat()
                 }).eq("id", contractor_id).execute()
             else:
-                supabase.table("Licenses").insert({
+                supabase.table(LICENSES).insert({
                 "license_number": license_number,
                 "license_type": license_type,
                 "town": town,
@@ -136,16 +137,16 @@ def update_database(data: pd.DataFrame, supabase):
                 }).execute()
         else:
             '''if it doesnt exist add a new contractor'''
-            supabase.table("Contractors").insert({
+            supabase.table(CONTRACTOR).insert({
                 "company_name": data['Name'][ind],
                 "address": data['Address'][ind],
                 "phone": data['Phone'][ind]
                 }).execute()
             #obtain generated id 
-            contractor_ids = supabase.table("Contractors").select("id").eq("company_name", data['Name'][ind]).execute()
+            contractor_ids = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
             contractor_id = contractor_ids.data[0]['id']
             '''inster the license code here too'''
-            supabase.table("Licenses").insert({
+            supabase.table(LICENSES).insert({
                 "license_number": license_number,
                 "license_type": license_type,
                 "town": town,
