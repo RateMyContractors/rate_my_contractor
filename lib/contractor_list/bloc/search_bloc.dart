@@ -9,8 +9,13 @@ part 'search_event.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ContractorRepository repository;
 
-  SearchBloc(this.repository): super(SearchState.initial()) {
-     //call state here directly dont call getcontractors and if it isnt empty call it
+  SearchBloc(this.repository): super(const SearchState(
+          isButtonOn: false,
+          query: '',
+          errormsg: '',
+          contractors: [],
+          status: SearchStateStatus.initial,)) 
+        {
     on<SearchTextUpdated>(
       (event, emit) async{
         if(event.query.isEmpty){
@@ -23,21 +28,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     on<SearchButtonPressed>( 
       (event, emit) async {
-        try{
-          emit(state.copyWith(isButtonOn: false, status: SearchStateStatus.loading)); //emit the loading state
-          //print(state.query);
-          await Future<void>.delayed(const Duration(seconds:1)); //change this back to 1
-          final contractors = await repository.getContractors(state.query);//state.query
-          //print(state.query);
-          emit(state.copyWith(contractors: contractors, status: SearchStateStatus.success));
-        } catch(error) {
-          emit(state.copyWith(errormsg: '$error', status: SearchStateStatus.failure));
-        }
-      });
+          try{
+            emit(state.copyWith(isButtonOn: false, status: SearchStateStatus.loading)); //emit the loading state
+            //print(state.query);
+            await Future<void>.delayed(const Duration(seconds:1)); //change this back to 1
+            final contractors = await repository.getContractors(event.query);//state.query
+            //print(state.query);
+            emit(state.copyWith(contractors: contractors, status: SearchStateStatus.success));
+          } catch(error) {
+            emit(state.copyWith(errormsg: '$error', status: SearchStateStatus.failure));
+          }
+      } 
+      );
   }
 }
-//have the bloc instead of a controller manage the texts in the bloc
-//make sure that its a valid query 
-
-
-/* hide the search button or disable it when the user doesnt enter anything or if its invalid*/

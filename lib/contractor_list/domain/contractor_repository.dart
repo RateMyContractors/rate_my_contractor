@@ -12,8 +12,7 @@ class ContractorRepository {
   final ContractorDataRemoteProvider _contractorDataRemoteProvider;
 
   Future<List<Contractor>> getContractors(String query) async { 
-    //throw("eror");
-    final List<ContractorDto> dataSetContractors = await _contractorDataRemoteProvider.getContractors(query); //fetches raw data from provider and stores it in dataSetContractors
+    final List<ContractorDto> dataSetContractors = await _contractorDataRemoteProvider.getContractors(query); 
     final List<String> contractorIds = [];
     //List<Contractor> listOfContractors = [];
     
@@ -23,12 +22,12 @@ class ContractorRepository {
 
     List<LicenseDto> dataSetLicenses = await _contractorDataRemoteProvider.getLicenses(contractorIds);
 
-    List<Contractor> listOfContractors = dataSetContractors.map((contractor) { //iterate through all the contractors
-        List<LicenseDto> licensesMatch = dataSetLicenses //iterate through all the licenses and return all the licenses that match contractor id
+    List<Contractor> listOfContractors = dataSetContractors.map((contractor) { 
+        List<LicenseDto> licensesMatch = dataSetLicenses 
         .where((license) => license.contractorId == contractor.id)
         .toList();
 
-        return Contractor( //return a contractor obj for each contractor in the contractor list
+        return Contractor( 
           id: contractor.id, 
           companyName: contractor.companyname, 
           address: contractor.address,
@@ -44,13 +43,3 @@ class ContractorRepository {
     return listOfContractors;
   }
 }
-/*          listOfContractors.add(Contractor(
-            id: dataSetContractors[i].id, 
-            companyName: dataSetContractors[i].companyname, 
-            address: dataSetContractors[i].address,
-            ownerName: dataSetContractors[i].owner,
-            phone: dataSetContractors[i].phone,
-            email: dataSetContractors[i].email,
-            licenses: dataSetLicenses,
-            tags: dataSetLicenses.map((licenses) => licenses.licenseType).toList() //might not work
-          )); */

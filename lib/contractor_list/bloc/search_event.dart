@@ -1,4 +1,3 @@
-//triggered by the user
 part of 'search_bloc.dart';
 
 abstract class SearchEvent extends Equatable{
@@ -8,7 +7,6 @@ abstract class SearchEvent extends Equatable{
   List<Object> get props => [];
 }
 
-/*new event everytime a user updates the text*/
 class SearchTextUpdated extends SearchEvent {
   const SearchTextUpdated({required this.query});
 
