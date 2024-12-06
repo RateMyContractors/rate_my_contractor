@@ -183,10 +183,8 @@ def main(pages:int):
     driver.quit()
 
 if __name__ == "__main__":
-    pages = input("How many pages would you like to scrape? ")
+    pages = input("How many pages would you like to scrape?") or "1"
     main(int(pages))
-
-
 
 '''
 - add a default for pages (set it to 1 page), 
