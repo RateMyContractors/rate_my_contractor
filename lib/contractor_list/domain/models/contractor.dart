@@ -28,7 +28,7 @@ class Contractor extends Equatable  {
     required this.phone,
     this.email,
     this.aboutUs,
-    required this.licenses
+    required this.licenses, 
   });
 
   @override

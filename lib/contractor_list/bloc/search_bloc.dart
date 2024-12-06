@@ -9,13 +9,8 @@ part 'search_event.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ContractorRepository repository;
 
-  SearchBloc(this.repository): super(const SearchState(
-          isButtonOn: false,
-          query: '',
-          errormsg: '',
-          contractors: [],
-          status: SearchStateStatus.initial,)) 
-        {
+  SearchBloc(this.repository): super(const SearchState(isButtonOn: false,query: '',errormsg: '',contractors: [], status: SearchStateStatus.initial,)) 
+  {
     on<SearchTextUpdated>(
       (event, emit) async{
         if(event.query.isEmpty){

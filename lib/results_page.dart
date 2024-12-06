@@ -19,7 +19,8 @@ class ResultsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
+                  Expanded(
+                  child: Padding(
                     padding: const EdgeInsets.all(9.0),
                     child: SearchBar(
                       hintText: 'Search',
@@ -29,6 +30,7 @@ class ResultsPage extends StatelessWidget {
                             .add(SearchTextUpdated(query: value));
                       },
                     ),
+                  ),
                   ),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -46,8 +48,10 @@ class ResultsPage extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 20.0,
                               color: Color.fromARGB(255, 255, 255, 255))))
+                  
                 ],
               ),
+
               Visibility(
                 visible:
                     state.status == SearchStateStatus.success ? true : false,
@@ -121,6 +125,7 @@ class _ProfileCard extends StatelessWidget {
           ),
         );
       },
+      
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
@@ -132,6 +137,7 @@ class _ProfileCard extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           height: 150.0,
+          
           child: Row(
             children: [
               const SizedBox(width: 30),
