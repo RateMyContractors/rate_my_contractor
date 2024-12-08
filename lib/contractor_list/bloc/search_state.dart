@@ -10,22 +10,22 @@ class SearchState extends Equatable {
   final List<Contractor> contractors;
 
   const SearchState(
-      {required this.isButtonOn,
-      required this.query,
-      required this.errormsg,
-      required this.contractors,
-      required this.status});
+      {this.isButtonOn = false,
+      this.query = '',
+      this.errormsg = '',
+      this.contractors = const [],
+      this.status = SearchStateStatus.initial});
 
-  // Default initial state
-  factory SearchState.initial() {
-    //set initial vals in the constructor
-    return const SearchState(
-        status: SearchStateStatus.initial,
-        isButtonOn: false,
-        query: '',
-        errormsg: '',
-        contractors: []);
-  }
+  // // Default initial state
+  // factory SearchState.initial() {
+  //   //set initial vals in the constructor
+  //   return const SearchState(
+  //       status: SearchStateStatus.initial,
+  //       isButtonOn: false,
+  //       query: '',
+  //       errormsg: '',
+  //       contractors: []);
+  // }
 
   SearchState copyWith(
       {bool? isButtonOn,

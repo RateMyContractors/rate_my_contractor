@@ -19,15 +19,17 @@ class ResultsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(9.0),
-                    child: SearchBar(
-                      hintText: 'Search',
-                      onChanged: (value) {
-                        context
-                            .read<SearchBloc>()
-                            .add(SearchTextUpdated(query: value));
-                      },
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(9.0),
+                      child: SearchBar(
+                        hintText: 'Search',
+                        onChanged: (value) {
+                          context
+                              .read<SearchBloc>()
+                              .add(SearchTextUpdated(query: value));
+                        },
+                      ),
                     ),
                   ),
                   ElevatedButton(

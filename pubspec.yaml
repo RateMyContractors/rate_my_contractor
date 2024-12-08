@@ -44,6 +44,7 @@ dependencies:
 
 dev_dependencies:
   mocktail: ^1.0.0
+  bloc_test: ^9.1.0
   flutter_test:
     sdk: flutter
 
