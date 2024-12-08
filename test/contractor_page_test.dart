@@ -13,23 +13,28 @@ import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 //SetUp mockBloc to be passed thru pages
 class MockSearchBloc extends MockBloc<SearchEvent, SearchState>
     implements SearchBloc {}
-void main(){ 
+
+void main() {
   late MockSearchBloc mockSearchBloc;
 
   setUp(() {
     mockSearchBloc = MockSearchBloc();
   });
 
-   group('ContractorPage Flow', () {
-    testWidgets('Displays contractor cards and navigates to contractorpage', (WidgetTester tester) async {
+  group('ContractorPage Flow', () {
+    testWidgets('Displays contractor cards and navigates to contractorpage',
+        (WidgetTester tester) async {
       // Set initial state for the SearchBloc
       when(() => mockSearchBloc.state).thenReturn(
-        const SearchState(
-          isButtonOn: true,
-          status: SearchStateStatus.success,
-          contractors: [
-            Contractor(id: '845', companyName: '"Z" ELECTRIC', address: '10821 S KENTON AVE, OAK LAWN, IL 60453-', tags: ['Electrical Contractor (General)'], phone: '(708) 423-6967',
-            licenses: [LicenseDto(
+          const SearchState(status: SearchStateStatus.success, contractors: [
+        Contractor(
+          id: '845',
+          companyName: '"Z" ELECTRIC',
+          address: '10821 S KENTON AVE, OAK LAWN, IL 60453-',
+          tags: ['Electrical Contractor (General)'],
+          phone: '(708) 423-6967',
+          licenses: [
+            LicenseDto(
               licenseNumber: 'ECC92504',
               licenseType: 'Electrical Contractor (General)',
               town: 'Oak Lawn',
@@ -38,10 +43,17 @@ void main(){
               insuranceExpiration: null,
               isActive: 'true',
               contractorId: '845',
-              ),],
             ),
-            Contractor(id: '123', companyName: 'ELIZABETH', address: '94 JOHN ST, HINDSDALE', tags: ['Electrical Contractor (General)'], phone: '(520)-956-1258', 
-            licenses: [LicenseDto(
+          ],
+        ),
+        Contractor(
+          id: '123',
+          companyName: 'ELIZABETH',
+          address: '94 JOHN ST, HINDSDALE',
+          tags: ['Electrical Contractor (General)'],
+          phone: '(520)-956-1258',
+          licenses: [
+            LicenseDto(
               licenseNumber: 'ECC92504',
               licenseType: 'Electrical Contractor (General)',
               town: 'Hindsdale',
@@ -50,10 +62,10 @@ void main(){
               insuranceExpiration: null,
               isActive: 'true',
               contractorId: '123',
-              ),],
-        )]
+            ),
+          ],
         )
-        );
+      ]));
 
       //  Pump the ResultsPage with the mock bloc
       await tester.pumpWidget(
@@ -63,28 +75,33 @@ void main(){
             child: const ResultsPage(),
           ),
           routes: {
-            '/contractor': (context) => ContractorPage(contractor: ModalRoute.of(context)!.settings.arguments as Contractor)},
+            '/contractor': (context) => ContractorPage(
+                contractor:
+                    ModalRoute.of(context)!.settings.arguments as Contractor)
+          },
         ),
       );
 
-    //Verify ResultsPage
+      //Verify ResultsPage
       expect(find.byType(ResultsPage), findsOneWidget);
 
-    //Search for Z in SearchBar, Verify contractor cards are displayed
+      //Search for Z in SearchBar, Verify contractor cards are displayed
       await tester.enterText(find.byType(TextField), 'Z');
       expect(find.text('"Z" ELECTRIC'), findsOne);
-      expect(find.text('ELIZABETH'),findsOne);
+      expect(find.text('ELIZABETH'), findsOne);
       await tester.pumpAndSettle();
-      
-      //See if tags are present on the cards
-      expect(find.text('Electrical Contractor (General)'),findsWidgets);
 
-    //Naviagte to ContractorPage by tapping on card
+      //See if tags are present on the cards
+      expect(find.text('Electrical Contractor (General)'), findsWidgets);
+
+      //Naviagte to ContractorPage by tapping on card
       await tester.tap(
-        find.descendant(
-          of: find.byType(ListView), 
-          matching: find.text('"Z" ELECTRIC'),
-        ).first,
+        find
+            .descendant(
+              of: find.byType(ListView),
+              matching: find.text('"Z" ELECTRIC'),
+            )
+            .first,
       );
       await tester.pumpAndSettle();
 
@@ -95,11 +112,12 @@ void main(){
       expect(find.text('this is about us'), findsOneWidget);
     });
 
-    testWidgets('Search on HomePage and Navigate to ResultsPage, ContractorPage to show results', (WidgetTester tester) async {
+    testWidgets(
+        'Search on HomePage and Navigate to ResultsPage, ContractorPage to show results',
+        (WidgetTester tester) async {
       // Set the initial state
       when(() => mockSearchBloc.state).thenReturn(
         const SearchState(
-          isButtonOn: true,
           status: SearchStateStatus.success,
           contractors: [
             Contractor(
@@ -131,7 +149,7 @@ void main(){
       );
 
       // Verify HomePage
-      expect(find.byType(MyHomePage),findsAtLeast(1));
+      expect(find.byType(MyHomePage), findsAtLeast(1));
       expect(find.text('Find who you need'), findsOneWidget);
 
       // Search for contractor in SearchBar, press SearchButton
@@ -155,4 +173,3 @@ void main(){
     });
   });
 }
-  

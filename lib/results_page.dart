@@ -11,6 +11,7 @@ class ResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var button_visiblity = false;
     return Scaffold(
         appBar: AppBar(),
         body: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
@@ -25,6 +26,9 @@ class ResultsPage extends StatelessWidget {
                       child: SearchBar(
                         hintText: 'Search',
                         onChanged: (value) {
+                          //   "" == value
+                          //       ? button_visiblity = false
+                          //       : button_visiblity = true;
                           context
                               .read<SearchBloc>()
                               .add(SearchTextUpdated(query: value));
@@ -34,14 +38,19 @@ class ResultsPage extends StatelessWidget {
                   ),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 123, 127, 211),
+                        backgroundColor: state.status == SearchStateStatus.valid
+                            ? const Color.fromARGB(255, 123, 127, 211)
+                            : Colors.grey,
                         textStyle: const TextStyle(fontSize: 20),
                         padding: const EdgeInsets.all(16),
                       ),
-                      onPressed: () {
-                        context.read<SearchBloc>().add(SearchButtonPressed());
-                      },
+                      onPressed: state.status == SearchStateStatus.valid
+                          ? () {
+                              context
+                                  .read<SearchBloc>()
+                                  .add(SearchButtonPressed());
+                            }
+                          : null,
                       child: const Text('Search', //Search button
                           style: TextStyle(
                               fontSize: 20.0,

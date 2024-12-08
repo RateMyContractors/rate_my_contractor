@@ -22,7 +22,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.repository});
   final ContractorRepository repository;
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,11 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         home: MultiBlocProvider(
           providers: [
-            BlocProvider(
-                create: (context) => SearchBloc(repository),
-                child: BlocListener<SearchBloc, SearchState>(
-                  listener: (context, SearchState) {},
-                )),
+            BlocProvider(create: (context) => SearchBloc(repository)),
           ],
           child: const MyHomePage(title: 'Contractor Home Page'),
         ));
@@ -110,7 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ElevatedButton(
                       onPressed: () {
                         var currBlocContext = context;
-                        //pass the query to the bloc
                         BlocProvider.of<SearchBloc>(currBlocContext)
                             .add(SearchButtonPressed());
                         Navigator.push(

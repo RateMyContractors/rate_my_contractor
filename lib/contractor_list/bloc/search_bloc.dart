@@ -12,7 +12,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SearchBloc(this.repository)
       : super(const SearchState(
-          isButtonOn: false,
           query: '',
           errormsg: '',
           contractors: [],
@@ -21,22 +20,18 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchTextUpdated>((event, emit) async {
       if (event.query.isEmpty) {
         emit(state.copyWith(
-            isButtonOn: false,
             errormsg: 'User input failed to enter anyhting',
             query: event.query,
             status: SearchStateStatus.invalid));
       } else {
         emit(state.copyWith(
-            isButtonOn: true,
-            query: event.query,
-            status: SearchStateStatus.valid));
+            query: event.query, status: SearchStateStatus.valid));
       }
     });
 
     on<SearchButtonPressed>((event, emit) async {
       try {
         emit(state.copyWith(
-            isButtonOn: false,
             status: SearchStateStatus.loading)); //emit the loading state
         final contractors =
             await repository.getContractors(state.query); //state.query

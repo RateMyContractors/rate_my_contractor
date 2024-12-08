@@ -1,8 +1,8 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
 import '../../data/models/contractor_dto.dart';
-class Contractor extends Equatable  {
+
+class Contractor extends Equatable {
   /// Everything that a contractor DTO would have
   /// Plus the list of Licenses associated with that contractor
   final String id;
@@ -10,7 +10,7 @@ class Contractor extends Equatable  {
   final String address;
   final String? ownerName;
   final String? image;
-  final double? rating;
+  final double rating;
   final List<String> tags; //add to table?
   final String phone;
   final String? email;
@@ -23,14 +23,25 @@ class Contractor extends Equatable  {
     required this.address,
     this.ownerName,
     this.image,
-    this.rating,
+    this.rating = 0,
     required this.tags,
     required this.phone,
-    this.email,
+    this.email = "email not provided",
     this.aboutUs,
-    required this.licenses, 
+    required this.licenses,
   });
 
   @override
-  List<Object?> get props => [id, companyName, ownerName, image, rating, tags, phone, email, aboutUs, licenses];
+  List<Object?> get props => [
+        id,
+        companyName,
+        ownerName,
+        image,
+        rating,
+        tags,
+        phone,
+        email,
+        aboutUs,
+        licenses
+      ];
 }
