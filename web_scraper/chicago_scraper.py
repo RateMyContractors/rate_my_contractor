@@ -84,18 +84,31 @@ def processing_data(content: pd.DataFrame, table_titles: list[str]) -> pd.DataFr
                                             else "Mason" if "Mason Contractor" in x 
                                             else "Plumbing" if "Plumbing Contractor" in x 
                                             else "")
-    print(data)
     return data
 
-
 def update_database(data: pd.DataFrame, supabase):
-    for ind in data.index: #data.index is the label for each row, so for every one index in the dataframe
-        '''check if company_name exists in contractors table'''
+
+
+    contractor_supabase_table = supabase.table(CONTRACTOR).select().execute()
+    contractor_table = contractor_supabase_table.data 
+    licenses_supabase_table = supabase.table(LICENSES).select().execute()
+    licenses_table = licenses_supabase_table.data
+    company_names = [row["company_name"] for row in contractor_table]
+    #contractor_ids = [row["id"] for row in contractor_table]
+    #contractor_ids = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
+    #print(company_names)
+    #print(licenses_table['license_number'][2])
+
+
+    for ind in data.index:
+        '''this part can deff occur when we are creating the dataframe no need to have it in the for loop'''
         addr = data['Address'][ind]
+        phone = data['Phone'][ind]
         parts = addr.split(",")
-
         town = parts[-2] if len(parts) >= 3 else None
+        '''manipulate it up to here'''
 
+        #Name = data['Name'][ind]
         license_number = data['License Number'][ind]
         license_type = data['License Type'][ind]
         license_expiration = data['License Expiration Date'][ind]
@@ -107,41 +120,86 @@ def update_database(data: pd.DataFrame, supabase):
         if insurance_expiration is None or insurance_expiration.strip() == "": 
             insurance_expiration = None
 
-        list_company_names = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
-        if list_company_names.data: 
-            contractor_ids = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
-
-            contractor_id = contractor_ids.data[0]['id']
-
-            supabase.table(CONTRACTOR).update({
-                "company_name": data['Name'][ind],
-                "address": data['Address'][ind],
-                "phone": data['Phone'][ind],
-                "updated_at": datetime.now(pytz.utc).isoformat()
-            }).eq("id", contractor_id).execute()
-            '''for each license assoicated with the contractor i have to check if a matching entry exists in the licenses table'''
-            license_data = supabase.table(LICENSES).select("*").eq("contractor_id", contractor_id).eq("license_number", license_number).eq("license_type", license_type).eq("town",town).execute()
-            if license_data.data: #checks if their is a matching entry that exist in the licenses table
-                supabase.table(LICENSES).update({
-                "license_number": license_number,
-                "license_type": license_type,
-                "town": town,
-                "license_expiration": license_expiration,
-                "insurance_expiration": insurance_expiration,
-                "is_active": is_active,
-                "contractor_id": contractor_id,
-                "updated_at": datetime.now(pytz.utc).isoformat()
-                }).eq("id", contractor_id).execute()
-            else:
-                supabase.table(LICENSES).insert({
-                "license_number": license_number,
-                "license_type": license_type,
-                "town": town,
-                "license_expiration": license_expiration,
-                "insurance_expiration": insurance_expiration,
-                "is_active": is_active,
-                "contractor_id": contractor_id,
-                }).execute()
+        if (company_names != []):
+            for company_name in company_names:
+                if company_name == data['Name'][ind]: #compare with website
+                    print(company_name)
+                    for contractor in contractor_table: # go thru every contractor in the table and match it with companyname with the one confirmed with the web
+                        if contractor['company_name'] == company_name: 
+                            contractor_id = contractor['id'] #get contractor id   
+                            if contractor['address'] == addr and contractor['phone'] == phone: #check if contents of the contractor_table same
+                                for license in licenses_table:
+                                    if license['contractor_id'] == contractor_id and license['license_number'] == license_number and license['license_type'] == license_type and license['town'] == town:
+                                        supabase.table(LICENSES).update({
+                                        "license_number": license_number,
+                                        "license_type": license_type,
+                                        "town": town,
+                                        "license_expiration": license_expiration,
+                                        "insurance_expiration": insurance_expiration,
+                                        "is_active": is_active,
+                                        "contractor_id": contractor_id,
+                                        "updated_at": datetime.now(pytz.utc).isoformat()
+                                        }).eq("id", contractor_id).execute()
+                                    else:                     
+                                        supabase.table(LICENSES).insert({ #update the table if licensesids not matching
+                                        "license_number": license_number,
+                                        "license_type": license_type,
+                                        "town": town,
+                                        "license_expiration": license_expiration,
+                                        "insurance_expiration": insurance_expiration,
+                                        "is_active": is_active,
+                                        "contractor_id": contractor_id,
+                                        }).eq("id", contractor_id).execute()
+                            else: 
+                                supabase.table(CONTRACTOR).update({ # if info not same, update the contractor table
+                                "company_name": data['Name'][ind],
+                                "address": data['Address'][ind],
+                                "phone": data['Phone'][ind],
+                                "updated_at": datetime.now(pytz.utc).isoformat()
+                            }).eq("id", contractor_id).execute()
+                                for license in licenses_table:
+                                    if license['contractor_id'] == contractor_id and license['license_number'] == license_number and license['license_type'] == license_type and license['town'] == town:
+                                        supabase.table(LICENSES).update({
+                                        "license_number": license_number,
+                                        "license_type": license_type,
+                                        "town": town,
+                                        "license_expiration": license_expiration,
+                                        "insurance_expiration": insurance_expiration,
+                                        "is_active": is_active,  #need to update licenses bc of this variable
+                                        "contractor_id": contractor_id,
+                                        "updated_at": datetime.now(pytz.utc).isoformat()
+                                        }).eq("id", contractor_id).execute()
+                                    else:                     
+                                        supabase.table(LICENSES).insert({ #update the table if licensesids not matching
+                                        "license_number": license_number,
+                                        "license_type": license_type,
+                                        "town": town,
+                                        "license_expiration": license_expiration,
+                                        "insurance_expiration": insurance_expiration,
+                                        "is_active": is_active,
+                                        "contractor_id": contractor_id,
+                                        }).eq("id", contractor_id).execute()
+                else: 
+                    '''if it doesnt exist add a new contractor'''
+                    supabase.table(CONTRACTOR).insert({
+                        "company_name": data['Name'][ind],
+                        "address": data['Address'][ind],
+                        "phone": data['Phone'][ind]
+                        }).execute()
+                    #obtain generated id 
+                    contractor_ids = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
+                    print(contractor_ids.data)
+                    contractor_id = contractor_ids.data[0]['id']
+                    '''inster the license code here too'''
+                    supabase.table(LICENSES).insert({
+                        "license_number": license_number,
+                        "license_type": license_type,
+                        "town": town,
+                        "license_expiration": license_expiration,
+                        "insurance_expiration": insurance_expiration,
+                        "is_active": is_active,
+                        "contractor_id": contractor_id,
+                        }).execute()    
         else:
             '''if it doesnt exist add a new contractor'''
             supabase.table(CONTRACTOR).insert({
@@ -151,6 +209,7 @@ def update_database(data: pd.DataFrame, supabase):
                 }).execute()
             #obtain generated id 
             contractor_ids = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
+            print(contractor_ids.data)
             contractor_id = contractor_ids.data[0]['id']
             '''inster the license code here too'''
             supabase.table(LICENSES).insert({
@@ -162,6 +221,84 @@ def update_database(data: pd.DataFrame, supabase):
                 "is_active": is_active,
                 "contractor_id": contractor_id,
                 }).execute()
+        
+
+    
+    
+
+    # for ind in data.index: #data.index is the label for each row, so for every one index in the dataframe
+    #     '''check if company_name exists in contractors table'''
+    #     addr = data['Address'][ind]
+    #     parts = addr.split(",")
+
+    #     town = parts[-2] if len(parts) >= 3 else None
+
+    #     license_number = data['License Number'][ind]
+        # license_type = data['License Type'][ind]
+        # license_expiration = data['License Expiration Date'][ind]
+        # insurance_expiration = data['Insurance / Bond Expiration Date'][ind]
+        # is_active = data['License Inactive?'][ind]
+
+        # if license_expiration is None or license_expiration.strip() == "":
+        #     license_expiration = None
+        # if insurance_expiration is None or insurance_expiration.strip() == "": 
+        #     insurance_expiration = None
+
+    #     list_company_names = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
+    #     if list_company_names.data: 
+    #         contractor_ids = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
+
+    #         contractor_id = contractor_ids.data[0]['id']
+
+    #         supabase.table(CONTRACTOR).update({
+    #             "company_name": data['Name'][ind],
+    #             "address": data['Address'][ind],
+    #             "phone": data['Phone'][ind],
+    #             "updated_at": datetime.now(pytz.utc).isoformat()
+    #         }).eq("id", contractor_id).execute()
+    #         '''for each license assoicated with the contractor i have to check if a matching entry exists in the licenses table'''
+    #         license_data = supabase.table(LICENSES).select("*").eq("contractor_id", contractor_id).eq("license_number", license_number).eq("license_type", license_type).eq("town",town).execute()
+    #         if license_data.data: #checks if their is a matching entry that exist in the licenses table
+    #             supabase.table(LICENSES).update({
+    #             "license_number": license_number,
+    #             "license_type": license_type,
+    #             "town": town,
+    #             "license_expiration": license_expiration,
+    #             "insurance_expiration": insurance_expiration,
+    #             "is_active": is_active,
+    #             "contractor_id": contractor_id,
+    #             "updated_at": datetime.now(pytz.utc).isoformat()
+    #             }).eq("id", contractor_id).execute()
+    #         else:
+    #             supabase.table(LICENSES).insert({
+    #             "license_number": license_number,
+    #             "license_type": license_type,
+    #             "town": town,
+    #             "license_expiration": license_expiration,
+    #             "insurance_expiration": insurance_expiration,
+    #             "is_active": is_active,
+    #             "contractor_id": contractor_id,
+    #             }).execute()
+    #     else:
+    #         '''if it doesnt exist add a new contractor'''
+    #         supabase.table(CONTRACTOR).insert({
+    #             "company_name": data['Name'][ind],
+    #             "address": data['Address'][ind],
+    #             "phone": data['Phone'][ind]
+    #             }).execute()
+    #         #obtain generated id 
+    #         contractor_ids = supabase.table(CONTRACTOR).select("id").eq("company_name", data['Name'][ind]).execute()
+    #         contractor_id = contractor_ids.data[0]['id']
+    #         '''inster the license code here too'''
+    #         supabase.table(LICENSES).insert({
+    #             "license_number": license_number,
+    #             "license_type": license_type,
+    #             "town": town,
+    #             "license_expiration": license_expiration,
+    #             "insurance_expiration": insurance_expiration,
+    #             "is_active": is_active,
+    #             "contractor_id": contractor_id,
+    #             }).execute()
 
 def main(pages:int):
     load_dotenv()
