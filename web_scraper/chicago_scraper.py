@@ -127,17 +127,14 @@ def update_database(data: pd.DataFrame, supabase):
             contractor_id = contractor['id']
         license_key = (contractor_id, license_number, license_type, town)
         if license_key in existing_licenses:
-            print(f"exists{license_key}")
             license_entry = existing_licenses[license_key]
-            response = supabase.table(LICENSES).update({
+            supabase.table(LICENSES).update({
                 "license_expiration": license_expiration,
                 "insurance_expiration": insurance_expiration,
                 "is_active": is_active,
                 "updated_at": current_time,
             }).eq('id', license_entry['id']).execute()
-            print(response)
         else:
-            print(f"doesnt exist{license_key}")
             supabase.table(LICENSES).insert({
                 "license_number": license_number,
                 "license_type": license_type,
