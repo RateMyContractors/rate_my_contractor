@@ -17,14 +17,23 @@ class AuthenticationRepository {
         email, password); //sending email and password to supabase
   }
 
+  Future<void> signUp(String email, String password, String userName,
+      String firstName, String lastName) async {
+    await _userDataProvider.signUp(
+        email, password, userName, firstName, lastName);
+  }
+
   Stream<AuthenticationStatus> get status =>
       _userDataProvider.status.map((authState) {
         if (authState.session != null) {
-          //checks if session is active
-          _userDataProvider.userInformation();
           return AuthenticationStatus.authenticated;
         } else {
           return AuthenticationStatus.unauthenticated;
         }
       });
+
+  // Map<String, dynamic>? metaData() {
+  //   final Map<String, dynamic>? metadata = user?._userDataProvider.metaData();
+  //   return metadata;
+  // }
 }

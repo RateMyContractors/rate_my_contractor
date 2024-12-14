@@ -14,11 +14,20 @@ class UserDataProvider {
     );
   }
 
-  ///using _supabaseClient.auth. we are now able to retrieve the user information
-  User? userInformation() {
-    return _supabaseClient.auth.currentUser;
+  Future<void> signUp(String email, String password, String userName,
+      String firstName, String lastName) async {
+    await _supabaseClient.auth.signUp(email: email, password: password, data: {
+      'user_name': userName,
+      'first_name': firstName,
+      'last_name': lastName
+    });
   }
 
   /// Check Auth
   Stream<AuthState> get status => _supabaseClient.auth.onAuthStateChange;
+
+  ///retrieve raw meta data
+  Future<void> metaData() async {
+    await _supabaseClient.auth.currentUser;
+  }
 }
