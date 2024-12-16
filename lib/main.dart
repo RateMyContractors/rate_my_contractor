@@ -4,6 +4,7 @@ import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart'
 import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
+import 'package:rate_my_contractor/authentication/signup/screens/signup_page.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/results_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

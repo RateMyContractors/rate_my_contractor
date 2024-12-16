@@ -7,8 +7,8 @@ authenticated - the user is logged in
 unauthenticated - the user isnt logged in 
 */
 class AuthenticationRepository {
-  const AuthenticationRepository(this._userDataProvider);
-
+  AuthenticationRepository(this._userDataProvider);
+  //const change
   final UserDataProvider _userDataProvider;
 
   Future<void> signIn(String email, String password) async {
@@ -33,7 +33,25 @@ class AuthenticationRepository {
       });
 
   // Map<String, dynamic>? metaData() {
-  //   final Map<String, dynamic>? metadata = user?._userDataProvider.metaData();
+  //   String currentUser
+  //   final Map<String, dynamic>? metadata = await _userDataProvider.fetchMetadata(email);
+  //   //user?._userDataProvider.metaData();
   //   return metadata;
   // }
+  String? _currentUserId;
+  String? get currentUserId => _currentUserId;
+  
+    void setCurrentUser(String userId) {
+    _currentUserId = userId;
+  }
+
+  Future<void> fetchUserMetadata() async {
+    if (_currentUserId == null) return;
+    Map<String, dynamic> metadata = await _userDataProvider.fetchMetadata(_currentUserId!);
+    
+    String? firstName = metadata['first_name'] as String?;
+    String? lastName = metadata['last_name'] as String?;
+    String? username = metadata['username'] as String?;
+
+  }
 }

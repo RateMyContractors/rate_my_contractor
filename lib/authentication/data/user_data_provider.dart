@@ -26,8 +26,20 @@ class UserDataProvider {
   /// Check Auth
   Stream<AuthState> get status => _supabaseClient.auth.onAuthStateChange;
 
-  ///retrieve raw meta data
-  Future<void> metaData() async {
-    await _supabaseClient.auth.currentUser;
+  // ///retrieve raw meta data
+  // Future<void> metaData() async {
+  //   _supabaseClient.auth.currentUser;
+  // }
+
+
+  Future<Map<String, dynamic>> fetchMetadata(String userId) async {
+    final response = await _supabaseClient
+        .from('users')
+        .select('metadata')
+        .eq('id','userId')
+        .single();
+//create a class for metadata
+    return response['metadata'] as Map<String, dynamic>;
   }
+  
 }
