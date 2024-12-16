@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:rate_my_contractor/authentication/login/bloc/login_bloc.dart';
+import 'package:rate_my_contractor/authentication/signup/screens/signup_form.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -28,6 +29,8 @@ class LoginForm extends StatelessWidget {
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _LoginButton(),
+            const Padding(padding: EdgeInsets.all(12)),
+            _SignUpButton()
           ],
         ),
       ),
@@ -94,5 +97,21 @@ class _LoginButton extends StatelessWidget {
           : null,
       child: const Text('Login'),
     );
+  }
+}
+
+class _SignUpButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const SignupForm()));
+        },
+        child: const Text('Sign up',
+            style: TextStyle(
+                fontSize: 20,
+                color: Color.fromARGB(255, 193, 129, 219),
+                decoration: TextDecoration.underline)));
   }
 }
