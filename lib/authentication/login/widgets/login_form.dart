@@ -12,31 +12,52 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.status.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
-            );
-        }
-      },
-      child: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _EmailInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _LoginButton(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _SignUpText()
-          ],
-        ),
-      ),
-    );
+        listener: (context, state) {
+          if (state.status.isFailure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(content: Text('Authentication Failure')),
+              );
+          }
+        },
+        child: Container(
+            margin: const EdgeInsets.only(bottom: 120, top: 120),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(color: Colors.grey, width: 1.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 5.0,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width * 0.4,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Column(
+                  children: [
+                    const Padding(padding: EdgeInsets.all(12)),
+                    const Text(
+                      'Log In',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    ),
+                    const Text('Login to get started'),
+                    const Padding(padding: EdgeInsets.all(12)),
+                    _EmailInput(),
+                    const Padding(padding: EdgeInsets.all(12)),
+                    _PasswordInput(),
+                    const Padding(padding: EdgeInsets.all(12)),
+                    _LoginButton(),
+                    const Padding(padding: EdgeInsets.all(12)),
+                    _SignUpText(),
+                  ],
+                ))));
   }
 }
 
@@ -54,6 +75,7 @@ class _EmailInput extends StatelessWidget {
       },
       decoration: InputDecoration(
         labelText: 'email',
+        border: const OutlineInputBorder(),
         errorText: displayError != null ? 'invalid email' : null,
       ),
     );
@@ -75,6 +97,7 @@ class _PasswordInput extends StatelessWidget {
       obscureText: true,
       decoration: InputDecoration(
         labelText: 'password',
+        border: const OutlineInputBorder(),
         errorText: displayError != null ? 'invalid password' : null,
       ),
     );

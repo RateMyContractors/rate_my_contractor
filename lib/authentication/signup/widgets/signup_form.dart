@@ -31,6 +31,7 @@ class SignupForm extends StatelessWidget {
           }
         },
         child: Container(
+            margin: const EdgeInsets.only(bottom: 20, top: 20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
@@ -45,7 +46,6 @@ class SignupForm extends StatelessWidget {
             ),
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width * 0.4,
-            height: MediaQuery.of(context).size.height * 0.8,
             child: Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                 child: Column(
