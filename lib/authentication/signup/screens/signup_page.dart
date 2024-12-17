@@ -10,21 +10,13 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc, AuthenticationState>(
-      listener: (context, state) {
-        if (state.status == AuthenticationStatus.authenticated) {
-          Navigator.of(context).pop();
-        }
-      },
-      child: Scaffold(
-        body: Center(
-          child: BlocProvider(
-            create: (context) => SignUpBloc(
-              authenticationRepository:
-                  context.read<AuthenticationRepository>(),
-            ),
-            child: const SignupForm(),
+    return Scaffold(
+      body: Center(
+        child: BlocProvider(
+          create: (context) => SignUpBloc(
+            authenticationRepository: context.read<AuthenticationRepository>(),
           ),
+          child: const SignupForm(),
         ),
       ),
     );

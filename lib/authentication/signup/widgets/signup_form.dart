@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
+import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
 import 'package:rate_my_contractor/authentication/signup/bloc/signup_bloc.dart';
 
 class SignupForm extends StatelessWidget {
@@ -17,6 +19,15 @@ class SignupForm extends StatelessWidget {
               ..showSnackBar(
                 const SnackBar(content: Text('SignUp Failure')),
               );
+          }
+          if (state.status.isSuccess) {
+            Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                    builder: (_) => BlocProvider.value(
+                          value: BlocProvider.of<AuthenticationBloc>(context),
+                          child: const LoginPage(),
+                        )));
           }
         },
         child: Container(
@@ -80,9 +91,6 @@ class _SignUpButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 181, 113, 192),
         ),
-        // onPressed: isValid
-        //     ? () => context.read<SignUpBloc>().add(const SignUpSubmitted())
-        //     : null,
         onPressed: () =>
             context.read<SignUpBloc>().add(const SignUpSubmitted()),
         child: const Text('Sign Up',
