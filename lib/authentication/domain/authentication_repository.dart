@@ -1,4 +1,6 @@
 import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
+import 'package:rate_my_contractor/authentication/login/models/user.dart';
+import 'package:rate_my_contractor/authentication/login/models/user_dto.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -32,8 +34,16 @@ class AuthenticationRepository {
         }
       });
 
-  // Map<String, dynamic>? metaData() {
-  //   final Map<String, dynamic>? metadata = user?._userDataProvider.metaData();
-  //   return metadata;
-  // }
+  Future<User> userData() async {
+    final userData = await _userDataProvider.metaData();
+    final username = userData.userInfo?['username'];
+    final lastname = userData.userInfo?['lastname'];
+    final firstname = userData.userInfo?['firstname'];
+    return User(
+        id: userData.id,
+        email: userData.email,
+        username: username,
+        firstname: firstname,
+        lastname: lastname);
+  }
 }

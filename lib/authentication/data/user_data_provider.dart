@@ -1,3 +1,4 @@
+import 'package:rate_my_contractor/authentication/login/models/user_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDataProvider {
@@ -27,7 +28,13 @@ class UserDataProvider {
   Stream<AuthState> get status => _supabaseClient.auth.onAuthStateChange;
 
   ///retrieve raw meta data
-  Future<void> metaData() async {
-    await _supabaseClient.auth.currentUser;
+  Future<UserDto> metaData() async {
+    final User? user = _supabaseClient.auth.currentUser;
+    if (user == null) {
+      throw Exception("User not found");
+    }
+    UserDto userDto =
+        UserDto(id: user.id, email: user.email, userInfo: user.userMetadata);
+    return userDto;
   }
 }
