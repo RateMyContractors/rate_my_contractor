@@ -6,27 +6,30 @@ final class LoginState extends Equatable {
     this.email = const Email.pure(),
     this.password = const Password.pure(),
     this.isValid = false,
+    this.user,
   });
 
   final FormzSubmissionStatus status;
   final Email email;
   final Password password;
   final bool isValid;
+  final User? user;
 
-  LoginState copyWith({
-    FormzSubmissionStatus? status,
-    Email? email,
-    Password? password,
-    bool? isValid,
-  }) {
+  LoginState copyWith(
+      {FormzSubmissionStatus? status,
+      Email? email,
+      Password? password,
+      bool? isValid,
+      User? user}) {
     return LoginState(
-      status: status ?? this.status,
-      email: email ?? this.email,
-      password: password ?? this.password,
-      isValid: isValid ?? this.isValid,
-    );
+        status: status ?? this.status,
+        email: email ?? this.email,
+        password: password ?? this.password,
+        isValid: isValid ?? this.isValid,
+        user: user ?? this.user);
   }
 
   @override
   List<Object> get props => [status, email, password];
 }
+//was trying to figure out how to pass the value that is being returned so like from login_bloc.dart line 60 how does this get passed to the state with success

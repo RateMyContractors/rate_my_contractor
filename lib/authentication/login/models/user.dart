@@ -5,5 +5,6 @@ class User {
   final String? lastname;
   final String? username;
 
-  User({this.id, this.email, this.firstname, this.lastname, this.username});
+  const User(
+      {this.id, this.email, this.firstname, this.lastname, this.username});
 }

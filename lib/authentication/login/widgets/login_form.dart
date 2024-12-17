@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/login/bloc/login_bloc.dart';
-import 'package:rate_my_contractor/authentication/signup/screens/signup_form.dart';
+import 'package:rate_my_contractor/authentication/signup/screens/signup_page.dart';
+import 'package:rate_my_contractor/authentication/signup/widgets/signup_form.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -30,7 +32,7 @@ class LoginForm extends StatelessWidget {
             const Padding(padding: EdgeInsets.all(12)),
             _LoginButton(),
             const Padding(padding: EdgeInsets.all(12)),
-            _SignUpButton()
+            _SignUpText()
           ],
         ),
       ),
@@ -100,13 +102,21 @@ class _LoginButton extends StatelessWidget {
   }
 }
 
-class _SignUpButton extends StatelessWidget {
+class _SignUpText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const SignupForm()));
+          //   Navigator.push(context,
+          //       MaterialPageRoute(builder: (context) => const SignupForm()));
+          // },
+          Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                  builder: (_) => BlocProvider.value(
+                        value: BlocProvider.of<AuthenticationBloc>(context),
+                        child: const SignupPage(),
+                      )));
         },
         child: const Text('Sign up',
             style: TextStyle(

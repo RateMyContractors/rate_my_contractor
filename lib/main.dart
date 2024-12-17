@@ -17,6 +17,7 @@ void main() async {
   final supabaseClient = SupabaseClient(
     dotenv.env['SUPABASE_URL']!,
     dotenv.env['SUPABASE_KEY']!,
+    authOptions: const AuthClientOptions(authFlowType: AuthFlowType.implicit),
   );
   final remoteProvider = ContractorDataRemoteProvider(supabaseClient);
   final repository = ContractorRepository(remoteProvider);
