@@ -26,15 +26,4 @@ class UserDataProvider {
 
   /// Check Auth
   Stream<AuthState> get status => _supabaseClient.auth.onAuthStateChange;
-
-  ///retrieve raw meta data
-  Future<UserDto> metaData() async {
-    final User? user = _supabaseClient.auth.currentUser;
-    if (user == null) {
-      throw Exception("User not found");
-    }
-    UserDto userDto =
-        UserDto(id: user.id, email: user.email, userInfo: user.userMetadata);
-    return userDto;
-  }
 }

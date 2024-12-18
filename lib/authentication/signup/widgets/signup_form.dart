@@ -21,13 +21,22 @@ class SignupForm extends StatelessWidget {
               );
           }
           if (state.status.isSuccess) {
-            Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                    builder: (_) => BlocProvider.value(
-                          value: BlocProvider.of<AuthenticationBloc>(context),
-                          child: const LoginPage(),
-                        )));
+            final snackBar = SnackBar(
+                content:
+                    const Text('Please be sure to approve in email or wtv'),
+                action: SnackBarAction(
+                    label: 'OK',
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                              builder: (_) => BlocProvider.value(
+                                    value: BlocProvider.of<AuthenticationBloc>(
+                                        context),
+                                    child: const LoginPage(),
+                                  )));
+                    }));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
         child: Container(
@@ -57,6 +66,7 @@ class SignupForm extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
                     const Text('Create your account to get started'),
+                    _ContractorAndUserButton(),
                     const Padding(padding: EdgeInsets.all(12)),
                     _FirstNameInput(),
                     const Padding(padding: EdgeInsets.all(12)),
@@ -73,6 +83,31 @@ class SignupForm extends StatelessWidget {
                     _SignUpButton(),
                   ],
                 ))));
+  }
+}
+
+class _ContractorAndUserButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    bool userbutton = true;
+    bool contractorbutton = false;
+    if (userbutton == false) {
+      contractorbutton = true;
+      userbutton = false;
+    } else {
+      contractorbutton = false;
+      userbutton = true;
+    }
+
+    return Row(
+      children: [
+        Expanded(
+            child: ElevatedButton(
+                onPressed: () {}, child: const Text('Contractor'))),
+        Expanded(
+            child: ElevatedButton(onPressed: () {}, child: const Text('User'))),
+      ],
+    );
   }
 }
 
@@ -162,7 +197,7 @@ class _LastNameInput extends StatelessWidget {
         context.read<SignUpBloc>().add(SignUpLastNameChanged(lastName));
       },
       decoration: InputDecoration(
-        labelText: 'LastName',
+        labelText: 'Last Name',
         border: const OutlineInputBorder(),
         errorText: displayError != null ? 'invalid last name' : null,
       ),
@@ -182,7 +217,7 @@ class _FirstNameInput extends StatelessWidget {
         context.read<SignUpBloc>().add(SignUpFirstNameChanged(firstName));
       },
       decoration: InputDecoration(
-        labelText: 'FirstName',
+        labelText: 'First Name',
         border: const OutlineInputBorder(),
         errorText: displayError != null ? 'invalid first name' : null,
       ),

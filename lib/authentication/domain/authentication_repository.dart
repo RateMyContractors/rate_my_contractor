@@ -25,6 +25,9 @@ class AuthenticationRepository {
         email, password, userName, firstName, lastName);
   }
 
+//change this to a model that has user and authentications status
+//way to get the user from the autstate.session.user
+//when its not authenticated that user is gonna be null
   Stream<AuthenticationStatus> get status =>
       _userDataProvider.status.map((authState) {
         if (authState.session != null) {
@@ -33,17 +36,4 @@ class AuthenticationRepository {
           return AuthenticationStatus.unauthenticated;
         }
       });
-
-  Future<User> userData() async {
-    final userData = await _userDataProvider.metaData();
-    final username = userData.userInfo?['username'];
-    final lastname = userData.userInfo?['lastname'];
-    final firstname = userData.userInfo?['firstname'];
-    return User(
-        id: userData.id,
-        email: userData.email,
-        username: username,
-        firstname: firstname,
-        lastname: lastname);
-  }
 }
