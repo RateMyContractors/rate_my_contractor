@@ -24,6 +24,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SignUpLastNameChanged>(_onLastNameChanged);
     on<SignUpUsernameChanged>(_onUsernameChanged);
     on<SignUpSubmitted>(_onSubmitted);
+    on<SignUpUserType>(_onUserTypeChanged);
   }
   final AuthenticationRepository _authenticationRepository;
 
@@ -96,16 +97,21 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       try {
         await _authenticationRepository.signUp(
-          state.email.value,
-          state.password.value,
-          state.username.value,
-          state.firstName.value,
-          state.lastName.value,
-        );
+            state.email.value,
+            state.password.value,
+            state.username.value,
+            state.firstName.value,
+            state.lastName.value,
+            state.userType);
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }
     }
+  }
+
+  FutureOr<void> _onUserTypeChanged(
+      SignUpUserType event, Emitter<SignUpState> emit) {
+    emit(state.copyWith(userType: event.userType));
   }
 }

@@ -20,9 +20,9 @@ class AuthenticationRepository {
   }
 
   Future<void> signUp(String email, String password, String userName,
-      String firstName, String lastName) async {
+      String firstName, String lastName, String userType) async {
     await _userDataProvider.signUp(
-        email, password, userName, firstName, lastName);
+        email, password, userName, firstName, lastName, userType);
   }
 
 //change this to a model that has user and authentications status
