@@ -100,9 +100,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           await _authenticationRepository.signUp(
             state.email.value,
             state.password.value,
+            state.username.value,
             state.firstName.value,
             state.lastName.value,
-            state.username.value,
           );
           emit(state.copyWith(status: FormzSubmissionStatus.success));
         } catch (_) {

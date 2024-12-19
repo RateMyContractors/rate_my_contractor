@@ -1,4 +1,6 @@
 import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
+import 'package:rate_my_contractor/authentication/login/models/user.dart';
+//import 'package:rate_my_contractor/authentication/login/models/user_dto.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -23,35 +25,34 @@ class AuthenticationRepository {
         email, password, userName, firstName, lastName);
   }
 
+//change this to a model that has user and authentications status
+//way to get the user from the autstate.session.user
+//when its not authenticated that user is gonna be null
   Stream<AuthenticationStatus> get status =>
       _userDataProvider.status.map((authState) {
-        if (authState.session != null) {
+        final user = authState.session?.user;
+        final metadata = user?.userMetadata;
+          if (user != null) {
+                    
+          final currentuser = User(
+            id: user.id,
+            email: user.email,
+            firstname: metadata?['first_name'],
+            lastname: metadata?['last_name'],
+            username: metadata?['username']
+          );
+
+          print("Current User: $currentuser");
+          
+          //print("User Metadata: ${userDto.userInfo}");
+          //print("Custom Field: ${userDto.userInfo?['first_name']}");
+          
+          //final metadata = user.userMetadata;
+           //print("Custom Field: ${metadata?['first_name']}");
           return AuthenticationStatus.authenticated;
         } else {
           return AuthenticationStatus.unauthenticated;
         }
       });
 
-  // Map<String, dynamic>? metaData() {
-  //   String currentUser
-  //   final Map<String, dynamic>? metadata = await _userDataProvider.fetchMetadata(email);
-  //   //user?._userDataProvider.metaData();
-  //   return metadata;
-  // }
-  String? _currentUserId;
-  String? get currentUserId => _currentUserId;
-  
-    void setCurrentUser(String userId) {
-    _currentUserId = userId;
-  }
-
-  Future<void> fetchUserMetadata() async {
-    if (_currentUserId == null) return;
-    Map<String, dynamic> metadata = await _userDataProvider.fetchMetadata(_currentUserId!);
-    
-    String? firstName = metadata['first_name'] as String?;
-    String? lastName = metadata['last_name'] as String?;
-    String? username = metadata['username'] as String?;
-
-  }
 }

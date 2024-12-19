@@ -1,3 +1,4 @@
+import 'package:rate_my_contractor/authentication/login/models/user_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDataProvider {
@@ -25,21 +26,4 @@ class UserDataProvider {
 
   /// Check Auth
   Stream<AuthState> get status => _supabaseClient.auth.onAuthStateChange;
-
-  // ///retrieve raw meta data
-  // Future<void> metaData() async {
-  //   _supabaseClient.auth.currentUser;
-  // }
-
-
-  Future<Map<String, dynamic>> fetchMetadata(String userId) async {
-    final response = await _supabaseClient
-        .from('users')
-        .select('metadata')
-        .eq('id','userId')
-        .single();
-//create a class for metadata
-    return response['metadata'] as Map<String, dynamic>;
-  }
-  
 }
