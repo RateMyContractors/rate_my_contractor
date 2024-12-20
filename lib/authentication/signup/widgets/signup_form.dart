@@ -174,19 +174,21 @@ class _PasswordInput extends StatelessWidget {
     } else {
       errormsg = null;
     }
-
-    return TextField(
-      key: const Key('signupForm_passwordInput_textField'),
-      onChanged: (password) {
-        context.read<SignUpBloc>().add(SignUpPasswordChanged(password));
-      },
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Password',
-        border: const OutlineInputBorder(),
-        errorText: displayError != null ? '$errormsg' : null,
-      ),
-    );
+    return Tooltip(
+        message:
+            ' At least one uppercase letter\n At least one lowercase letter\n At lease one numeral (0-9) \n At least one symbol (!@#^*_?{}-) \n Minimum 8 characters',
+        child: TextField(
+          key: const Key('signupForm_passwordInput_textField'),
+          onChanged: (password) {
+            context.read<SignUpBloc>().add(SignUpPasswordChanged(password));
+          },
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            border: const OutlineInputBorder(),
+            errorText: displayError != null ? '$errormsg' : null,
+          ),
+        ));
   }
 }
 
