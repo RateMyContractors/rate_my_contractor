@@ -10,9 +10,18 @@ class FirstName extends FormzInput<String, FirstNameValidationError> {
   FirstNameValidationError? validator(String value) {
     if (value.isEmpty) return FirstNameValidationError.empty;
     final firstNameFormat = RegExp(r'^[a-zA-Z]+$');
-     if (!firstNameFormat.hasMatch(value)) {
+    if (!firstNameFormat.hasMatch(value)) {
       return FirstNameValidationError.invalidFirstName;
     }
     return null;
+  }
+
+  String validationError(FirstNameValidationError error) {
+    if (error == FirstNameValidationError.empty) {
+      return "First name can't be blank";
+    } else if (error == FirstNameValidationError.invalidFirstName) {
+      return "First name can only contain alphabetic characters";
+    }
+    return "";
   }
 }

@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
 import 'package:rate_my_contractor/authentication/signup/bloc/signup_bloc.dart';
+import 'package:rate_my_contractor/authentication/signup/models/username.dart';
 
 class SignupForm extends StatelessWidget {
   const SignupForm({super.key});
@@ -91,19 +92,19 @@ class SignupForm extends StatelessWidget {
 class _ContractorAndUserButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-     final userType = context.select(
+    final userType = context.select(
       (SignUpBloc bloc) => bloc.state.userType,
     );
     return Row(
       children: [
         Expanded(
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-              backgroundColor: userType == 'Contractor'
-                  ? const Color.fromARGB(255, 196, 170, 229)
-                  : const Color.fromARGB(255, 213, 219, 223),
-              ),
-              onPressed: () {
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: userType == 'Contractor'
+                      ? const Color.fromARGB(255, 196, 170, 229)
+                      : const Color.fromARGB(255, 213, 219, 223),
+                ),
+                onPressed: () {
                   context
                       .read<SignUpBloc>()
                       .add(const SignUpUserType('Contractor'));
@@ -112,12 +113,12 @@ class _ContractorAndUserButton extends StatelessWidget {
         const SizedBox(width: 20),
         Expanded(
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-              backgroundColor: userType == 'User'
-                  ? const Color.fromARGB(255, 196, 170, 229)
-                  : const Color.fromARGB(255, 213, 219, 223),
-              ),
-              onPressed: () {
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: userType == 'User'
+                      ? const Color.fromARGB(255, 196, 170, 229)
+                      : const Color.fromARGB(255, 213, 219, 223),
+                ),
+                onPressed: () {
                   context.read<SignUpBloc>().add(const SignUpUserType('User'));
                 },
                 child: const Text('User'))),
@@ -165,6 +166,15 @@ class _PasswordInput extends StatelessWidget {
     final displayError = context.select(
       (SignUpBloc bloc) => bloc.state.password.displayError,
     );
+
+    String? errormsg;
+    if (displayError != null) {
+      errormsg = context.select((SignUpBloc bloc) =>
+          bloc.state.password.validationError(displayError));
+    } else {
+      errormsg = null;
+    }
+
     return TextField(
       key: const Key('signupForm_passwordInput_textField'),
       onChanged: (password) {
@@ -174,7 +184,7 @@ class _PasswordInput extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Password',
         border: const OutlineInputBorder(),
-        errorText: displayError != null ? 'invalid password' : null,
+        errorText: displayError != null ? '$errormsg' : null,
       ),
     );
   }
@@ -184,18 +194,26 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final displayError = context.select(
-      (SignUpBloc bloc) => bloc.state.email.displayError,//displayError,
+      (SignUpBloc bloc) => bloc.state.email.displayError, //displayError,
     );
+
+    String? errormsg;
+    if (displayError != null) {
+      errormsg = context.select(
+          (SignUpBloc bloc) => bloc.state.email.validationError(displayError));
+    } else {
+      errormsg = null;
+    }
     return TextField(
-      key: const Key('signupForm_emailInput_textField'),
-      onChanged: (email) {
-        context.read<SignUpBloc>().add(SignUpEmailChanged(email));
-      },
-      decoration: InputDecoration(
+        key: const Key('signupForm_emailInput_textField'),
+        onChanged: (email) {
+          context.read<SignUpBloc>().add(SignUpEmailChanged(email));
+        },
+        decoration: InputDecoration(
           labelText: 'Email',
           border: const OutlineInputBorder(),
-          errorText: displayError != null ? 'invalid email' : null),
-    );
+          errorText: displayError != null ? '$errormsg' : null,
+        ));
   }
 }
 
@@ -206,6 +224,14 @@ class _LastNameInput extends StatelessWidget {
       (SignUpBloc bloc) => bloc.state.lastName.displayError,
     );
 
+    String? errormsg;
+    if (displayError != null) {
+      errormsg = context.select((SignUpBloc bloc) =>
+          bloc.state.lastName.validationError(displayError));
+    } else {
+      errormsg = null;
+    }
+
     return TextField(
       key: const Key('signupForm_lastNameInput_textField'),
       onChanged: (lastName) {
@@ -214,7 +240,7 @@ class _LastNameInput extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Last Name',
         border: const OutlineInputBorder(),
-        errorText: displayError != null ? 'invalid last name' : null,
+        errorText: displayError != null ? '$errormsg' : null,
       ),
     );
   }
@@ -226,6 +252,15 @@ class _FirstNameInput extends StatelessWidget {
     final displayError = context.select(
       (SignUpBloc bloc) => bloc.state.firstName.displayError,
     );
+
+    String? errormsg;
+    if (displayError != null) {
+      errormsg = context.select((SignUpBloc bloc) =>
+          bloc.state.firstName.validationError(displayError));
+    } else {
+      errormsg = null;
+    }
+
     return TextField(
       key: const Key('signupForm_firstNameInput_textField'),
       onChanged: (firstName) {
@@ -234,7 +269,7 @@ class _FirstNameInput extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'First Name',
         border: const OutlineInputBorder(),
-        errorText: displayError != null ? 'invalid first name' : null,
+        errorText: displayError != null ? '$errormsg' : null,
       ),
     );
   }
@@ -243,9 +278,15 @@ class _FirstNameInput extends StatelessWidget {
 class _UsernameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final displayError = context.select(
-      (SignUpBloc bloc) => bloc.state.username.displayError,
-    );
+    final displayError =
+        context.select((SignUpBloc bloc) => bloc.state.username.displayError);
+    String? errormsg;
+    if (displayError != null) {
+      errormsg = context.select((SignUpBloc bloc) =>
+          bloc.state.username.validationError(displayError));
+    } else {
+      errormsg = null;
+    }
 
     return TextField(
       key: const Key('signupForm_usernameInput_textField'),
@@ -255,7 +296,7 @@ class _UsernameInput extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'username',
         border: const OutlineInputBorder(),
-        errorText: displayError != null ? 'invalid username' : null,
+        errorText: displayError != null ? '$errormsg' : null,
       ),
     );
   }
