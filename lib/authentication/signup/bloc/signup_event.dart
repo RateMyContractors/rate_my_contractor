@@ -57,3 +57,12 @@ final class SignUpSubmitted extends SignUpEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class SignUpUserType extends SignUpEvent {
+  const SignUpUserType(this.userType);
+
+  final String userType;
+
+  @override
+  List<Object> get props => [userType];
+}

@@ -22,10 +22,12 @@ class SignupForm extends StatelessWidget {
           }
           if (state.status.isSuccess) {
             final snackBar = SnackBar(
-                content:
-                    const Text('Please be sure to approve in email or wtv'),
+                content: const Text(
+                    'A verification link has been sent to your email account',
+                    style: TextStyle(fontSize: 30)),
+                duration: const Duration(days: 1),
                 action: SnackBarAction(
-                    label: 'OK',
+                    label: 'Continue',
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -63,7 +65,7 @@ class SignupForm extends StatelessWidget {
                     const Text(
                       'Sign Up',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     const Text('Create your account to get started'),
                     _ContractorAndUserButton(),
@@ -89,23 +91,36 @@ class SignupForm extends StatelessWidget {
 class _ContractorAndUserButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    bool userbutton = true;
-    bool contractorbutton = false;
-    if (userbutton == false) {
-      contractorbutton = true;
-      userbutton = false;
-    } else {
-      contractorbutton = false;
-      userbutton = true;
-    }
-
+     final userType = context.select(
+      (SignUpBloc bloc) => bloc.state.userType,
+    );
     return Row(
       children: [
         Expanded(
             child: ElevatedButton(
-                onPressed: () {}, child: const Text('Contractor'))),
+              style: ElevatedButton.styleFrom(
+              backgroundColor: userType == 'Contractor'
+                  ? const Color.fromARGB(255, 196, 170, 229)
+                  : const Color.fromARGB(255, 213, 219, 223),
+              ),
+              onPressed: () {
+                  context
+                      .read<SignUpBloc>()
+                      .add(const SignUpUserType('Contractor'));
+                },
+                child: const Text('Contractor'))),
+        const SizedBox(width: 20),
         Expanded(
-            child: ElevatedButton(onPressed: () {}, child: const Text('User'))),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+              backgroundColor: userType == 'User'
+                  ? const Color.fromARGB(255, 196, 170, 229)
+                  : const Color.fromARGB(255, 213, 219, 223),
+              ),
+              onPressed: () {
+                  context.read<SignUpBloc>().add(const SignUpUserType('User'));
+                },
+                child: const Text('User'))),
       ],
     );
   }
@@ -169,7 +184,7 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final displayError = context.select(
-      (SignUpBloc bloc) => bloc.state.email.displayError,
+      (SignUpBloc bloc) => bloc.state.email.displayError,//displayError,
     );
     return TextField(
       key: const Key('signupForm_emailInput_textField'),

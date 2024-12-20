@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-enum UsernameValidationError { empty }
+enum UsernameValidationError { empty, containsSpaces }
 
 class Username extends FormzInput<String, UsernameValidationError> {
   const Username.pure() : super.pure('');
@@ -9,6 +9,11 @@ class Username extends FormzInput<String, UsernameValidationError> {
   @override
   UsernameValidationError? validator(String value) {
     if (value.isEmpty) return UsernameValidationError.empty;
+
+    if (value.contains(' ')) {
+      return UsernameValidationError.containsSpaces;
+    }
+    //check for uniqueness
     return null;
   }
 }

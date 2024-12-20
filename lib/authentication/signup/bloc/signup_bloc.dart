@@ -25,6 +25,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SignUpLastNameChanged>(_onLastNameChanged);
     on<SignUpUsernameChanged>(_onUsernameChanged);
     on<SignUpSubmitted>(_onSubmitted);
+    on<SignUpUserType>(_onUserTypeChanged);
   }
   final AuthenticationRepository _authenticationRepository;
 
@@ -33,6 +34,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       Emitter<SignUpState> emit
       ) {
         final email = Email.dirty(event.email);
+        //final error = email.invalid ? 'Please enter a valid email' : null;
         emit(
           state.copyWith(
             email: email,
@@ -91,24 +93,27 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   FutureOr<void> _onSubmitted(
-    SignUpSubmitted event, 
-    Emitter<SignUpState> emit
-    ) async {
-      if (state.isValid) {
-        emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-        try {
-          await _authenticationRepository.signUp(
+      SignUpSubmitted event, Emitter<SignUpState> emit) async {
+    if (state.isValid) {
+      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+      try {
+        await _authenticationRepository.signUp(
             state.email.value,
             state.password.value,
             state.username.value,
             state.firstName.value,
             state.lastName.value,
-          );
-          emit(state.copyWith(status: FormzSubmissionStatus.success));
-        } catch (_) {
-          emit(state.copyWith(status: FormzSubmissionStatus.failure));
-        }
+            state.userType);
+        emit(state.copyWith(status: FormzSubmissionStatus.success));
+      } catch (_) {
+        emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }
+    }
+  }
+
+  FutureOr<void> _onUserTypeChanged(
+      SignUpUserType event, Emitter<SignUpState> emit) {
+    emit(state.copyWith(userType: event.userType));
   }
 }
 
