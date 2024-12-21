@@ -10,7 +10,6 @@ import 'package:rate_my_contractor/authentication/signup/models/lastname.dart';
 import 'package:rate_my_contractor/authentication/signup/models/firstname.dart';
 import 'package:rate_my_contractor/authentication/signup/models/username.dart';
 
-
 part 'signup_event.dart';
 part 'signup_state.dart';
 
@@ -30,66 +29,66 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthenticationRepository _authenticationRepository;
 
   FutureOr<void> _onEmailChanged(
-      SignUpEmailChanged event, 
-      Emitter<SignUpState> emit
-      ) {
-        final email = Email.dirty(event.email);
-        //final error = email.invalid ? 'Please enter a valid email' : null;
-        emit(
-          state.copyWith(
-            email: email,
-            isValid: Formz.validate([state.password, email]),
-          ),
-        );
-      }
+      SignUpEmailChanged event, Emitter<SignUpState> emit) {
+    final email = Email.dirty(event.email);
+    //final error = email.invalid ? 'Please enter a valid email' : null;
+    emit(
+      state.copyWith(
+        email: email,
+        isValid: Formz.validate([state.password, email]),
+      ),
+    );
+  }
 
   FutureOr<void> _onPasswordChanged(
-      SignUpPasswordChanged event, 
-      Emitter<SignUpState> emit
-    ) {
-      final password = Password.dirty(event.password);
-      emit(
-        state.copyWith(
-          password: password,
-          isValid: Formz.validate([password, state.email]),
-        ),
-      );
+      SignUpPasswordChanged event, Emitter<SignUpState> emit) {
+    final password = Password.dirty(event.password);
+    emit(
+      state.copyWith(
+        password: password,
+        isValid: Formz.validate([password, state.email]),
+      ),
+    );
   }
 
   FutureOr<void> _onFirstNameChanged(
-      SignUpFirstNameChanged event, 
-      Emitter<SignUpState> emit) {
-      final firstName = FirstName.dirty(event.firstName);
-      emit(
-        state.copyWith(
-          firstName: firstName,
-          isValid: Formz.validate([firstName, state.password, state.email]),
-        ),
-      );
+      SignUpFirstNameChanged event, Emitter<SignUpState> emit) {
+    final firstName = FirstName.dirty(event.firstName);
+    emit(
+      state.copyWith(
+        firstName: firstName,
+        isValid: Formz.validate([firstName, state.password, state.email]),
+      ),
+    );
   }
 
   FutureOr<void> _onLastNameChanged(
-      SignUpLastNameChanged event, 
-      Emitter<SignUpState> emit) {
-      final lastName = LastName.dirty(event.lastName);
-      emit(
-        state.copyWith(
-          lastName: lastName,
-          isValid: Formz.validate([lastName, state.firstName, state.password, state.email]),
-        ),
-      );
+      SignUpLastNameChanged event, Emitter<SignUpState> emit) {
+    final lastName = LastName.dirty(event.lastName);
+    emit(
+      state.copyWith(
+        lastName: lastName,
+        isValid: Formz.validate(
+            [lastName, state.firstName, state.password, state.email]),
+      ),
+    );
   }
 
   FutureOr<void> _onUsernameChanged(
-      SignUpUsernameChanged event, 
-      Emitter<SignUpState> emit) {
-      final username = Username.dirty(event.username);
-      emit(
-        state.copyWith(
-          username: username,
-          isValid: Formz.validate([username, state.lastName, state.firstName, state.password, state.email]),
-        ),
-      );
+      SignUpUsernameChanged event, Emitter<SignUpState> emit) {
+    final username = Username.dirty(event.username);
+    emit(
+      state.copyWith(
+        username: username,
+        isValid: Formz.validate([
+          username,
+          state.lastName,
+          state.firstName,
+          state.password,
+          state.email
+        ]),
+      ),
+    );
   }
 
   FutureOr<void> _onSubmitted(
