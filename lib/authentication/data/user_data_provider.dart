@@ -1,4 +1,3 @@
-import 'package:rate_my_contractor/authentication/login/models/user_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserDataProvider {

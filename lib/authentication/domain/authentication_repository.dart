@@ -25,34 +25,46 @@ class AuthenticationRepository {
         email, password, userName, firstName, lastName, userType);
   }
 
-//change this to a model that has user and authentications status
-//way to get the user from the autstate.session.user
-//when its not authenticated that user is gonna be null
-  Stream<AuthenticationStatus> get status =>
-      _userDataProvider.status.map((authState) {
-        final user = authState.session?.user;
-        final metadata = user?.userMetadata;
-          if (user != null) {
-                    
+  ///change this to a model that has user and authentications status
+  ///way to get the user from the autstate.session.user
+  ///when its not authenticated that user is gonna be null
+  // Stream<AuthenticationStatus> get status =>
+  //     _userDataProvider.status.map((authState) {
+  //       final user = authState.session?.user;
+  //       final metadata = user?.userMetadata;
+  //       if (user != null) {
+  //         final currentuser = User(
+  //             id: user.id,
+  //             email: user.email,
+  //             firstname: metadata?['first_name'],
+  //             lastname: metadata?['last_name'],
+  //             username: metadata?['username']);
+  //         return AuthenticationStatus.authenticated;
+  //       } else {
+  //         return AuthenticationStatus.unauthenticated;
+  //       }
+  //     });
+  Stream<User> get status => _userDataProvider.status.map((authState) {
+        if (authState.session != null) {
+          final user = authState.session?.user;
+          final metadata = user?.userMetadata;
           final currentuser = User(
-            id: user.id,
-            email: user.email,
-            firstname: metadata?['first_name'],
-            lastname: metadata?['last_name'],
-            username: metadata?['username']
-          );
-
-          print("Current User: $currentuser");
-          
-          //print("User Metadata: ${userDto.userInfo}");
-          //print("Custom Field: ${userDto.userInfo?['first_name']}");
-          
-          //final metadata = user.userMetadata;
-           //print("Custom Field: ${metadata?['first_name']}");
-          return AuthenticationStatus.authenticated;
+              userstatus: AuthenticationStatus.authenticated,
+              id: user?.id,
+              email: user?.email,
+              firstname: metadata?['first_name'],
+              lastname: metadata?['last_name'],
+              username: metadata?['username']);
+          return currentuser;
         } else {
-          return AuthenticationStatus.unauthenticated;
+          const currentuser = User(
+              userstatus: AuthenticationStatus.unauthenticated,
+              id: null,
+              email: null,
+              firstname: null,
+              lastname: null,
+              username: null);
+          return currentuser;
         }
       });
-
 }

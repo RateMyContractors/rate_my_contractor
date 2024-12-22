@@ -13,6 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
 import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
 import 'package:rate_my_contractor/authentication/login/models/user.dart';
+
 void main() async {
   await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
@@ -100,33 +101,45 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
               builder: (context, state) {
+                String? username = state.user?.firstname;
                 return state.status != AuthenticationStatus.authenticated
                     ? TextButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                  builder: (_) => BlocProvider.value(
-                                        value:
-                                            BlocProvider.of<AuthenticationBloc>(
-                                                context),
-                                        child: const LoginPage(),
-                                      )));
+                            context,
+                            MaterialPageRoute<void>(
+                              // builder: (_) => BlocProvider.value(
+                              //       value:
+                              //           BlocProvider.of<AuthenticationBloc>(
+                              //               context),
+                              //       child: const LoginPage(),
+                              //     )));
+                              builder: (_) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                      value:
+                                          BlocProvider.of<AuthenticationBloc>(
+                                              context)),
+                                  BlocProvider.value(
+                                    value: BlocProvider.of<SearchBloc>(context),
+                                  ),
+                                ],
+                                child: const LoginPage(),
+                              ),
+                            ),
+                          );
                         },
                         child: const Text(
                           'Login',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.white,
                           ),
                         ),
                       )
-                    : 
-                    
-                    const Text(    
-                        
-                        'Hello User!',
-                      );
+                    : Text('Hello $username',
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white));
               },
             ),
           ],
