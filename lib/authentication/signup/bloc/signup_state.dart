@@ -10,7 +10,9 @@ final class SignUpState extends Equatable {
     this.username = const Username.pure(),
     this.userType = 'User',
     this.isValid = false,
-    //this.errormsg,
+    this.confirmpassword = const Password.pure(),
+    this.passwordsMatch = false,
+    
   });
 
   final FormzSubmissionStatus status;
@@ -21,6 +23,8 @@ final class SignUpState extends Equatable {
   final Username username;
   final String userType;
   final bool isValid;
+  final Password confirmpassword;
+  final bool passwordsMatch;
   //final String? errormsg;
   
 
@@ -33,6 +37,8 @@ final class SignUpState extends Equatable {
     Username? username,
     String? userType,
     bool? isValid,
+    Password? confirmpassword,
+    bool? passwordsMatch,
     //String? errormsg,
   }) {
 
@@ -45,11 +51,13 @@ final class SignUpState extends Equatable {
       username: username ?? this.username,
       userType: userType ?? this.userType,
       isValid: isValid ?? this.isValid,
+      confirmpassword: confirmpassword ?? this.confirmpassword,
+      passwordsMatch: passwordsMatch ?? this.passwordsMatch,
       //errormsg: errormsg ?? this.errormsg,
     );
   }
 
   @override
   List<Object?> get props =>
-      [status, email, password, firstName, lastName, username, userType];
+      [status, email, password, firstName, lastName, username, userType, confirmpassword, passwordsMatch];
 }

@@ -130,11 +130,12 @@ class _ContractorAndUserButton extends StatelessWidget {
 class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // final passwordsMatch = context.select(
+    //   (SignUpBloc bloc) => bloc.state.passwordsMatch);
     final isInProgressOrSuccess = context.select(
       (SignUpBloc bloc) => bloc.state.status.isInProgressOrSuccess,
     );
     if (isInProgressOrSuccess) return const CircularProgressIndicator();
-
     // final isValid = context.select((SignUpBloc bloc) => bloc.state.isValid);
 
     return ElevatedButton(
@@ -142,20 +143,39 @@ class _SignUpButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 181, 113, 192),
         ),
-        onPressed: () =>
-            context.read<SignUpBloc>().add(const SignUpSubmitted()),
+        // onPressed: //passwordsMatch
+        //     ? () => context.read<SignUpBloc>().add(const SignUpSubmitted())
+        //     : null,
+        onPressed: () => 
+                context.read<SignUpBloc>().add(const SignUpSubmitted()),
         child: const Text('Sign Up',
             style: TextStyle(color: Color.fromARGB(255, 245, 243, 243))));
   }
 }
 
 class _ReEnterPasswordInput extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return const TextField(
+    final originalPassword = context.select((SignUpBloc bloc) =>
+          bloc.state.password.value);
+    final confirmPassword = context.select((SignUpBloc bloc) =>
+          bloc.state.confirmpassword.value);
+
+    final bool passwordsMatch = originalPassword == confirmPassword; 
+    return TextField(
+      key: const Key('signupForm_ConfirmPasswordInput_textField'),
+      onChanged: (password) {
+        context.read<SignUpBloc>().add(SignUpConfirmPasswordChanged(password));
+      },
       obscureText: true,
       decoration: InputDecoration(
-          labelText: 'Re-enter Password', border: OutlineInputBorder()),
+          labelText: 'Re-enter Password',
+          border: const OutlineInputBorder(),
+          errorText: !passwordsMatch
+            ? 'Passwords do not match'
+            : null,
+    )
     );
   }
 }

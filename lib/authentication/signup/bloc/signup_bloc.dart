@@ -20,6 +20,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         super(const SignUpState()) {
     on<SignUpEmailChanged>(_onEmailChanged);
     on<SignUpPasswordChanged>(_onPasswordChanged);
+    on<SignUpConfirmPasswordChanged>(_onConfirmPasswordChanged);
     on<SignUpFirstNameChanged>(_onFirstNameChanged);
     on<SignUpLastNameChanged>(_onLastNameChanged);
     on<SignUpUsernameChanged>(_onUsernameChanged);
@@ -50,6 +51,13 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       ),
     );
   }
+
+  FutureOr<void> _onConfirmPasswordChanged(
+      SignUpConfirmPasswordChanged event, Emitter<SignUpState> emit) {
+      final confirmpassword = Password.dirty(event.confirmpassword);
+      emit(state.copyWith(confirmpassword: confirmpassword));
+
+    }
 
   FutureOr<void> _onFirstNameChanged(
       SignUpFirstNameChanged event, Emitter<SignUpState> emit) {
