@@ -130,22 +130,15 @@ class _ContractorAndUserButton extends StatelessWidget {
 class _SignUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final passwordsMatch = context.select(
-    //   (SignUpBloc bloc) => bloc.state.passwordsMatch);
     final isInProgressOrSuccess = context.select(
       (SignUpBloc bloc) => bloc.state.status.isInProgressOrSuccess,
     );
     if (isInProgressOrSuccess) return const CircularProgressIndicator();
-    // final isValid = context.select((SignUpBloc bloc) => bloc.state.isValid);
-
     return ElevatedButton(
         key: const Key('SignUpForm_continue_raisedButton'),
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 181, 113, 192),
         ),
-        // onPressed: //passwordsMatch
-        //     ? () => context.read<SignUpBloc>().add(const SignUpSubmitted())
-        //     : null,
         onPressed: () => 
                 context.read<SignUpBloc>().add(const SignUpSubmitted()),
         child: const Text('Sign Up',
@@ -216,7 +209,7 @@ class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final displayError = context.select(
-      (SignUpBloc bloc) => bloc.state.email.displayError, //displayError,
+      (SignUpBloc bloc) => bloc.state.email.displayError, 
     );
     String? errormsg;
     if (displayError != null) {
