@@ -218,7 +218,6 @@ class _EmailInput extends StatelessWidget {
     final displayError = context.select(
       (SignUpBloc bloc) => bloc.state.email.displayError, //displayError,
     );
-
     String? errormsg;
     if (displayError != null) {
       errormsg = context.select(

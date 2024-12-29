@@ -32,7 +32,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   FutureOr<void> _onEmailChanged(
       SignUpEmailChanged event, Emitter<SignUpState> emit) {
     final email = Email.dirty(event.email);
-    //final error = email.invalid ? 'Please enter a valid email' : null;
     emit(
       state.copyWith(
         email: email,
@@ -123,5 +122,3 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     emit(state.copyWith(userType: event.userType));
   }
 }
-
-//note u didnt add all the variables for each isvalid

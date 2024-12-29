@@ -25,7 +25,7 @@ final class SignUpState extends Equatable {
   final bool isValid;
   final Password confirmpassword;
   final bool passwordsMatch;
-  //final String? errormsg;
+  
   
 
   SignUpState copyWith({
@@ -39,7 +39,7 @@ final class SignUpState extends Equatable {
     bool? isValid,
     Password? confirmpassword,
     bool? passwordsMatch,
-    //String? errormsg,
+    
   }) {
 
     return SignUpState(
@@ -53,7 +53,7 @@ final class SignUpState extends Equatable {
       isValid: isValid ?? this.isValid,
       confirmpassword: confirmpassword ?? this.confirmpassword,
       passwordsMatch: passwordsMatch ?? this.passwordsMatch,
-      //errormsg: errormsg ?? this.errormsg,
+      
     );
   }
 

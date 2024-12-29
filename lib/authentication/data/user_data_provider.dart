@@ -6,7 +6,6 @@ class UserDataProvider {
   final SupabaseClient _supabaseClient;
 
   /// Sign in
-  /// doesnt return a value pass email and password and call supaabse and sighin with password
   Future<void> signIn(String email, String password) async {
     await _supabaseClient.auth.signInWithPassword(
       email: email,
