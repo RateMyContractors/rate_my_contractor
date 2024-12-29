@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
-      listener: (listenercontext, state) {
+      listener: (context, state) {
         if (state.status == AuthenticationStatus.authenticated) {
           Navigator.of(context).pop();
         }
