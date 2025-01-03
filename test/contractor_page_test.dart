@@ -1,14 +1,14 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
 import 'package:rate_my_contractor/main.dart';
 import 'package:rate_my_contractor/results_page.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:bloc_test/bloc_test.dart';
-import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 
 //SetUp mockBloc to be passed thru pages
 class MockSearchBloc extends MockBloc<SearchEvent, SearchState>
@@ -26,46 +26,48 @@ void main() {
         (WidgetTester tester) async {
       // Set initial state for the SearchBloc
       when(() => mockSearchBloc.state).thenReturn(
-          const SearchState(status: SearchStateStatus.success, contractors: [
-        Contractor(
-          id: '845',
-          companyName: '"Z" ELECTRIC',
-          address: '10821 S KENTON AVE, OAK LAWN, IL 60453-',
-          tags: ['Electrical Contractor (General)'],
-          phone: '(708) 423-6967',
-          licenses: [
-            LicenseDto(
-              licenseNumber: 'ECC92504',
-              licenseType: 'Electrical Contractor (General)',
-              town: 'Oak Lawn',
-              id: 'a629e63c-4c7b-4991-b2da-7ccb37c77cec',
-              licenseExpiration: '2021-12-15',
-              insuranceExpiration: null,
-              isActive: 'true',
-              contractorId: '845',
+        const SearchState(
+          status: SearchStateStatus.success,
+          contractors: [
+            Contractor(
+              id: '845',
+              companyName: '"Z" ELECTRIC',
+              address: '10821 S KENTON AVE, OAK LAWN, IL 60453-',
+              tags: ['Electrical Contractor (General)'],
+              phone: '(708) 423-6967',
+              licenses: [
+                LicenseDto(
+                  licenseNumber: 'ECC92504',
+                  licenseType: 'Electrical Contractor (General)',
+                  town: 'Oak Lawn',
+                  id: 'a629e63c-4c7b-4991-b2da-7ccb37c77cec',
+                  licenseExpiration: '2021-12-15',
+                  isActive: 'true',
+                  contractorId: '845',
+                ),
+              ],
+            ),
+            Contractor(
+              id: '123',
+              companyName: 'ELIZABETH',
+              address: '94 JOHN ST, HINDSDALE',
+              tags: ['Electrical Contractor (General)'],
+              phone: '(520)-956-1258',
+              licenses: [
+                LicenseDto(
+                  licenseNumber: 'ECC92504',
+                  licenseType: 'Electrical Contractor (General)',
+                  town: 'Hindsdale',
+                  id: 'a6c',
+                  licenseExpiration: '2021-11-16',
+                  isActive: 'true',
+                  contractorId: '123',
+                ),
+              ],
             ),
           ],
         ),
-        Contractor(
-          id: '123',
-          companyName: 'ELIZABETH',
-          address: '94 JOHN ST, HINDSDALE',
-          tags: ['Electrical Contractor (General)'],
-          phone: '(520)-956-1258',
-          licenses: [
-            LicenseDto(
-              licenseNumber: 'ECC92504',
-              licenseType: 'Electrical Contractor (General)',
-              town: 'Hindsdale',
-              id: 'a6c',
-              licenseExpiration: '2021-11-16',
-              insuranceExpiration: null,
-              isActive: 'true',
-              contractorId: '123',
-            ),
-          ],
-        )
-      ]));
+      );
 
       //  Pump the ResultsPage with the mock bloc
       await tester.pumpWidget(
@@ -76,8 +78,9 @@ void main() {
           ),
           routes: {
             '/contractor': (context) => ContractorPage(
-                contractor:
-                    ModalRoute.of(context)!.settings.arguments as Contractor)
+                  contractor:
+                      ModalRoute.of(context)!.settings.arguments! as Contractor,
+                ),
           },
         ),
       );
@@ -113,8 +116,8 @@ void main() {
     });
 
     testWidgets(
-        'Search on HomePage and Navigate to ResultsPage, ContractorPage to show results',
-        (WidgetTester tester) async {
+        'Search on HomePage and Navigate to ResultsPage, '
+        'ContractorPage to show results', (WidgetTester tester) async {
       // Set the initial state
       when(() => mockSearchBloc.state).thenReturn(
         const SearchState(

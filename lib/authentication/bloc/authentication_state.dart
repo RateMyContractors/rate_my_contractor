@@ -8,7 +8,7 @@ class AuthenticationState extends Equatable {
 
   const AuthenticationState.unknown() : this._();
 
-  const AuthenticationState.authenticated({required user})
+  const AuthenticationState.authenticated({required User user})
       : this._(status: AuthenticationStatus.authenticated, user: user);
 
   const AuthenticationState.unauthenticated()

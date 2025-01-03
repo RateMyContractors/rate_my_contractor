@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/signup/models/email.dart';
-import 'package:rate_my_contractor/authentication/signup/models/password.dart';
-import 'package:rate_my_contractor/authentication/signup/models/lastname.dart';
 import 'package:rate_my_contractor/authentication/signup/models/firstname.dart';
+import 'package:rate_my_contractor/authentication/signup/models/lastname.dart';
+import 'package:rate_my_contractor/authentication/signup/models/password.dart';
 import 'package:rate_my_contractor/authentication/signup/models/username.dart';
 
 part 'signup_event.dart';
@@ -30,7 +30,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthenticationRepository _authenticationRepository;
 
   FutureOr<void> _onEmailChanged(
-      SignUpEmailChanged event, Emitter<SignUpState> emit) {
+    SignUpEmailChanged event,
+    Emitter<SignUpState> emit,
+  ) {
     final email = Email.dirty(event.email);
     emit(
       state.copyWith(
@@ -41,7 +43,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   FutureOr<void> _onPasswordChanged(
-      SignUpPasswordChanged event, Emitter<SignUpState> emit) {
+    SignUpPasswordChanged event,
+    Emitter<SignUpState> emit,
+  ) {
     final password = Password.dirty(event.password);
     emit(
       state.copyWith(
@@ -52,14 +56,17 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   FutureOr<void> _onConfirmPasswordChanged(
-      SignUpConfirmPasswordChanged event, Emitter<SignUpState> emit) {
-      final confirmpassword = Password.dirty(event.confirmpassword);
-      emit(state.copyWith(confirmpassword: confirmpassword));
-
-    }
+    SignUpConfirmPasswordChanged event,
+    Emitter<SignUpState> emit,
+  ) {
+    final confirmpassword = Password.dirty(event.confirmpassword);
+    emit(state.copyWith(confirmpassword: confirmpassword));
+  }
 
   FutureOr<void> _onFirstNameChanged(
-      SignUpFirstNameChanged event, Emitter<SignUpState> emit) {
+    SignUpFirstNameChanged event,
+    Emitter<SignUpState> emit,
+  ) {
     final firstName = FirstName.dirty(event.firstName);
     emit(
       state.copyWith(
@@ -70,19 +77,24 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   FutureOr<void> _onLastNameChanged(
-      SignUpLastNameChanged event, Emitter<SignUpState> emit) {
+    SignUpLastNameChanged event,
+    Emitter<SignUpState> emit,
+  ) {
     final lastName = LastName.dirty(event.lastName);
     emit(
       state.copyWith(
         lastName: lastName,
         isValid: Formz.validate(
-            [lastName, state.firstName, state.password, state.email]),
+          [lastName, state.firstName, state.password, state.email],
+        ),
       ),
     );
   }
 
   FutureOr<void> _onUsernameChanged(
-      SignUpUsernameChanged event, Emitter<SignUpState> emit) {
+    SignUpUsernameChanged event,
+    Emitter<SignUpState> emit,
+  ) {
     final username = Username.dirty(event.username);
     emit(
       state.copyWith(
@@ -92,24 +104,27 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           state.lastName,
           state.firstName,
           state.password,
-          state.email
+          state.email,
         ]),
       ),
     );
   }
 
   FutureOr<void> _onSubmitted(
-      SignUpSubmitted event, Emitter<SignUpState> emit) async {
+    SignUpSubmitted event,
+    Emitter<SignUpState> emit,
+  ) async {
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       try {
         await _authenticationRepository.signUp(
-            state.email.value,
-            state.password.value,
-            state.username.value,
-            state.firstName.value,
-            state.lastName.value,
-            state.userType);
+          state.email.value,
+          state.password.value,
+          state.username.value,
+          state.firstName.value,
+          state.lastName.value,
+          state.userType,
+        );
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
@@ -118,7 +133,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   FutureOr<void> _onUserTypeChanged(
-      SignUpUserType event, Emitter<SignUpState> emit) {
+    SignUpUserType event,
+    Emitter<SignUpState> emit,
+  ) {
     emit(state.copyWith(userType: event.userType));
   }
 }

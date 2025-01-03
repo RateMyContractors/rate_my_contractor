@@ -4,7 +4,6 @@ import 'package:formz/formz.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/login/bloc/login_bloc.dart';
 import 'package:rate_my_contractor/authentication/signup/screens/signup_page.dart';
-import 'package:rate_my_contractor/authentication/signup/widgets/signup_form.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -12,52 +11,54 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state.status.isFailure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(content: Text('Authentication Failure')),
-              );
-          }
-        },
-        child: Container(
-            margin: const EdgeInsets.only(bottom: 120, top: 120),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: Colors.grey, width: 1.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 5.0,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+      listener: (context, state) {
+        if (state.status.isFailure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(content: Text('Authentication Failure')),
+            );
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 120, top: 120),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
             ),
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width * 0.4,
-            child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                child: Column(
-                  children: [
-                    const Padding(padding: EdgeInsets.all(12)),
-                    const Text(
-                      'Log In',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                    ),
-                    const Text('Login to get started'),
-                    const Padding(padding: EdgeInsets.all(12)),
-                    _EmailInput(),
-                    const Padding(padding: EdgeInsets.all(12)),
-                    _PasswordInput(),
-                    const Padding(padding: EdgeInsets.all(12)),
-                    _LoginButton(),
-                    const Padding(padding: EdgeInsets.all(12)),
-                    _SignUpText(),
-                  ],
-                ))));
+          ],
+        ),
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width * 0.4,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Column(
+            children: [
+              const Padding(padding: EdgeInsets.all(12)),
+              const Text(
+                'Log In',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              ),
+              const Text('Login to get started'),
+              const Padding(padding: EdgeInsets.all(12)),
+              _EmailInput(),
+              const Padding(padding: EdgeInsets.all(12)),
+              _PasswordInput(),
+              const Padding(padding: EdgeInsets.all(12)),
+              _LoginButton(),
+              const Padding(padding: EdgeInsets.all(12)),
+              _SignUpText(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -129,22 +130,28 @@ class _SignUpText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {
-          //   Navigator.push(context,
-          //       MaterialPageRoute(builder: (context) => const SignupForm()));
-          // },
-          Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                  builder: (_) => BlocProvider.value(
-                        value: BlocProvider.of<AuthenticationBloc>(context),
-                        child: SignupPage(),
-                      )));
-        },
-        child: const Text('Sign up',
-            style: TextStyle(
-                fontSize: 20,
-                color: Color.fromARGB(255, 193, 129, 219),
-                decoration: TextDecoration.underline)));
+      onTap: () {
+        //   Navigator.push(context,
+        //       MaterialPageRoute(builder: (context) => const SignupForm()));
+        // },
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (_) => BlocProvider.value(
+              value: BlocProvider.of<AuthenticationBloc>(context),
+              child: const SignupPage(),
+            ),
+          ),
+        );
+      },
+      child: const Text(
+        'Sign up',
+        style: TextStyle(
+          fontSize: 20,
+          color: Color.fromARGB(255, 193, 129, 219),
+          decoration: TextDecoration.underline,
+        ),
+      ),
+    );
   }
 }

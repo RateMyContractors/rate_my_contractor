@@ -6,7 +6,7 @@ class Email extends FormzInput<String, EmailValidationError> {
   const Email.pure() : super.pure('');
   const Email.dirty([super.value = '']) : super.dirty();
 
-  get invalid => null;
+  Null get invalid => null;
 
   @override
   EmailValidationError? validator(String value) {
@@ -23,8 +23,8 @@ class Email extends FormzInput<String, EmailValidationError> {
     if (error == EmailValidationError.empty) {
       return "Email can't be blank";
     } else if (error == EmailValidationError.invalidEmail) {
-      return "Email requires an @";
+      return 'Email requires an @';
     }
-    return "";
+    return '';
   }
 }

@@ -20,8 +20,8 @@ class LastName extends FormzInput<String, LastNameValidationError> {
     if (error == LastNameValidationError.empty) {
       return "Last name can't be blank";
     } else if (error == LastNameValidationError.invalidLastName) {
-      return "Last name can only contain alphabetic characters";
+      return 'Last name can only contain alphabetic characters';
     }
-    return "";
+    return '';
   }
 }

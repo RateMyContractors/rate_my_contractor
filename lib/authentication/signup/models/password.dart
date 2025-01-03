@@ -20,13 +20,13 @@ class Password extends FormzInput<String, PasswordValidationError> {
 
     if (value.length < 8) return PasswordValidationError.invalidPassword;
 
-    final hasUppercase = RegExp(r'[A-Z]').hasMatch(value);
+    final hasUppercase = RegExp('[A-Z]').hasMatch(value);
     if (!hasUppercase) return PasswordValidationError.noUppercase;
 
-    final hasLowercase = RegExp(r'[a-z]').hasMatch(value);
+    final hasLowercase = RegExp('[a-z]').hasMatch(value);
     if (!hasLowercase) return PasswordValidationError.noLowercase;
 
-    final hasDigit = RegExp(r'[0-9]').hasMatch(value);
+    final hasDigit = RegExp('[0-9]').hasMatch(value);
     if (!hasDigit) return PasswordValidationError.noDigit;
 
     final hasSpecialChar = RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value);
@@ -39,16 +39,16 @@ class Password extends FormzInput<String, PasswordValidationError> {
     if (error == PasswordValidationError.empty) {
       return "Password can't be blank";
     } else if (error == PasswordValidationError.invalidPassword) {
-      return "Password length must be more than 8";
+      return 'Password length must be more than 8';
     } else if (error == PasswordValidationError.noUppercase) {
-      return "Password must have Uppercase";
+      return 'Password must have Uppercase';
     } else if (error == PasswordValidationError.noLowercase) {
-      return "Password must have Lowercase";
+      return 'Password must have Lowercase';
     } else if (error == PasswordValidationError.noDigit) {
-      return "Password must have digits";
+      return 'Password must have digits';
     } else if (error == PasswordValidationError.noSpecialChar) {
-      return "Password must have special characters";
+      return 'Password must have special characters';
     }
-    return "";
+    return '';
   }
 }

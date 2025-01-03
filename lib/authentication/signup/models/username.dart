@@ -23,6 +23,6 @@ class Username extends FormzInput<String, UsernameValidationError> {
     } else if (error == UsernameValidationError.containsSpaces) {
       return "Username can't contain spaces";
     }
-    return "";
+    return '';
   }
 }
