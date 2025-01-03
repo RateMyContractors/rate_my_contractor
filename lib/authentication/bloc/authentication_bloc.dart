@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
+import 'package:rate_my_contractor/authentication/login/models/user.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -22,14 +23,14 @@ class AuthenticationBloc
   ) {
     return emit.onEach(
       _authenticationRepository.status,
-      onData: (status) async {
-        switch (status) {
-          case AuthenticationStatus.unauthenticated:
-            return emit(const AuthenticationState.unauthenticated());
-          case AuthenticationStatus.authenticated:
-            return emit(const AuthenticationState.authenticated());
+      onData: (user) async {
+        switch (user.userstatus) {
           case AuthenticationStatus.unknown:
             return emit(const AuthenticationState.unknown());
+          case AuthenticationStatus.authenticated:
+            return emit(AuthenticationState.authenticated(user: user));
+          case AuthenticationStatus.unauthenticated:
+            return emit(const AuthenticationState.unauthenticated());
         }
       },
       onError: addError,
