@@ -131,9 +131,6 @@ class _SignUpText extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        //   Navigator.push(context,
-        //       MaterialPageRoute(builder: (context) => const SignupForm()));
-        // },
         Navigator.push(
           context,
           MaterialPageRoute<void>(

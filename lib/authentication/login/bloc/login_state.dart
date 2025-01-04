@@ -34,4 +34,3 @@ final class LoginState extends Equatable {
   @override
   List<Object> get props => [status, email, password];
 }
-//was trying to figure out how to pass the value that is being returned so like from login_bloc.dart line 60 how does this get passed to the state with success

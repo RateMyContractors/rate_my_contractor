@@ -1,5 +1,3 @@
-//import 'package:rate_my_contractor/authentication/login/models/user_dto.dart';
-
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 
 class User {

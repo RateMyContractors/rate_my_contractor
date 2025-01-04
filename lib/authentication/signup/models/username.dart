@@ -13,7 +13,6 @@ class Username extends FormzInput<String, UsernameValidationError> {
     if (value.contains(' ')) {
       return UsernameValidationError.containsSpaces;
     }
-    //check for uniqueness
     return null;
   }
 

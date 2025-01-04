@@ -107,12 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute<void>(
-                            // builder: (_) => BlocProvider.value(
-                            //       value:
-                            //           BlocProvider.of<AuthenticationBloc>(
-                            //               context),
-                            //       child: const LoginPage(),
-                            //     )));
                             builder: (_) => MultiBlocProvider(
                               providers: [
                                 BlocProvider.value(
