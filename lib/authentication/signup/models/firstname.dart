@@ -15,13 +15,4 @@ class FirstName extends FormzInput<String, FirstNameValidationError> {
     }
     return null;
   }
-
-  String validationError(FirstNameValidationError error) {
-    if (error == FirstNameValidationError.empty) {
-      return "First name can't be blank";
-    } else if (error == FirstNameValidationError.invalidFirstName) {
-      return 'First name can only contain alphabetic characters';
-    }
-    return '';
-  }
 }

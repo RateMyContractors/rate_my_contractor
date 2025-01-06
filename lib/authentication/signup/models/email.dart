@@ -18,13 +18,4 @@ class Email extends FormzInput<String, EmailValidationError> {
         ? null
         : EmailValidationError.invalidEmail;
   }
-
-  String validationError(EmailValidationError error) {
-    if (error == EmailValidationError.empty) {
-      return "Email can't be blank";
-    } else if (error == EmailValidationError.invalidEmail) {
-      return 'Email requires an @';
-    }
-    return '';
-  }
 }

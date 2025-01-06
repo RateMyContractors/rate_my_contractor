@@ -34,21 +34,4 @@ class Password extends FormzInput<String, PasswordValidationError> {
 
     return null;
   }
-
-  String validationError(PasswordValidationError error) {
-    if (error == PasswordValidationError.empty) {
-      return "Password can't be blank";
-    } else if (error == PasswordValidationError.invalidPassword) {
-      return 'Password length must be more than 8';
-    } else if (error == PasswordValidationError.noUppercase) {
-      return 'Password must have Uppercase';
-    } else if (error == PasswordValidationError.noLowercase) {
-      return 'Password must have Lowercase';
-    } else if (error == PasswordValidationError.noDigit) {
-      return 'Password must have digits';
-    } else if (error == PasswordValidationError.noSpecialChar) {
-      return 'Password must have special characters';
-    }
-    return '';
-  }
 }

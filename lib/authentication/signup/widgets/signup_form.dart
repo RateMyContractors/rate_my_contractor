@@ -4,6 +4,11 @@ import 'package:formz/formz.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
 import 'package:rate_my_contractor/authentication/signup/bloc/signup_bloc.dart';
+import 'package:rate_my_contractor/authentication/signup/models/email.dart';
+import 'package:rate_my_contractor/authentication/signup/models/firstname.dart';
+import 'package:rate_my_contractor/authentication/signup/models/lastname.dart';
+import 'package:rate_my_contractor/authentication/signup/models/password.dart';
+import 'package:rate_my_contractor/authentication/signup/models/username.dart';
 
 class SignupForm extends StatelessWidget {
   const SignupForm({super.key});
@@ -190,12 +195,21 @@ class _PasswordInput extends StatelessWidget {
     final displayError = context.select(
       (SignUpBloc bloc) => bloc.state.password.displayError,
     );
-
     String? errormsg;
     if (displayError != null) {
-      errormsg = context.select(
-        (SignUpBloc bloc) => bloc.state.password.validationError(displayError),
-      );
+      if (displayError == PasswordValidationError.empty) {
+        errormsg = "Password can't be blank";
+      } else if (displayError == PasswordValidationError.invalidPassword) {
+        errormsg = 'Password length must be more than 8';
+      } else if (displayError == PasswordValidationError.noUppercase) {
+        errormsg = 'Password must have Uppercase';
+      } else if (displayError == PasswordValidationError.noLowercase) {
+        errormsg = 'Password must have Lowercase';
+      } else if (displayError == PasswordValidationError.noDigit) {
+        errormsg = 'Password must have digits';
+      } else if (displayError == PasswordValidationError.noSpecialChar) {
+        errormsg = 'Password must have special characters';
+      }
     } else {
       errormsg = null;
     }
@@ -228,9 +242,11 @@ class _EmailInput extends StatelessWidget {
     );
     String? errormsg;
     if (displayError != null) {
-      errormsg = context.select(
-        (SignUpBloc bloc) => bloc.state.email.validationError(displayError),
-      );
+      if (displayError == EmailValidationError.empty) {
+        errormsg = "Email can't be blank";
+      } else if (displayError == EmailValidationError.invalidEmail) {
+        errormsg = 'Email requires an @';
+      }
     } else {
       errormsg = null;
     }
@@ -257,9 +273,11 @@ class _LastNameInput extends StatelessWidget {
 
     String? errormsg;
     if (displayError != null) {
-      errormsg = context.select(
-        (SignUpBloc bloc) => bloc.state.lastName.validationError(displayError),
-      );
+      if (displayError == LastNameValidationError.empty) {
+        errormsg = "Last name can't be blank";
+      } else if (displayError == LastNameValidationError.invalidLastName) {
+        errormsg = 'Last name can only contain alphabetic characters';
+      }
     } else {
       errormsg = null;
     }
@@ -287,9 +305,11 @@ class _FirstNameInput extends StatelessWidget {
 
     String? errormsg;
     if (displayError != null) {
-      errormsg = context.select(
-        (SignUpBloc bloc) => bloc.state.firstName.validationError(displayError),
-      );
+      if (displayError == FirstNameValidationError.empty) {
+        errormsg = "First name can't be blank";
+      } else if (displayError == FirstNameValidationError.invalidFirstName) {
+        errormsg = 'First name can only contain alphabetic characters';
+      }
     } else {
       errormsg = null;
     }
@@ -315,9 +335,11 @@ class _UsernameInput extends StatelessWidget {
         context.select((SignUpBloc bloc) => bloc.state.username.displayError);
     String? errormsg;
     if (displayError != null) {
-      errormsg = context.select(
-        (SignUpBloc bloc) => bloc.state.username.validationError(displayError),
-      );
+      if (displayError == UsernameValidationError.empty) {
+        errormsg = "Username can't be blank";
+      } else if (displayError == UsernameValidationError.containsSpaces) {
+        errormsg = "Username can't contain spaces";
+      }
     } else {
       errormsg = null;
     }

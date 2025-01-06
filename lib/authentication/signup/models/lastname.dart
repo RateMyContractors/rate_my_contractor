@@ -15,13 +15,4 @@ class LastName extends FormzInput<String, LastNameValidationError> {
     }
     return null;
   }
-
-  String validationError(LastNameValidationError error) {
-    if (error == LastNameValidationError.empty) {
-      return "Last name can't be blank";
-    } else if (error == LastNameValidationError.invalidLastName) {
-      return 'Last name can only contain alphabetic characters';
-    }
-    return '';
-  }
 }

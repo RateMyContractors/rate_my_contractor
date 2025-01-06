@@ -15,13 +15,4 @@ class Username extends FormzInput<String, UsernameValidationError> {
     }
     return null;
   }
-
-  String validationError(UsernameValidationError error) {
-    if (error == UsernameValidationError.empty) {
-      return "Username can't be blank";
-    } else if (error == UsernameValidationError.containsSpaces) {
-      return "Username can't contain spaces";
-    }
-    return '';
-  }
 }
