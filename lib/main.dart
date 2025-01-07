@@ -5,7 +5,9 @@ import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
+import 'package:rate_my_contractor/error_search_page.dart';
 import 'package:rate_my_contractor/results_page.dart';
+import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
@@ -57,7 +59,8 @@ class MyApp extends StatelessWidget {
                 ),
             ),
           ],
-          child: const MyHomePage(title: 'Contractor Home Page'),
+          //child: const MyHomePage(title: 'Contractor Home Page'),
+          child: const ReviewFormPage(),
         ));
   }
 }
