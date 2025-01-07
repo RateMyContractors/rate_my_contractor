@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
+import 'package:rate_my_contractor/widgets/review_card.dart';
 import 'widgets/about_widget.dart';
 import 'widgets/contractor_card.dart';
 import 'widgets/portfolio_widget.dart';
@@ -37,7 +38,31 @@ class ContractorPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const PortfolioWidget(),
-              
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(color: Colors.grey, width: 1.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 5.0,
+                      offset: const Offset(0, 2),
+                    ),],),                
+              child: Column(  
+                children: [
+                  const Text("Reviews\n",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                  )),
+                  ReviewCard(reviewerName: 'John Smith', rating: 4, comment: 'They are great', date: '01/2/2025'),
+                  ReviewCard(reviewerName: 'Mary Jenkings', rating: 3, comment: 'They are great', date: '01/2/2025'), 
+                ],
+              ), )
             ],
           ),
         ),
