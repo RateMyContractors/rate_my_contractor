@@ -26,11 +26,9 @@ final class SignUpConfirmPasswordChanged extends SignUpEvent {
   const SignUpConfirmPasswordChanged(this.confirmpassword);
 
   final String confirmpassword;
-  
+
   @override
   List<Object> get props => [confirmpassword];
-
-  
 }
 
 final class SignUpFirstNameChanged extends SignUpEvent {
@@ -50,8 +48,6 @@ final class SignUpLastNameChanged extends SignUpEvent {
   @override
   List<Object> get props => [lastName];
 }
-
-
 
 final class SignUpUsernameChanged extends SignUpEvent {
   const SignUpUsernameChanged(this.username);
