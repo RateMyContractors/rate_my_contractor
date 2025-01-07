@@ -126,7 +126,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           state.userType,
         );
         emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (_) {
+      } on Exception catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }
     }
