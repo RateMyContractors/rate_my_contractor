@@ -46,7 +46,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             status: SearchStateStatus.success,
           ),
         );
-      } catch (error) {
+      } on Exception catch (error) {
         emit(
           state.copyWith(
             errormsg: '$error',

@@ -12,15 +12,19 @@ class ContractorDataRemoteProvider {
       final contractorJson = await _supabaseClient
           .from('Contractors') // your table name in Supabase
           .select() //.ilike('company_name', '%$query%');
-          .or('company_name.ilike.%$query%,address.ilike.%$query%,phone.ilike.%$query%,owner.ilike.%$query%,phone.ilike.%$query%'); //not sure what would happen if we added email or owner since we have them all in NUll in our DB
+          .or('company_name.ilike.%$query%,'
+              'address.ilike.%$query%,'
+              'phone.ilike.%$query%,'
+              'owner.ilike.%$query%,'
+              'phone.ilike.%$query%');
       final contractorObjList = contractorJson
           .map<ContractorDto>(
             ContractorDto.fromJson,
           )
           .toList();
       return contractorObjList;
-    } catch (error) {
-      return throw Exception('data fetch failed: contractor table');
+    } on Exception catch (_) {
+      throw Exception('data fetch failed: contractor table');
     }
   }
 
@@ -33,8 +37,8 @@ class ContractorDataRemoteProvider {
 
       final licenseObjList = licensesJson.map(LicenseDto.fromJson).toList();
       return licenseObjList;
-    } catch (error) {
-      return throw Exception('data fetch failed: licenses table');
+    } on Exception catch (_) {
+      throw Exception('data fetch failed: licenses table');
     }
   }
 }

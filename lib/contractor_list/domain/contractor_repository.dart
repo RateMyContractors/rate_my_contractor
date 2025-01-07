@@ -1,6 +1,3 @@
-/*
-The repository layer is wrapped around one or more data providers with which the Bloc layer communicates with
-*/
 import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 
