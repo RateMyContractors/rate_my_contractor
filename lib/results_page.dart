@@ -11,7 +11,6 @@ class ResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var button_visiblity = false;
     return Scaffold(
         appBar: AppBar(),
         body: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
@@ -20,15 +19,68 @@ class ResultsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(width: 30),
+                  DropdownButton(
+                    hint: const Text("Filter"),
+                    items: const [
+                      DropdownMenuItem(value: "Item1", child: Text("All")),
+                      DropdownMenuItem(
+                          value: "Item2", child: Text("City/Town")),
+                      DropdownMenuItem(value: "Item3", child: Text("Type")),
+                      DropdownMenuItem(
+                          value: "1starts",
+                          child: Row(
+                            children: [
+                              Icon(Icons.star_border, size: 30),
+                            ],
+                          )),
+                      DropdownMenuItem(
+                          value: "2starts",
+                          child: Row(
+                            children: [
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                            ],
+                          )),
+                      DropdownMenuItem(
+                          value: "3starts",
+                          child: Row(
+                            children: [
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                            ],
+                          )),
+                      DropdownMenuItem(
+                          value: "4starts",
+                          child: Row(
+                            children: [
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                            ],
+                          )),
+                      DropdownMenuItem(
+                          value: "5starts",
+                          child: Row(
+                            children: [
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                              Icon(Icons.star_border, size: 30),
+                            ],
+                          )),
+                    ],
+                    onChanged: (value) => (),
+                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(9.0),
                       child: SearchBar(
                         hintText: 'Search',
                         onChanged: (value) {
-                          //   "" == value
-                          //       ? button_visiblity = false
-                          //       : button_visiblity = true;
                           context
                               .read<SearchBloc>()
                               .add(SearchTextUpdated(query: value));
@@ -54,7 +106,8 @@ class ResultsPage extends StatelessWidget {
                       child: const Text('Search', //Search button
                           style: TextStyle(
                               fontSize: 20.0,
-                              color: Color.fromARGB(255, 255, 255, 255))))
+                              color: Color.fromARGB(255, 255, 255, 255)))),
+                  SizedBox(width: 30),
                 ],
               ),
               Visibility(
