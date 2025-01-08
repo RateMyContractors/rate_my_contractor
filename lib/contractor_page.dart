@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
+import 'package:rate_my_contractor/widgets/rating_widget.dart';
 import 'package:rate_my_contractor/widgets/review_card.dart';
 import 'widgets/about_widget.dart';
 import 'widgets/contractor_card.dart';
@@ -50,19 +51,33 @@ class ContractorPage extends StatelessWidget {
                       color: Colors.black.withOpacity(0.1),
                       blurRadius: 5.0,
                       offset: const Offset(0, 2),
-                    ),],),                
-              child: Column(  
-                children: [
-                  const Text("Reviews\n",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                  )),
-                  ReviewCard(reviewerName: 'John Smith', rating: 4, comment: 'They are great', date: '01/2/2025'),
-                  ReviewCard(reviewerName: 'Mary Jenkings', rating: 3, comment: 'They are great', date: '01/2/2025'), 
-                ],
-              ), )
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    const Text("Customer Reviews\n",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        )),
+                    //call ratingWidget here
+                    const RatingWidget(
+                        rating: [2, 5, 4, 2, 3, 5, 4, 1, 1, 5, 1, 4, 3]),
+                    ReviewCard(
+                        reviewerName: 'John Smith',
+                        rating: 4,
+                        comment: 'They are great',
+                        date: '01/2/2025'),
+                    ReviewCard(
+                        reviewerName: 'Mary Jenkings',
+                        rating: 3,
+                        comment: 'Loved their work ',
+                        date: '01/2/2025'),
+                  ],
+                ),
+              )
             ],
           ),
         ),
