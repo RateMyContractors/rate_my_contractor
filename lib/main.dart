@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
@@ -12,11 +11,10 @@ import 'package:rate_my_contractor/results_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
-  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   final supabaseClient = SupabaseClient(
-    dotenv.env['SUPABASE_URL']!,
-    dotenv.env['SUPABASE_KEY']!,
+    const String.fromEnvironment('SUPABASE_URL'),
+    const String.fromEnvironment('SUPABASE_KEY'),
     authOptions: const AuthClientOptions(authFlowType: AuthFlowType.implicit),
   );
   final remoteProvider = ContractorDataRemoteProvider(supabaseClient);
