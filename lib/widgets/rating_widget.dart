@@ -86,8 +86,8 @@ class RatingWidget extends StatelessWidget {
           ),
           Column(
             children: List.generate(5, (index) {
-              int star = 5 - index; // Start from 5 stars
-              int count = ratingCounts[star] ?? 0; // Votes for this star
+              int star = 5 - index;
+              int count = ratingCounts[star] ?? 0;
               double percentage = totalRatings > 0 ? count / totalRatings : 0.0;
               return Row(
                 children: [
