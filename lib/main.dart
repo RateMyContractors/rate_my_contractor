@@ -81,31 +81,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
-        leading: const Image(
-          matchTextDirection: true,
-          image: AssetImage('assets/logo.png'),
-          height: 40,
+        leading: Padding(
+          padding: const EdgeInsets.all(8),
+          child:
+              Image.asset('assets/logo.png', height: 40, fit: BoxFit.contain),
         ),
-        title: const Text('RateMyContractor',
-            style: TextStyle(color: Colors.white)),
-        // const Row(
-        //   children: [
-        //     Padding(
-        //       padding: EdgeInsets.only(top: 20),
-        //       child: Image(
-        //         matchTextDirection: true,
-        //         image: AssetImage('assets/logo.png'),
-        //         height: 40,
-        //       ),
-        //     ),
-        //     Flexible(
-        //       child: Text(
-        //         'RateMyContractor',
-        //         style: TextStyle(color: Colors.white),
-        //       ),
-        //     ),
-        //   ],
-        // ),
+        title: const Text(
+          'RateMyContractor',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
