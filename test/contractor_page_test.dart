@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
@@ -14,9 +15,10 @@ import 'package:rate_my_contractor/results_page.dart';
 class MockSearchBloc extends MockBloc<SearchEvent, SearchState>
     implements SearchBloc {}
 
-void main() {
+Future<void> main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
   late MockSearchBloc mockSearchBloc;
-
   setUp(() {
     mockSearchBloc = MockSearchBloc();
   });
