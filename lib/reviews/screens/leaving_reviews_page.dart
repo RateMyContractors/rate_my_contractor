@@ -133,17 +133,14 @@ class ReviewFormPage extends StatelessWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  const Color.fromARGB(113, 175, 76, 163),
+                                  const Color.fromARGB(255, 163, 64, 170),
                             ),
                             onPressed: () {},
-                            child: const Text('Cancel'),
+                            child: const Text('Cancel',
+                                style: TextStyle(color: Colors.white)),
                           ),
                           const SizedBox(width: 8),
                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 77, 13, 70),
-                            ),
                             onPressed: () {},
                             child: const Text('Post'),
                           ),
