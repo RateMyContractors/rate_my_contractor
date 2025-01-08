@@ -6,9 +6,8 @@ class ReviewsDataProvider {
   const ReviewsDataProvider(this._supabaseClient);
 
   final SupabaseClient _supabaseClient;
-//functions to create a review
   Future<void> createReview(String contractorId, String reviewerId, int rating,
-      String comment) async {
+      String comment, int upvote, int downvote) async {
     await _supabaseClient.from('Reviews').insert({
       'contractor_id': contractorId,
       'reviewer_id': reviewerId,

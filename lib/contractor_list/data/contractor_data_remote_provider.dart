@@ -7,7 +7,7 @@ class ContractorDataRemoteProvider {
 
   final SupabaseClient _supabaseClient;
   Future<List<ContractorDto>> getContractors(String query) async {
-    //String query
+    //Join table to reviews to show the average rating for the contractor
     try {
       final contractorJson = await _supabaseClient
           .from('Contractors') // your table name in Supabase
