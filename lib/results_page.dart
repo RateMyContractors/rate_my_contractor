@@ -20,61 +20,8 @@ class ResultsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(width: 30),
-                  DropdownButton(
-                    hint: const Text("Filter"),
-                    items: const [
-                      DropdownMenuItem(value: "Item1", child: Text("All")),
-                      DropdownMenuItem(
-                          value: "Item2", child: Text("City/Town")),
-                      DropdownMenuItem(value: "Item3", child: Text("Type")),
-                      DropdownMenuItem(
-                          value: "1starts",
-                          child: Row(
-                            children: [
-                              Icon(Icons.star_border, size: 30),
-                            ],
-                          )),
-                      DropdownMenuItem(
-                          value: "2starts",
-                          child: Row(
-                            children: [
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                            ],
-                          )),
-                      DropdownMenuItem(
-                          value: "3starts",
-                          child: Row(
-                            children: [
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                            ],
-                          )),
-                      DropdownMenuItem(
-                          value: "4starts",
-                          child: Row(
-                            children: [
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                            ],
-                          )),
-                      DropdownMenuItem(
-                          value: "5starts",
-                          child: Row(
-                            children: [
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                              Icon(Icons.star_border, size: 30),
-                            ],
-                          )),
-                    ],
-                    onChanged: (value) => (),
-                  ),
+                  const StarFilter(),
+                  const SortBy(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(9.0),
@@ -107,7 +54,7 @@ class ResultsPage extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 20.0,
                               color: Color.fromARGB(255, 255, 255, 255)))),
-                  SizedBox(width: 30),
+                  const SizedBox(width: 30),
                 ],
               ),
               Visibility(
@@ -162,6 +109,86 @@ class ResultsPage extends StatelessWidget {
             ],
           );
         }));
+  }
+}
+
+class StarFilter extends StatelessWidget {
+  const StarFilter({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      hint: const Icon(Icons.filter_alt),
+      items: const [
+        DropdownMenuItem(value: "Allstars", child: Text("All Ratings")),
+        DropdownMenuItem(
+            value: "1starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+        DropdownMenuItem(
+            value: "2starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+        DropdownMenuItem(
+            value: "3starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+        DropdownMenuItem(
+            value: "4starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+        DropdownMenuItem(
+            value: "5starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+      ],
+      onChanged: (value) => (),
+    );
+  }
+}
+
+class SortBy extends StatelessWidget {
+  const SortBy({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      hint: const Icon(Icons.sort_rounded),
+      items: const [
+        DropdownMenuItem(value: "asc", child: Text("Ascending (A-Z)")),
+        DropdownMenuItem(value: "des", child: Text("Descending (Z-A)")),
+      ],
+      onChanged: (value) => (),
+    );
   }
 }
 

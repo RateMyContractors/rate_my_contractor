@@ -59,10 +59,10 @@ class MyApp extends StatelessWidget {
                 ),
             ),
           ],
-          // child: const MyHomePage(title: 'Contractor Home Page'),
-          child: const ReviewFormPage(
-            companyName: 'Bridget co.',
-          ),
+          child: const MyHomePage(title: 'Contractor Home Page'),
+          // child: const ReviewFormPage(
+          //   companyName: 'Bridget co.',
+          // ),
         ));
   }
 }
