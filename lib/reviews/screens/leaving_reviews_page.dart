@@ -7,10 +7,13 @@ class ReviewFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
         body: Center(
             child: Container(
-                margin: const EdgeInsets.only(bottom: 70, top: 70),
+                // margin: const EdgeInsets.only(bottom: 70, top: 70),
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.height * 0.95,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -23,7 +26,7 @@ class ReviewFormPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                width: MediaQuery.of(context).size.width * 0.4,
+                //width: MediaQuery.of(context).size.width * 0.7,
                 child: Column(
                   children: [
                     const SizedBox(height: 15),
@@ -89,7 +92,7 @@ class ReviewFormPage extends StatelessWidget {
                     const SizedBox(height: 15),
                     SizedBox(
                       height: 150,
-                      width: 540,
+                      width: MediaQuery.of(context).size.width * 0.6,
                       child: TextFormField(
                         maxLines: null,
                         expands: true,
@@ -120,11 +123,39 @@ class ReviewFormPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Icon(
-                      Icons.camera_alt,
-                      color: Color.fromARGB(255, 163, 64, 170),
-                      size: 50.0,
-                      semanticLabel: 'Insert Photo',
+                    SizedBox(
+                      child: size.width < 800
+                          ? const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                  Column(children: [
+                                    Icon(
+                                      Icons.upload,
+                                      color: Color.fromARGB(255, 163, 64, 170),
+                                      size: 50.0,
+                                      semanticLabel: 'Insert Photo',
+                                    ),
+                                    Text('Upload')
+                                  ]),
+                                  Column(children: [
+                                    Icon(
+                                      Icons.camera_alt,
+                                      color: Color.fromARGB(255, 163, 64, 170),
+                                      size: 50.0,
+                                      semanticLabel: 'take_a_picture',
+                                    ),
+                                    Text('Take a picture')
+                                  ]),
+                                ])
+                          : const Column(children: [
+                              Icon(
+                                Icons.upload,
+                                color: Color.fromARGB(255, 163, 64, 170),
+                                size: 50.0,
+                                semanticLabel: 'Insert Photo',
+                              ),
+                              Text('Upload')
+                            ]),
                     ),
                     const SizedBox(height: 15),
                     Align(
