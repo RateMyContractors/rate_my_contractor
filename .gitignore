@@ -1,9 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flutter
 # Edit at https://www.toptal.com/developers/gitignore?templates=flutter
-
 .env
 drivers/chromedriver
 drivers/chromedriver.exe
+
 ### Flutter ###
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -16,7 +16,6 @@ drivers/chromedriver.exe
 .pub/
 build/
 coverage/
-lib/generated_plugin_registrant.dart
 # For library packages, don’t commit the pubspec.lock file.
 # Regenerating the pubspec.lock file lets you test your package against the latest compatible versions of its dependencies.
 # See https://dart.dev/guides/libraries/private-files#pubspeclock

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'widgets/about_widget.dart';
 import 'widgets/contractor_card.dart';
 import 'widgets/portfolio_widget.dart';
-import 'models/contractor.dart';
+//import 'models/contractor.dart';
 
 class ContractorPage extends StatelessWidget {
   final Contractor contractor;

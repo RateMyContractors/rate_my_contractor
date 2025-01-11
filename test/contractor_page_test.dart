@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
+import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
 import 'package:rate_my_contractor/models/contractor.dart';
 
@@ -36,5 +39,6 @@ void main() {
     ));
     await tester.pumpAndSettle();
     expect(find.text("Portfolio\n"), findsOneWidget);
+
   });
 }
