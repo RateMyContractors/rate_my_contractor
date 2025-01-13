@@ -174,7 +174,7 @@ class _ProfileCard extends StatelessWidget {
                       contractor.companyName,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
                     ),
                     Text(

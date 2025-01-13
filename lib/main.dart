@@ -27,8 +27,25 @@ void main() async {
         RepositoryProvider.value(value: repository),
         RepositoryProvider.value(value: authRepository),
       ],
+      // child: MultiBlocProvider(
+      //   providers: [
+      //     BlocProvider(
+      //       create: (context) => SearchBloc(
+      //         RepositoryProvider.of<ContractorRepository>(context),
+      //       ),
+      //     ),
+      //     BlocProvider(
+      //       create: (context) => AuthenticationBloc(
+      //         authenticationRepository:
+      //             RepositoryProvider.of<AuthenticationRepository>(context),
+      //       )..add(
+      //           AuthenticationSubscriptionRequested(),
+      //         ),
+      //     ),
+      //   ],
       child: const MyApp(),
     ),
+    //),
   );
 }
 
@@ -98,44 +115,55 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-              final username = state.user?.firstname;
-              return state.status != AuthenticationStatus.authenticated
-                  ? TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (_) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider.value(
-                                  value: BlocProvider.of<AuthenticationBloc>(
-                                    context,
+              final username = state.user?.firstname ?? 'Guest';
+              return Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: state.status != AuthenticationStatus.authenticated
+                    ? TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (_) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                    value: BlocProvider.of<AuthenticationBloc>(
+                                      context,
+                                    ),
                                   ),
-                                ),
-                                BlocProvider.value(
-                                  value: BlocProvider.of<SearchBloc>(context),
-                                ),
-                              ],
-                              child: const LoginPage(),
+                                  BlocProvider.value(
+                                    value: BlocProvider.of<SearchBloc>(context),
+                                  ),
+                                ],
+                                child: const LoginPage(),
+                              ),
                             ),
+                          );
+                        },
+                        child: const Text(
+                          'Login',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
+                        ),
+                      )
+                    : Text(
+                        'Hello $username',
+                        style: const TextStyle(
                           fontSize: 20,
                           color: Colors.white,
                         ),
                       ),
-                    )
-                  : Text(
-                      'Hello $username',
-                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                    );
+              );
             },
           ),
+          //],
         ],
+        //),
+        //],
       ),
       body: Center(
         //block builder

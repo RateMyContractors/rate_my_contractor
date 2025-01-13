@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
@@ -14,11 +15,17 @@ import 'package:rate_my_contractor/results_page.dart';
 class MockSearchBloc extends MockBloc<SearchEvent, SearchState>
     implements SearchBloc {}
 
+class MockAuthenticationBloc
+    extends MockBloc<AuthenticationEvent, AuthenticationState>
+    implements AuthenticationBloc {}
+
 void main() {
   late MockSearchBloc mockSearchBloc;
+  late MockAuthenticationBloc mockAuthenticationBloc;
 
   setUp(() {
     mockSearchBloc = MockSearchBloc();
+    mockAuthenticationBloc = MockAuthenticationBloc();
   });
 
   group('ContractorPage Flow', () {
@@ -68,12 +75,19 @@ void main() {
           ],
         ),
       );
+      when(() => mockAuthenticationBloc.state)
+          .thenReturn(const AuthenticationState.unauthenticated());
 
-      //  Pump the ResultsPage with the mock bloc
+      //  Pump the ResultsPage with the mock
       await tester.pumpWidget(
         MaterialApp(
-          home: BlocProvider<SearchBloc>.value(
-            value: mockSearchBloc,
+          home: MultiBlocProvider(
+            providers: [
+              BlocProvider<SearchBloc>.value(value: mockSearchBloc),
+              BlocProvider<AuthenticationBloc>.value(
+                value: mockAuthenticationBloc,
+              ),
+            ],
             child: const ResultsPage(),
           ),
           routes: {
@@ -84,7 +98,6 @@ void main() {
           },
         ),
       );
-
       //Verify ResultsPage
       expect(find.byType(ResultsPage), findsOneWidget);
 
@@ -134,12 +147,18 @@ void main() {
           ],
         ),
       );
+      when(() => mockAuthenticationBloc.state)
+          .thenReturn(const AuthenticationState.unauthenticated());
 
-      // Pump the MyHomePage with routes
       await tester.pumpWidget(
         MaterialApp(
-          home: BlocProvider<SearchBloc>.value(
-            value: mockSearchBloc,
+          home: MultiBlocProvider(
+            providers: [
+              BlocProvider<SearchBloc>.value(value: mockSearchBloc),
+              BlocProvider<AuthenticationBloc>.value(
+                value: mockAuthenticationBloc,
+              ),
+            ],
             child: const MyHomePage(title: 'Find who you need'),
           ),
           routes: {
