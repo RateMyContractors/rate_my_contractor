@@ -27,25 +27,8 @@ void main() async {
         RepositoryProvider.value(value: repository),
         RepositoryProvider.value(value: authRepository),
       ],
-      // child: MultiBlocProvider(
-      //   providers: [
-      //     BlocProvider(
-      //       create: (context) => SearchBloc(
-      //         RepositoryProvider.of<ContractorRepository>(context),
-      //       ),
-      //     ),
-      //     BlocProvider(
-      //       create: (context) => AuthenticationBloc(
-      //         authenticationRepository:
-      //             RepositoryProvider.of<AuthenticationRepository>(context),
-      //       )..add(
-      //           AuthenticationSubscriptionRequested(),
-      //         ),
-      //     ),
-      //   ],
       child: const MyApp(),
     ),
-    //),
   );
 }
 
@@ -160,13 +143,9 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-          //],
         ],
-        //),
-        //],
       ),
       body: Center(
-        //block builder
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -224,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(16),
                     ),
                     child: const Text(
-                      'Search', //Search button
+                      'Search',
                       style: TextStyle(
                         fontSize: 20,
                         color: Color.fromARGB(255, 255, 255, 255),

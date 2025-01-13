@@ -11,7 +11,6 @@ import 'package:rate_my_contractor/contractor_page.dart';
 import 'package:rate_my_contractor/main.dart';
 import 'package:rate_my_contractor/results_page.dart';
 
-//SetUp mockBloc to be passed thru pages
 class MockSearchBloc extends MockBloc<SearchEvent, SearchState>
     implements SearchBloc {}
 
@@ -31,7 +30,6 @@ void main() {
   group('ContractorPage Flow', () {
     testWidgets('Displays contractor cards and navigates to contractorpage',
         (WidgetTester tester) async {
-      // Set initial state for the SearchBloc
       when(() => mockSearchBloc.state).thenReturn(
         const SearchState(
           status: SearchStateStatus.success,
@@ -78,7 +76,6 @@ void main() {
       when(() => mockAuthenticationBloc.state)
           .thenReturn(const AuthenticationState.unauthenticated());
 
-      //  Pump the ResultsPage with the mock
       await tester.pumpWidget(
         MaterialApp(
           home: MultiBlocProvider(
@@ -98,19 +95,15 @@ void main() {
           },
         ),
       );
-      //Verify ResultsPage
       expect(find.byType(ResultsPage), findsOneWidget);
 
-      //Search for Z in SearchBar, Verify contractor cards are displayed
       await tester.enterText(find.byType(TextField), 'Z');
       expect(find.text('"Z" ELECTRIC'), findsOne);
       expect(find.text('ELIZABETH'), findsOne);
       await tester.pumpAndSettle();
 
-      //See if tags are present on the cards
       expect(find.text('Electrical Contractor (General)'), findsWidgets);
 
-      //Naviagte to ContractorPage by tapping on card
       await tester.tap(
         find
             .descendant(
@@ -121,7 +114,6 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      //Verify navigation to ContractorPage
       expect(find.byType(ContractorPage), findsOneWidget);
       expect(find.text('"Z" ELECTRIC'), findsOneWidget);
       expect(find.text('(708) 423-6967'), findsOneWidget);
@@ -131,7 +123,6 @@ void main() {
     testWidgets(
         'Search on HomePage and Navigate to ResultsPage, '
         'ContractorPage to show results', (WidgetTester tester) async {
-      // Set the initial state
       when(() => mockSearchBloc.state).thenReturn(
         const SearchState(
           status: SearchStateStatus.success,
@@ -170,24 +161,19 @@ void main() {
         ),
       );
 
-      // Verify HomePage
       expect(find.byType(MyHomePage), findsAtLeast(1));
       expect(find.text('Find who you need'), findsOneWidget);
 
-      // Search for contractor in SearchBar, press SearchButton
       await tester.enterText(find.byType(SearchBar), '"Z" ELECTRIC');
       await tester.tap(find.widgetWithText(ElevatedButton, 'Search'));
       await tester.pumpAndSettle();
 
-      // Verify navigation to ResultsPage
       expect(find.byType(ResultsPage), findsOneWidget);
 
-      //Naviagte to ContractorPage by tapping on card
       expect(find.text('"Z" ELECTRIC'), findsOneWidget);
       await tester.tap(find.text('"Z" ELECTRIC'));
       await tester.pumpAndSettle();
 
-      //Verify navigation to ContractorPage
       expect(find.byType(ContractorPage), findsOneWidget);
       expect(find.text('"Z" ELECTRIC'), findsOneWidget);
       expect(find.text('(708) 423-6967'), findsOneWidget);
