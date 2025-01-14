@@ -31,6 +31,7 @@ class ContractorRepository {
 
       List<RatingDto> ratingMatch =
           dataSetRating.where((rating) => rating.id == contractor.id).toList();
+      print("ratingMath $ratingMatch");
 
       return Contractor(
           id: contractor.id,
@@ -40,10 +41,12 @@ class ContractorRepository {
           phone: contractor.phone,
           email: contractor.email,
           licenses: licensesMatch,
-          rating: ratingMatch
-                  .map((rating) => rating.rating)
-                  .reduce((a, b) => a! + b!)! /
-              ratingMatch.length,
+          rating: ratingMatch.isEmpty
+              ? 0
+              : ratingMatch
+                      .map((rating) => rating.rating)
+                      .reduce((a, b) => a! + b!)! /
+                  ratingMatch.length,
           tags: licensesMatch.map((licenses) => licenses.licenseType).toList());
     }).toList();
 
