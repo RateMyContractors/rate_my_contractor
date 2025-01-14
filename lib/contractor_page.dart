@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
+import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
 import 'package:rate_my_contractor/widgets/rating_widget.dart';
 import 'package:rate_my_contractor/widgets/review_card.dart';
 import 'widgets/about_widget.dart';
@@ -10,7 +11,6 @@ import 'widgets/portfolio_widget.dart';
 class ContractorPage extends StatelessWidget {
   final Contractor contractor;
   const ContractorPage({super.key, required this.contractor});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +56,16 @@ class ContractorPage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ReviewFormPage(
+                                    companyName: contractor.companyName)),
+                          );
+                        },
+                        child: const Text('Write a review')),
                     const Text("Customer Reviews\n",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
