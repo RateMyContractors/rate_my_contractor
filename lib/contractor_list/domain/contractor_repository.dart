@@ -16,6 +16,7 @@ class ContractorRepository {
     for (var dsContractor in dataSetContractors) {
       contractorIds.add(dsContractor.id);
     }
+    print(contractorIds);
 
     List<LicenseDto> dataSetLicenses =
         await _contractorDataRemoteProvider.getLicenses(contractorIds);
@@ -28,8 +29,8 @@ class ContractorRepository {
           .where((license) => license.contractorId == contractor.id)
           .toList();
 
-      double ratingMatch =
-          dataSetRating.where((rating) => rating.id == contractor.id) as double;
+      List<RatingDto> ratingMatch =
+          dataSetRating.where((rating) => rating.id == contractor.id).toList();
 
       return Contractor(
           id: contractor.id,
@@ -39,7 +40,10 @@ class ContractorRepository {
           phone: contractor.phone,
           email: contractor.email,
           licenses: licensesMatch,
-          rating: ratingMatch,
+          rating: ratingMatch
+                  .map((rating) => rating.rating)
+                  .reduce((a, b) => a! + b!)! /
+              ratingMatch.length,
           tags: licensesMatch.map((licenses) => licenses.licenseType).toList());
     }).toList();
 

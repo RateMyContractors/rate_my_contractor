@@ -41,25 +41,15 @@ class ContractorDataRemoteProvider {
   }
 
   Future<List<RatingDto>> getRating(List<String> contractorIds) async {
-    // try {
-    //   final ratingsJson = await _supabaseClient
-    //       .from("Reviews")
-    //       .select('contractor_id, avg(rating) as average_ratings');
-
-    //   List<RatingDto> ratingObjList =
-    //       ratingsJson.map((rating) => RatingDto.fromJson(rating)).toList();
-    //   return ratingObjList;
-    // } catch (error) {
-    //   return throw (Exception("data fetch failed: Ratings table"));
-    // }
     try {
       final ratingsJson = await _supabaseClient
-          .from("Reviews")
+          .from('Reviews')
           .select('contractor_id, rating')
           .inFilter('contractor_id', contractorIds);
-
+      print(ratingsJson);
       List<RatingDto> ratingObjList =
           ratingsJson.map((rating) => RatingDto.fromJson(rating)).toList();
+      print(ratingObjList);
 
       //here we have a list of objects of ratings
       return ratingObjList;
