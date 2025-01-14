@@ -1,31 +1,33 @@
 class ReviewsDto {
+  final String reviewid;
   final String contractorid;
   final String reviewerid;
-  final String reviewid;
   final String comment;
   final int rating;
+  final int upvote;
+  final int downvote;
 
-  ReviewsDto({
-    required this.contractorid,
-    required this.reviewerid, 
-    required this.reviewid, 
-    required this.comment, 
-    required this.rating, 
-    
-  });
+  ReviewsDto(
+      {required this.reviewid,
+      required this.contractorid,
+      required this.reviewerid,
+      required this.comment,
+      required this.rating,
+      required this.upvote,
+      required this.downvote});
 
-
-  factory ReviewsDto.fromJson(Map<String,dynamic> json){
+//i forgot what factory was for and why are we using ?? ''
+  factory ReviewsDto.fromJson(Map<String, dynamic> json) {
     return ReviewsDto(
-      contractorid:  json['contractorid'] ?? '',
-      reviewerid: json['reviewerid'],
-      reviewid: json['reviewid'],
-      comment:json['comment'],
-      rating:json['rating'],
-    );
+        reviewerid: json['reviewer_id'] ?? '',
+        contractorid: json['contractor_id'] ?? '',
+        reviewid: json['reviewer_id'] ?? '',
+        comment: json['comment'],
+        rating: json['rating'],
+        upvote: json['up_vote'],
+        downvote: json['down_vote']);
   }
-
   @override
-  String toString() => 
-      'ContractorDto(contractorid: $contractorid, reviwerid: $reviewerid, reviewerid: $reviewerid, comment: $comment, rating: $rating)';
+  String toString() =>
+      'ReviewsDto(reviewerid: $reviewerid, contractorid: $contractorid, reviewerid: $reviewerid, comment: $comment, rating: $rating)';
 }

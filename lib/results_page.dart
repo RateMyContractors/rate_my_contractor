@@ -11,7 +11,6 @@ class ResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var button_visiblity = false;
     return Scaffold(
         appBar: AppBar(),
         body: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
@@ -20,15 +19,15 @@ class ResultsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(width: 30),
+                  const StarFilter(),
+                  const SortBy(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(9.0),
                       child: SearchBar(
                         hintText: 'Search',
                         onChanged: (value) {
-                          //   "" == value
-                          //       ? button_visiblity = false
-                          //       : button_visiblity = true;
                           context
                               .read<SearchBloc>()
                               .add(SearchTextUpdated(query: value));
@@ -54,7 +53,8 @@ class ResultsPage extends StatelessWidget {
                       child: const Text('Search', //Search button
                           style: TextStyle(
                               fontSize: 20.0,
-                              color: Color.fromARGB(255, 255, 255, 255))))
+                              color: Color.fromARGB(255, 255, 255, 255)))),
+                  const SizedBox(width: 30),
                 ],
               ),
               Visibility(
@@ -109,6 +109,86 @@ class ResultsPage extends StatelessWidget {
             ],
           );
         }));
+  }
+}
+
+class StarFilter extends StatelessWidget {
+  const StarFilter({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      hint: const Icon(Icons.filter_alt),
+      items: const [
+        DropdownMenuItem(value: "Allstars", child: Text("All Ratings")),
+        DropdownMenuItem(
+            value: "1starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+        DropdownMenuItem(
+            value: "2starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+        DropdownMenuItem(
+            value: "3starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+        DropdownMenuItem(
+            value: "4starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+        DropdownMenuItem(
+            value: "5starts",
+            child: Row(
+              children: [
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+              ],
+            )),
+      ],
+      onChanged: (value) => (),
+    );
+  }
+}
+
+class SortBy extends StatelessWidget {
+  const SortBy({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      hint: const Icon(Icons.sort_rounded),
+      items: const [
+        DropdownMenuItem(value: "asc", child: Text("Ascending (A-Z)")),
+        DropdownMenuItem(value: "des", child: Text("Descending (Z-A)")),
+      ],
+      onChanged: (value) => (),
+    );
   }
 }
 

@@ -2,41 +2,35 @@ import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ReviewsDataProvider {
+  //htrt
   const ReviewsDataProvider(this._supabaseClient);
 
   final SupabaseClient _supabaseClient;
+  Future<void> createReview(String contractorId, String reviewerId, int rating,
+      String comment, int upvote, int downvote) async {
+    await _supabaseClient.from('Reviews').insert({
+      'contractor_id': contractorId,
+      'reviewer_id': reviewerId,
+      'rating': rating,
+      'comment': comment
+    });
+  }
 
-  /// Make query to get all reviews
-  Future<List<ReviewsDto>> getReviews(String query) async {
-    //String query
+//functions to get reviews for specific contractor
+
+  Future<List<ReviewsDto>> getReviews(String contractorId) async {
     try {
       final reviewJson = await _supabaseClient
           .from('Reviews')
           .select('*')
-          .eq('contractor_id', query);
-      print(query);
-
-      List<ReviewsDto> ReviewObjList = reviewJson
+          .eq("contractor_id", contractorId);
+      List<ReviewsDto> reviewsObjList = reviewJson
           .map<ReviewsDto>((review) => ReviewsDto.fromJson(review))
           .toList();
-      return ReviewObjList;
+      //htrt
+      return reviewsObjList;
     } catch (error) {
-      return throw (Exception("data fetch failed: review table"));
-    }
-  }
-
-  Future<void> createReview(String contractorid, String reviewerid,
-      String reviewid, String comment, int rating) async {
-    try {
-      await _supabaseClient.from('Reviews').insert({
-        'contractor_id': contractorid,
-        'reviewer_id': reviewerid,
-        'review_id': reviewid,
-        'comment': comment,
-        'rating': rating,
-      });
-    } catch (error) {
-      throw (Exception('data insert failed: review table'));
+      return throw (Exception("review data fetch failed"));
     }
   }
 }
