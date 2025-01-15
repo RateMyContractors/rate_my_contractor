@@ -166,7 +166,9 @@ class ReviewFormPage extends StatelessWidget {
                               backgroundColor:
                                   const Color.fromARGB(255, 163, 64, 170),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                             child: const Text('Cancel',
                                 style: TextStyle(color: Colors.white)),
                           ),
