@@ -14,11 +14,10 @@ class AboutUsWidget extends StatelessWidget {
         color: Colors.white,
         border: Border.all(color: Colors.grey),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
             blurRadius: 5,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
