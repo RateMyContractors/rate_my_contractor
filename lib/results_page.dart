@@ -5,7 +5,6 @@ import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart
 import 'package:rate_my_contractor/contractor_page.dart';
 import 'package:rate_my_contractor/widgets/tag_widget.dart';
 
-//first try to use bloc provider here
 class ResultsPage extends StatelessWidget {
   const ResultsPage({super.key});
 
@@ -26,9 +25,6 @@ class ResultsPage extends StatelessWidget {
                       child: SearchBar(
                         hintText: 'Search',
                         onChanged: (value) {
-                          //   "" == value
-                          //       ? button_visiblity = false
-                          //       : button_visiblity = true;
                           context
                               .read<SearchBloc>()
                               .add(SearchTextUpdated(query: value));
@@ -52,7 +48,7 @@ class ResultsPage extends StatelessWidget {
                           }
                         : null,
                     child: const Text(
-                      'Search', //Search button
+                      'Search',
                       style: TextStyle(
                         fontSize: 20,
                         color: Color.fromARGB(255, 255, 255, 255),
@@ -102,7 +98,7 @@ class ResultsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 20, // Adjust the size as needed
+                          width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
                             valueColor:
@@ -178,7 +174,7 @@ class _ProfileCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      contractor.ownerName ?? '', //if no owner name found
+                      contractor.ownerName ?? '',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
