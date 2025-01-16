@@ -5,8 +5,12 @@ import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/error_search_page.dart';
 import 'package:rate_my_contractor/results_page.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
+import 'package:rate_my_contractor/reviews/data/reviews_data_provider.dart';
+import 'package:rate_my_contractor/reviews/domain/reviews_repository.dart';
 import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,10 +28,14 @@ void main() async {
   final repository = ContractorRepository(remoteProvider);
   final userDataProvider = UserDataProvider(supabaseClient);
   final authRepository = AuthenticationRepository(userDataProvider);
+  final reviewsDataRepository = ReviewsDataProvider(supabaseClient);
+  final reviewsRepository = ReviewsRepository(reviewsDataRepository);
+
   runApp(MultiRepositoryProvider(
     providers: [
       RepositoryProvider.value(value: repository),
       RepositoryProvider.value(value: authRepository),
+      RepositoryProvider.value(value: reviewsRepository),
     ],
     child: const MyApp(),
   ));
@@ -50,6 +58,10 @@ class MyApp extends StatelessWidget {
                 RepositoryProvider.of<ContractorRepository>(context),
               ),
             ),
+            BlocProvider(
+                create: (context) => ReviewsBloc(
+                      RepositoryProvider.of<ReviewsRepository>(context),
+                    )),
             BlocProvider(
               create: (context) => AuthenticationBloc(
                 authenticationRepository:
@@ -172,9 +184,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           currBlocContext,
                           MaterialPageRoute(
-                              builder: (_) => BlocProvider.value(
-                                    value: BlocProvider.of<SearchBloc>(
-                                        currBlocContext),
+                              builder: (_) => MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider.value(
+                                          value: BlocProvider.of<SearchBloc>(
+                                              currBlocContext)),
+                                      BlocProvider.value(
+                                          value: BlocProvider.of<ReviewsBloc>(
+                                              currBlocContext)),
+                                    ],
                                     child: const ResultsPage(),
                                   )),
                         );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
 import 'contractor_list/domain/models/contractor.dart';
 import 'widgets/tag_widget.dart';
@@ -203,12 +204,16 @@ class _ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        BlocProvider.of<ReviewsBloc>(context)
+            .add(ReviewsRequest(contractorId: contractor.id));
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ContractorPage(contractor: contractor),
-          ),
-        );
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider.value(
+                value: BlocProvider.of<ReviewsBloc>(context),
+                child: ContractorPage(contractor: contractor),
+              ),
+            ));
       },
       child: Container(
         decoration: BoxDecoration(
