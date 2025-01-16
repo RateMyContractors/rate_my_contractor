@@ -62,11 +62,15 @@ class ContractorPage extends StatelessWidget {
                         TextButton(
                             onPressed: () {
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ReviewFormPage(
-                                        companyName: contractor.companyName)),
-                              );
+                                  context,
+                                  MaterialPageRoute<void>(
+                                      builder: (_) => BlocProvider.value(
+                                          value: BlocProvider.of<ReviewsBloc>(
+                                              context),
+                                          child: ReviewFormPage(
+                                              companyName:
+                                                  contractor.companyName,
+                                              contractorid: contractor.id))));
                             },
                             child: const Text('Write a review')),
                         const Text("Customer Reviews\n",

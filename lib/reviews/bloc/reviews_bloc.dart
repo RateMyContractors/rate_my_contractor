@@ -18,7 +18,6 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
     on<ReviewsRequest>((event, emit) async {
       try {
         emit(state.copyWith(status: ReviewsStateStatus.loading));
-        print('state.contractorid$state.contractorId');
         final reviews =
             await repository.getReviews(event.contractorid); //state.query
         emit(state.copyWith(
@@ -30,12 +29,13 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
     });
 
     on<ReviewsFormButtonPressed>((event, emit) async {
+      print(event);
       try {
         await repository.createReview(
-          state.contractorId,
-          state.reviewerId,
-          state.rating,
-          state.comment,
+          event.contractorid,
+          event.reviewerid,
+          event.rating,
+          event.comment,
           state.upvote,
           state.downvote,
         );
