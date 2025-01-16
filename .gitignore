@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flutter
 # Edit at https://www.toptal.com/developers/gitignore?templates=flutter
 .env
+drivers/chromedriver
+drivers/chromedriver.exe
+
 ### Flutter ###
 # Flutter/Dart/Pub related
 **/doc/api/
