@@ -6,6 +6,7 @@ class SearchState extends Equatable {
   final SearchStateStatus status;
   final String query;
   final String errormsg;
+  //final String filter;
   final List<Contractor> contractors;
 
   const SearchState({
@@ -13,6 +14,7 @@ class SearchState extends Equatable {
     this.errormsg = '',
     this.contractors = const [],
     this.status = SearchStateStatus.initial,
+    //this.filter = '',
   });
 
   SearchState copyWith({

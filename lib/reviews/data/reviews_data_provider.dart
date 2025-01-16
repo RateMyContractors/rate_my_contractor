@@ -2,7 +2,6 @@ import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ReviewsDataProvider {
-  //htrt
   const ReviewsDataProvider(this._supabaseClient);
 
   final SupabaseClient _supabaseClient;
@@ -16,8 +15,6 @@ class ReviewsDataProvider {
     });
   }
 
-//functions to get reviews for specific contractor
-
   Future<List<ReviewsDto>> getReviews(String contractorId) async {
     try {
       final reviewJson = await _supabaseClient
@@ -27,7 +24,7 @@ class ReviewsDataProvider {
       List<ReviewsDto> reviewsObjList = reviewJson
           .map<ReviewsDto>((review) => ReviewsDto.fromJson(review))
           .toList();
-      //htrt
+      print('message being returned from supabase $reviewsObjList');
       return reviewsObjList;
     } catch (error) {
       return throw (Exception("review data fetch failed"));

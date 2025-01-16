@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'contractor_list/domain/models/contractor.dart';
 import 'widgets/tag_widget.dart';
 
@@ -11,6 +12,7 @@ class ResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var filteredcontractor;
     return Scaffold(
         appBar: AppBar(),
         body: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
@@ -47,7 +49,7 @@ class ResultsPage extends StatelessWidget {
                           ? () {
                               context
                                   .read<SearchBloc>()
-                                  .add(SearchButtonPressed());
+                                  .add(const SearchButtonPressed());
                             }
                           : null,
                       child: const Text('Search', //Search button
@@ -62,12 +64,15 @@ class ResultsPage extends StatelessWidget {
                     state.status == SearchStateStatus.success ? true : false,
                 child: Expanded(
                   child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    itemCount: state.contractors.length,
-                    itemBuilder: (context, index) {
-                      return _ProfileCard(contractor: state.contractors[index]);
-                    },
-                  ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      itemCount: state.contractors.length,
+                      itemBuilder: (context, index) {
+                        if (state.contractors[index].rating != 0) {
+                          return _ProfileCard(
+                              contractor: state.contractors[index]);
+                        }
+                        return null;
+                      }),
                 ),
               ),
               Visibility(
@@ -201,12 +206,20 @@ class _ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var contractor_id = contractor.id;
+    print('contractor id being passed:$contractor_id');
     return GestureDetector(
       onTap: () {
+        BlocProvider.of<ReviewsBloc>(context)
+            .add(ReviewsRequest(contractorid: contractor_id));
+
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => ContractorPage(contractor: contractor),
+          MaterialPageRoute<void>(
+            builder: (_) => BlocProvider.value(
+              value: BlocProvider.of<ReviewsBloc>(context),
+              child: ContractorPage(contractor: contractor),
+            ),
           ),
         );
       },

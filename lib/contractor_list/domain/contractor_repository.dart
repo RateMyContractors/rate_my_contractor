@@ -16,7 +16,6 @@ class ContractorRepository {
     for (var dsContractor in dataSetContractors) {
       contractorIds.add(dsContractor.id);
     }
-    print(contractorIds);
 
     List<LicenseDto> dataSetLicenses =
         await _contractorDataRemoteProvider.getLicenses(contractorIds);
