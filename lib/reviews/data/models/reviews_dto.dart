@@ -20,6 +20,12 @@ class ReviewsDto {
 
 //i forgot what factory was for and why are we using ?? ''
   factory ReviewsDto.fromJson(Map<String, dynamic> json) {
+    var rawdate = json['created_at'];
+    print("Raw date: $rawdate");
+    final dateparsed = DateTime.parse(rawdate);
+    print("Parsed date: $dateparsed");
+    final dateOnly =
+        DateTime(dateparsed.year, dateparsed.month, dateparsed.day);
     return ReviewsDto(
         reviewerid: json['reviewer_id'] ?? '',
         contractorid: json['contractor_id'] ?? '',
@@ -28,7 +34,7 @@ class ReviewsDto {
         rating: json['rating'],
         upvote: json['up_vote'],
         downvote: json['down_vote'],
-        date: json['created_at']);
+        date: dateOnly.toString());
   }
   @override
   String toString() =>
