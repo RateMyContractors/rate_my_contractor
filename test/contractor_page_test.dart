@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
@@ -19,6 +20,12 @@ class MockAuthenticationBloc
     implements AuthenticationBloc {}
 
 void main() {
+  dotenv.testLoad(
+    mergeWith: {
+      'API_KEY': 'test_key',
+      'BASE_URL': 'http://localhost',
+    },
+  );
   late MockSearchBloc mockSearchBloc;
   late MockAuthenticationBloc mockAuthenticationBloc;
 
