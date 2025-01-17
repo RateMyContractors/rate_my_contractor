@@ -12,6 +12,7 @@ class ReviewsState extends Equatable {
   final int upvote;
   final int downvote;
   final List<ReviewsDto> reviews;
+  final String date;
 
   const ReviewsState({
     this.reviewerId = '',
@@ -23,6 +24,7 @@ class ReviewsState extends Equatable {
     this.errormsg = '',
     this.reviews = const [],
     this.status = ReviewsStateStatus.initial,
+    this.date = '',
   });
 
   ReviewsState copyWith({
@@ -35,6 +37,7 @@ class ReviewsState extends Equatable {
     int? downvote,
     List<ReviewsDto>? reviews,
     ReviewsStateStatus? status,
+    String? date,
   }) {
     return ReviewsState(
         contractorId: contractorId ?? this.contractorId,
@@ -45,7 +48,8 @@ class ReviewsState extends Equatable {
         rating: rating ?? this.rating,
         comment: comment ?? this.comment,
         upvote: upvote ?? this.upvote,
-        downvote: downvote ?? this.downvote);
+        downvote: downvote ?? this.downvote,
+        date: date ?? this.date);
   }
 
   @override
@@ -58,7 +62,8 @@ class ReviewsState extends Equatable {
         rating,
         comment,
         upvote,
-        downvote
+        downvote,
+        date
       ];
 
   @override

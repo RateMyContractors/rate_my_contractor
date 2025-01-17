@@ -6,6 +6,7 @@ class ReviewsDto {
   final int rating;
   final int upvote;
   final int downvote;
+  final String date;
 
   ReviewsDto(
       {required this.reviewid,
@@ -14,7 +15,8 @@ class ReviewsDto {
       required this.comment,
       required this.rating,
       required this.upvote,
-      required this.downvote});
+      required this.downvote,
+      required this.date});
 
 //i forgot what factory was for and why are we using ?? ''
   factory ReviewsDto.fromJson(Map<String, dynamic> json) {
@@ -25,7 +27,8 @@ class ReviewsDto {
         comment: json['comment'],
         rating: json['rating'],
         upvote: json['up_vote'],
-        downvote: json['down_vote']);
+        downvote: json['down_vote'],
+        date: json['created_at']);
   }
   @override
   String toString() =>

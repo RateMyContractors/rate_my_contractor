@@ -10,13 +10,14 @@ abstract class ReviewsEvent extends Equatable {
 }
 
 class ReviewsFormButtonPressed extends ReviewsEvent {
-  const ReviewsFormButtonPressed(
-      {required this.contractorid,
-      required this.reviewerid,
-      required this.rating,
-      required this.comment,
-      required this.upvote,
-      required this.downvote});
+  const ReviewsFormButtonPressed({
+    required this.contractorid,
+    required this.reviewerid,
+    required this.rating,
+    required this.comment,
+    required this.upvote,
+    required this.downvote,
+  });
 
   final String contractorid;
   final String reviewerid;

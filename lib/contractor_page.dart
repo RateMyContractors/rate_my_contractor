@@ -96,7 +96,7 @@ class ContractorPage extends StatelessWidget {
                                             state.reviews[index].reviewerid,
                                         rating: state.reviews[index].rating,
                                         comment: state.reviews[index].comment,
-                                        date: '01/2/2025');
+                                        date: state.reviews[index].date);
                                   },
                                 )))
                       ],

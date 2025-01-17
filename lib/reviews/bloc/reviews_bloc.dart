@@ -36,8 +36,8 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           event.reviewerid,
           event.rating,
           event.comment,
-          state.upvote,
-          state.downvote,
+          event.upvote,
+          event.downvote,
         );
         emit(state.copyWith(status: ReviewsStateStatus.success));
       } catch (error) {

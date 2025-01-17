@@ -7,14 +7,6 @@ class ReviewsDataProvider {
   final SupabaseClient _supabaseClient;
   Future<void> createReview(String contractorId, String reviewerId, int rating,
       String comment, int upvote, int downvote) async {
-    print('The values are: ${[
-      contractorId,
-      reviewerId,
-      rating,
-      comment,
-      upvote,
-      downvote
-    ]}');
     try {
       await _supabaseClient.from('Reviews').insert({
         'contractor_id': contractorId,
@@ -23,7 +15,7 @@ class ReviewsDataProvider {
         'comment': comment
       });
     } catch (error) {
-      print(Exception("supabase issue$error"));
+      Exception("supabase issue$error");
     }
   }
 

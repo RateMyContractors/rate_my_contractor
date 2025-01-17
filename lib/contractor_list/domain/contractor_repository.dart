@@ -41,10 +41,11 @@ class ContractorRepository {
           licenses: licensesMatch,
           rating: ratingMatch.isEmpty
               ? 0
-              : ratingMatch
-                      .map((rating) => rating.rating)
-                      .reduce((a, b) => a! + b!)! /
-                  ratingMatch.length,
+              : double.parse((ratingMatch
+                          .map((rating) => rating.rating)
+                          .reduce((a, b) => a! + b!)! /
+                      ratingMatch.length)
+                  .toStringAsFixed(1)),
           tags: licensesMatch.map((licenses) => licenses.licenseType).toList());
     }).toList();
 
