@@ -20,12 +20,6 @@ class MockAuthenticationBloc
     implements AuthenticationBloc {}
 
 void main() {
-  dotenv.testLoad(
-    mergeWith: {
-      'API_KEY': 'test_key',
-      'BASE_URL': 'http://localhost',
-    },
-  );
   late MockSearchBloc mockSearchBloc;
   late MockAuthenticationBloc mockAuthenticationBloc;
 
