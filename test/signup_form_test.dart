@@ -39,7 +39,6 @@
 //         .thenReturn(const AuthenticationState.unauthenticated());
 //   });
 
-
 //   group('Signup page Flow', () {
 //     testWidgets('Contains Contractor and User button', (tester) async {
 //       // Ensure the initial state is unauthenticated
@@ -60,7 +59,6 @@
 //           ),
 //           routes: {
 //             '/login': (context) => BlocProvider<LoginBloc>.value(
-//                   value: LoginBloc(authenticationRepository: mockAuthenticationRepository),
 //                   child: const LoginPage(),
 //                 ),
 //             // '/signup': (context) => BlocProvider<AuthenticationBloc>.value(
