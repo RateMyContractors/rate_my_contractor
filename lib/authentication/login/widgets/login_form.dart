@@ -39,20 +39,40 @@ class LoginForm extends StatelessWidget {
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Column(
             children: [
-              const Padding(padding: EdgeInsets.all(12)),
-              const Text(
-                'Log In',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              const Expanded(child: Padding(padding: EdgeInsets.all(12))),
+              const Expanded(
+                child: Text(
+                  'Log In',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
               ),
-              const Text('Login to get started'),
-              const Padding(padding: EdgeInsets.all(12)),
-              _EmailInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _PasswordInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _LoginButton(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _SignUpText(),
+              const Expanded(
+                child: Text('Login to get started'),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _EmailInput(),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _PasswordInput(),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _LoginButton(),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _SignUpText(),
+              ),
             ],
           ),
         ),
