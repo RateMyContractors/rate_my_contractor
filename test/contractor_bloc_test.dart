@@ -27,5 +27,17 @@ void main() {
       expect: () =>
           [const SearchState(query: 'i', status: SearchStateStatus.valid)],
     );
+
+    blocTest<SearchBloc, SearchState>(
+      'emits [query empty] when SearchTextUpdated',
+      build: () => SearchBloc(mockRepository),
+      act: (bloc) => bloc.add(const SearchTextUpdated(query: '')),
+      expect: () => [
+        const SearchState(
+          errormsg: 'User input failed to enter anyhting',
+          status: SearchStateStatus.invalid,
+        ),
+      ],
+    );
   });
 }
