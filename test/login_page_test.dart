@@ -75,6 +75,18 @@ void main() {
       await tester.tap(loginButtonFinder);
       await tester.pumpAndSettle();
       expect(find.byType(LoginPage), findsOneWidget);
+
+      const emailKey = Key('loginForm_emailInput_textField');
+      const passwordKey = Key('loginForm_passwordInput_textField');
+      const buttonKey = Key('loginForm_continue_raisedButton');
+
+      final emailField = find.byKey(emailKey);
+      final passwordField = find.byKey(passwordKey);
+      final button = find.byKey(buttonKey);
+
+      expect(emailField, findsOneWidget);
+      expect(passwordField, findsOneWidget);
+      expect(button, findsOneWidget);
     });
   });
 }
