@@ -6,7 +6,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/bloc/login_bloc.dart';
-import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
+
+import 'package:rate_my_contractor/authentication/login/widgets/login_form.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/main.dart';
 
@@ -62,7 +63,7 @@ void main() {
                       ),
                       BlocProvider<LoginBloc>.value(value: mockLoginBloc),
                     ],
-                    child: const LoginPage(),
+                    child: const LoginForm(),
                   ),
             },
           ),
@@ -74,7 +75,7 @@ void main() {
       final loginButtonFinder = find.widgetWithText(TextButton, 'Login');
       await tester.tap(loginButtonFinder);
       await tester.pumpAndSettle();
-      expect(find.byType(LoginPage), findsOneWidget);
+      expect(find.byType(LoginForm), findsOneWidget);
 
       const emailKey = Key('loginForm_emailInput_textField');
       const passwordKey = Key('loginForm_passwordInput_textField');
