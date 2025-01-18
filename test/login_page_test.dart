@@ -88,6 +88,7 @@ void main() {
       expect(emailField, findsOneWidget);
       expect(passwordField, findsOneWidget);
       expect(button, findsOneWidget);
+      expect(find.text('Login to get started'), findsOne);
     });
   });
 }
