@@ -71,26 +71,48 @@ class SignupForm extends StatelessWidget {
           child: Column(
             children: [
               const Padding(padding: EdgeInsets.all(12)),
-              const Text(
-                'Sign Up',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              const Expanded(
+                child: Text(
+                  'Sign Up',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
               ),
-              const Text('Create your account to get started'),
-              _ContractorAndUserButton(),
+              const Expanded(
+                child: Text('Create your account to get started'),
+              ),
+              Expanded(
+                child: _ContractorAndUserButton(),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _FirstNameInput(),
+              ),
               const Padding(padding: EdgeInsets.all(12)),
-              _FirstNameInput(),
+              Expanded(
+                child: _LastNameInput(),
+              ),
               const Padding(padding: EdgeInsets.all(12)),
-              _LastNameInput(),
+              Expanded(
+                child: _UsernameInput(),
+              ),
               const Padding(padding: EdgeInsets.all(12)),
-              _UsernameInput(),
+              Expanded(
+                child: _EmailInput(),
+              ),
               const Padding(padding: EdgeInsets.all(12)),
-              _EmailInput(),
+              Expanded(
+                child: _PasswordInput(),
+              ),
               const Padding(padding: EdgeInsets.all(12)),
-              _PasswordInput(),
+              Expanded(
+                child: _ReEnterPasswordInput(),
+              ),
               const Padding(padding: EdgeInsets.all(12)),
-              _ReEnterPasswordInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _SignUpButton(),
+              Expanded(
+                child: _SignUpButton(),
+              ),
             ],
           ),
         ),
