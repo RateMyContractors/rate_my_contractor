@@ -25,6 +25,7 @@ class ReviewsDataProvider {
           .from('Reviews')
           .select('*')
           .eq("contractor_id", contractorId);
+      print('Raw Response: $reviewJson');
       List<ReviewsDto> reviewsObjList = reviewJson
           .map<ReviewsDto>((review) => ReviewsDto.fromJson(review))
           .toList();

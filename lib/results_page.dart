@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
-import 'package:rate_my_contractor/contractor_page.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
+import 'package:rate_my_contractor/contractor_page.dart';
 import 'contractor_list/domain/models/contractor.dart';
 import 'widgets/tag_widget.dart';
 
@@ -67,11 +67,12 @@ class ResultsPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       itemCount: state.contractors.length,
                       itemBuilder: (context, index) {
-                        if (state.contractors[index].rating != 0) {
-                          return _ProfileCard(
-                              contractor: state.contractors[index]);
-                        }
-                        return null;
+                        // if (state.contractors[index].rating != 0) {
+                        //   return _ProfileCard(
+                        //       contractor: state.contractors[index]);
+                        // }
+                        return _ProfileCard(
+                            contractor: state.contractors[index]);
                       }),
                 ),
               ),
@@ -211,17 +212,15 @@ class _ProfileCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         BlocProvider.of<ReviewsBloc>(context)
-            .add(ReviewsRequest(contractorid: contractor_id));
-
+            .add(ReviewsRequest(contractorId: contractor.id));
         Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (_) => BlocProvider.value(
-              value: BlocProvider.of<ReviewsBloc>(context),
-              child: ContractorPage(contractor: contractor),
-            ),
-          ),
-        );
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider.value(
+                value: BlocProvider.of<ReviewsBloc>(context),
+                child: ContractorPage(contractor: contractor),
+              ),
+            ));
       },
       child: Container(
         decoration: BoxDecoration(

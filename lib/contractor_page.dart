@@ -5,6 +5,7 @@ import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
 import 'package:rate_my_contractor/widgets/rating_widget.dart';
 import 'package:rate_my_contractor/widgets/review_card.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'widgets/about_widget.dart';
 import 'widgets/contractor_card.dart';
 import 'widgets/portfolio_widget.dart';
@@ -22,10 +23,9 @@ class ContractorPage extends StatelessWidget {
         body: BlocBuilder<ReviewsBloc, ReviewsState>(builder: (context, state) {
           return SingleChildScrollView(
             child: Container(
-              color: const Color.fromARGB(0, 255, 255, 255),
-              margin: const EdgeInsets.only(right: 120, left: 120, top: 20),
-              child: Column(
-                children: [
+                color: const Color.fromARGB(0, 255, 255, 255),
+                margin: const EdgeInsets.only(right: 120, left: 120, top: 20),
+                child: Column(children: [
                   ContractorCard(
                     id: contractor.id,
                     companyName: contractor.companyName,
@@ -62,15 +62,13 @@ class ContractorPage extends StatelessWidget {
                         TextButton(
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                      builder: (_) => BlocProvider.value(
-                                          value: BlocProvider.of<ReviewsBloc>(
-                                              context),
-                                          child: ReviewFormPage(
-                                              companyName:
-                                                  contractor.companyName,
-                                              contractorid: contractor.id))));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ReviewFormPage(
+                                          companyName: contractor.companyName,
+                                          contractorid: '',
+                                        )),
+                              );
                             },
                             child: const Text('Write a review')),
                         const Text("Customer Reviews\n",
@@ -80,31 +78,34 @@ class ContractorPage extends StatelessWidget {
                               color: Color.fromARGB(255, 0, 0, 0),
                             )),
                         //call ratingWidget here
-                        const RatingWidget(
-                            rating: [2, 5, 4, 2, 3, 5, 4, 1, 1, 5, 1, 4, 3]),
+                        RatingWidget(
+                            rating: contractor.rating,
+                            totalRating: contractor
+                                .totalRating), //[2, 3, 4, 5]), // totalRatingList),
                         Visibility(
                             visible: state.status == ReviewsStateStatus.success
                                 ? true
                                 : false,
-                            child: SizedBox(
-                                height: 300,
-                                child: ListView.builder(
-                                  itemCount: state.reviews.length,
-                                  itemBuilder: (context, index) {
-                                    return ReviewCard(
-                                        reviewerName:
-                                            state.reviews[index].reviewerid,
-                                        rating: state.reviews[index].rating,
-                                        comment: state.reviews[index].comment,
-                                        date: state.reviews[index].date);
-                                  },
-                                )))
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.reviews.length,
+                              itemBuilder: (context, index) {
+                                // final review =
+                                //     state.reviews[index].reviewerId;
+                                return ReviewCard(
+                                  reviewerName: state.reviews[index].reviewerId,
+                                  rating: state.reviews[index].rating,
+                                  comment: state.reviews[index].comment,
+                                  date:
+                                      state.reviews[index].date, //review.date,
+                                );
+                              },
+                            ))
                       ],
                     ),
                   )
-                ],
-              ),
-            ),
+                ])),
           );
         }));
   }

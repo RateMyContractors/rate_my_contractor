@@ -33,6 +33,7 @@ void main() {
           address: '10821 S KENTON AVE, OAK LAWN, IL 60453-',
           tags: ['Electrical Contractor (General)'],
           phone: '(708) 423-6967',
+          totalRating: [1, 3],
           licenses: [
             LicenseDto(
               licenseNumber: 'ECC92504',
@@ -52,6 +53,7 @@ void main() {
           address: '94 JOHN ST, HINDSDALE',
           tags: ['Electrical Contractor (General)'],
           phone: '(520)-956-1258',
+          totalRating: [5, 3],
           licenses: [
             LicenseDto(
               licenseNumber: 'ECC92504',
@@ -126,6 +128,7 @@ void main() {
               address: '10821 S KENTON AVE, OAK LAWN, IL 60453-',
               tags: ['Electrical Contractor (General)'],
               phone: '(708) 423-6967',
+              totalRating: [1, 3],
               licenses: [],
             ),
           ],

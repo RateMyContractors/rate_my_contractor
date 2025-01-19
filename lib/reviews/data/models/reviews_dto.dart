@@ -1,7 +1,7 @@
 class ReviewsDto {
   final String reviewid;
-  final String contractorid;
-  final String reviewerid;
+  final String contractorId;
+  final String reviewerId;
   final String comment;
   final int rating;
   final int upvote;
@@ -10,8 +10,8 @@ class ReviewsDto {
 
   ReviewsDto(
       {required this.reviewid,
-      required this.contractorid,
-      required this.reviewerid,
+      required this.contractorId,
+      required this.reviewerId,
       required this.comment,
       required this.rating,
       required this.upvote,
@@ -27,16 +27,16 @@ class ReviewsDto {
     final dateOnly =
         DateTime(dateparsed.year, dateparsed.month, dateparsed.day);
     return ReviewsDto(
-        reviewerid: json['reviewer_id'] ?? '',
-        contractorid: json['contractor_id'] ?? '',
+        reviewerId: json['reviewer_id'] ?? '',
+        contractorId: json['contractor_id'] ?? '',
         reviewid: json['reviewer_id'] ?? '',
-        comment: json['comment'],
-        rating: json['rating'],
-        upvote: json['up_vote'],
-        downvote: json['down_vote'],
+        comment: json['comment'] ?? '',
+        rating: json['rating'] ?? 0,
+        upvote: json['up_vote'] ?? 0,
+        downvote: json['down_vote'] ?? 0,
         date: dateOnly.toString());
   }
   @override
   String toString() =>
-      'ReviewsDto(reviewerid: $reviewerid, contractorid: $contractorid, reviewerid: $reviewerid, comment: $comment, rating: $rating)';
+      'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId, comment: $comment, rating: $rating)';
 }
