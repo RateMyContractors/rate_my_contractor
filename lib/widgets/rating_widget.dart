@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
 
 class RatingWidget extends StatelessWidget {
-  final List<int> rating;
+  final double rating;
+  final List<double?> totalRating;
 
   const RatingWidget({
     super.key,
     required this.rating,
+    required this.totalRating,
   });
 
   @override
   Widget build(BuildContext context) {
-    int totalRate = 0;
-    for (int rate in rating) {
-      totalRate += rate;
-    }
-    double avgRate = totalRate / rating.length;
-    String avgRatetext = avgRate.toStringAsFixed(1);
+    double avgRate = rating;
+    print(totalRating);
     Map<int, int> ratingCounts = {for (var i = 1; i <= 5; i++) i: 0};
-    for (int ratings in rating) {
-      ratingCounts[ratings] = (ratingCounts[ratings] ?? 0) + 1;
+    int totalRatingLength = totalRating.length; //add text for total reviews
+    //print(ratingCounts);
+
+    for (var ratings in totalRating) {
+      if (ratings != null) {
+        int roundedRating = ratings.round();
+        // Ensure that the rating is between 1 and 5
+        if (roundedRating >= 1 && roundedRating <= 5) {
+          ratingCounts[roundedRating] = (ratingCounts[roundedRating] ?? 0) + 1;
+        }
+      }
     }
-    int totalRatings = rating.length; //add text for total reviews
-    print(ratingCounts);
+
     return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(16.0),
@@ -75,7 +81,7 @@ class RatingWidget extends StatelessWidget {
               }),
               const SizedBox(width: 10.0),
               Text(
-                '${avgRatetext} out of 5',
+                '${avgRate} out of 5',
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Roboto',
@@ -88,7 +94,8 @@ class RatingWidget extends StatelessWidget {
             children: List.generate(5, (index) {
               int star = 5 - index;
               int count = ratingCounts[star] ?? 0;
-              double percentage = totalRatings > 0 ? count / totalRatings : 0.0;
+              double percentage =
+                  totalRatingLength > 0 ? count / totalRatingLength : 0.0;
               return Row(
                 children: [
                   Text('$star ★',
@@ -104,7 +111,7 @@ class RatingWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 5.0),
-                  Text('${percentage.toStringAsFixed(2)}%',
+                  Text('${((percentage * 100).toStringAsFixed(1))}%',
                       style: const TextStyle(fontSize: 14.0)), // Count label
                 ],
               );

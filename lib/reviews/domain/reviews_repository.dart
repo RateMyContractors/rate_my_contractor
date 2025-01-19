@@ -14,8 +14,10 @@ class ReviewsRepository {
   Future<List<ReviewsDto>> getReviews(String contractorId) async {
     List<ReviewsDto> dataSetReviews =
         await _reviewsDataProvider.getReviews(contractorId);
+    for (var review in dataSetReviews) {
+      print('Review: $review');
+    }
     return dataSetReviews;
   }
-
   //do a loop or some to get the list of the rating to send to dto and widget
 }

@@ -8,12 +8,16 @@ class ReviewsDataProvider {
   final SupabaseClient _supabaseClient;
   Future<void> createReview(String contractorId, String reviewerId, int rating,
       String comment, int upvote, int downvote) async {
-    await _supabaseClient.from('Reviews').insert({
-      'contractor_id': contractorId,
-      'reviewer_id': reviewerId,
-      'rating': rating,
-      'comment': comment
-    });
+    try {
+      await _supabaseClient.from('Reviews').insert({
+        'contractor_id': contractorId,
+        'reviewer_id': reviewerId,
+        'rating': rating,
+        'comment': comment
+      });
+    } catch (error) {
+      Exception("supabase issue$error");
+    }
   }
 
 //functions to get reviews for specific contractor
@@ -24,10 +28,11 @@ class ReviewsDataProvider {
           .from('Reviews')
           .select('*')
           .eq("contractor_id", contractorId);
+      print('Raw Response: $reviewJson');
       List<ReviewsDto> reviewsObjList = reviewJson
           .map<ReviewsDto>((review) => ReviewsDto.fromJson(review))
           .toList();
-      //htrt
+      print('Total Reviews Mapped: $reviewsObjList');
       return reviewsObjList;
     } catch (error) {
       return throw (Exception("review data fetch failed"));

@@ -32,6 +32,11 @@ class ContractorRepository {
       List<RatingDto> ratingMatch =
           dataSetRating.where((rating) => rating.id == contractor.id).toList();
 
+      List<double?> totalRatingList =
+          ratingMatch.map((rating) => rating.rating).toList();
+
+      print('Ratings for contractor $contractorIds: $totalRatingList');
+
       return Contractor(
           id: contractor.id,
           companyName: contractor.companyname,
@@ -40,12 +45,14 @@ class ContractorRepository {
           phone: contractor.phone,
           email: contractor.email,
           licenses: licensesMatch,
+          totalRating: totalRatingList,
           rating: ratingMatch.isEmpty
               ? 0
-              : ratingMatch
-                      .map((rating) => rating.rating)
-                      .reduce((a, b) => a! + b!)! /
-                  ratingMatch.length,
+              : double.parse((ratingMatch
+                          .map((rating) => rating.rating)
+                          .reduce((a, b) => a! + b!)! /
+                      ratingMatch.length)
+                  .toStringAsFixed(1)),
           tags: licensesMatch.map((licenses) => licenses.licenseType).toList());
     }).toList();
 

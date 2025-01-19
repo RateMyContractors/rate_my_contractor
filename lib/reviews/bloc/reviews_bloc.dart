@@ -17,7 +17,7 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           status: ReviewsStateStatus.initial,
         )) {
     on<ReviewsRequest>((event, emit) async {
-      print('this is $event.contractorId');
+      //print('this is $event.contractorId');
       try {
         emit(state.copyWith(status: ReviewsStateStatus.loading));
         final reviews =

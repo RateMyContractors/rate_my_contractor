@@ -37,15 +37,16 @@ class ReviewsState extends Equatable {
     ReviewsStateStatus? status,
   }) {
     return ReviewsState(
-        contractorId: contractorId ?? this.contractorId,
-        errormsg: errormsg ?? this.errormsg,
-        reviews: reviews ?? this.reviews,
-        status: status ?? this.status,
-        reviewerId: reviewerId ?? this.reviewerId,
-        rating: rating ?? this.rating,
-        comment: comment ?? this.comment,
-        upvote: upvote ?? this.upvote,
-        downvote: downvote ?? this.downvote);
+      contractorId: contractorId ?? this.contractorId,
+      errormsg: errormsg ?? this.errormsg,
+      reviews: reviews ?? this.reviews,
+      status: status ?? this.status,
+      reviewerId: reviewerId ?? this.reviewerId,
+      rating: rating ?? this.rating,
+      comment: comment ?? this.comment,
+      upvote: upvote ?? this.upvote,
+      downvote: downvote ?? this.downvote,
+    );
   }
 
   @override
@@ -58,7 +59,7 @@ class ReviewsState extends Equatable {
         rating,
         comment,
         upvote,
-        downvote
+        downvote,
       ];
 
   @override

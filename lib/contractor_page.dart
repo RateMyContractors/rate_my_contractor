@@ -75,8 +75,10 @@ class ContractorPage extends StatelessWidget {
                               color: Color.fromARGB(255, 0, 0, 0),
                             )),
                         //call ratingWidget here
-                        const RatingWidget(
-                            rating: [4, 2, 1, 3, 4, 5, 1, 5, 2, 3, 4]),
+                        RatingWidget(
+                            rating: contractor.rating,
+                            totalRating: contractor
+                                .totalRating), //[2, 3, 4, 5]), // totalRatingList),
                         Visibility(
                             visible: state.status == ReviewsStateStatus.success
                                 ? true

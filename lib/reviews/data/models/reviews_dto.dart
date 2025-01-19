@@ -22,10 +22,10 @@ class ReviewsDto {
         reviewerId: json['reviewer_id'] ?? '',
         contractorId: json['contractor_id'] ?? '',
         reviewid: json['reviewer_id'] ?? '',
-        comment: json['comment'],
-        rating: json['rating'],
-        upvote: json['up_vote'],
-        downvote: json['down_vote']);
+        comment: json['comment'] ?? '',
+        rating: json['rating'] ?? 0,
+        upvote: json['up_vote'] ?? 0,
+        downvote: json['down_vote'] ?? 0);
   }
   @override
   String toString() =>

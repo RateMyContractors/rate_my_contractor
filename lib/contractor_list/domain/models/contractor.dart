@@ -16,6 +16,7 @@ class Contractor extends Equatable {
   final String? email;
   final String? aboutUs;
   final List<LicenseDto> licenses;
+  final List<double?> totalRating;
 
   const Contractor({
     required this.id,
@@ -29,6 +30,7 @@ class Contractor extends Equatable {
     this.email = "email not provided",
     this.aboutUs,
     required this.licenses,
+    required this.totalRating,
   });
 
   @override
@@ -42,6 +44,7 @@ class Contractor extends Equatable {
         phone,
         email,
         aboutUs,
-        licenses
+        licenses,
+        totalRating,
       ];
 }
