@@ -98,6 +98,12 @@ void main() {
       await tester.tap(signUpText);
       await tester.pumpAndSettle();
       expect(find.byType(SignupPage), findsOneWidget);
+
+      final contractorButton = find.text('Contractor');
+      final userButton = find.text('User');
+
+      expect(contractorButton, findsOneWidget);
+      expect(userButton, findsOneWidget);
     });
   });
 }
