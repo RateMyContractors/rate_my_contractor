@@ -25,7 +25,7 @@ class ReviewCard extends StatelessWidget {
     ];
     return Container(
         //color: Colors.transparent,
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(10.0),

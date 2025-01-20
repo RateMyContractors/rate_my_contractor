@@ -86,22 +86,35 @@ class ContractorPage extends StatelessWidget {
                             visible: state.status == ReviewsStateStatus.success
                                 ? true
                                 : false,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.reviews.length,
-                              itemBuilder: (context, index) {
-                                // final review =
-                                //     state.reviews[index].reviewerId;
-                                return ReviewCard(
-                                  reviewerName: state.reviews[index].reviewerId,
-                                  rating: state.reviews[index].rating,
-                                  comment: state.reviews[index].comment,
-                                  date:
-                                      state.reviews[index].date, //review.date,
-                                );
-                              },
-                            ))
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Center(
+                                      child: SizedBox(
+                                          width: 360,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: state.reviews.length,
+                                            itemBuilder: (context, index) {
+                                              // final review =
+                                              //     state.reviews[index].reviewerId;
+                                              return Center(
+                                                  child: ReviewCard(
+                                                reviewerName: state
+                                                    .reviews[index].reviewerId,
+                                                rating:
+                                                    state.reviews[index].rating,
+                                                comment: state
+                                                    .reviews[index].comment,
+                                                date: state.reviews[index]
+                                                    .date, //review.date,
+                                              ));
+                                            },
+                                          )))
+                                ]))
                       ],
                     ),
                   )
