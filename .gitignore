@@ -8,6 +8,7 @@ drivers/chromedriver.exe
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/
+.vscode
 .flutter-plugins
 .flutter-plugins-dependencies
 .fvm/flutter_sdk

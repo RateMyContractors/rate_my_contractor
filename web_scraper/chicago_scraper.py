@@ -169,5 +169,3 @@ def main(pages:int):
 if __name__ == "__main__":
     pages = input("How many pages would you like to scrape?") or "1"
     main(int(pages))
-
-

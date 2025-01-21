@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
+import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
-import 'contractor_list/domain/models/contractor.dart';
-import 'widgets/tag_widget.dart';
+import 'package:rate_my_contractor/widgets/tag_widget.dart';
 
-//first try to use bloc provider here
 class ResultsPage extends StatelessWidget {
   const ResultsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var button_visiblity = false;
     return Scaffold(
-        appBar: AppBar(),
-        body: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+      appBar: AppBar(),
+      body: BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state) {
           return Column(
             children: [
               Row(
@@ -22,13 +21,10 @@ class ResultsPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(9.0),
+                      padding: const EdgeInsets.all(9),
                       child: SearchBar(
                         hintText: 'Search',
                         onChanged: (value) {
-                          //   "" == value
-                          //       ? button_visiblity = false
-                          //       : button_visiblity = true;
                           context
                               .read<SearchBloc>()
                               .add(SearchTextUpdated(query: value));
@@ -37,32 +33,35 @@ class ResultsPage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: state.status == SearchStateStatus.valid
-                            ? const Color.fromARGB(255, 123, 127, 211)
-                            : Colors.grey,
-                        textStyle: const TextStyle(fontSize: 20),
-                        padding: const EdgeInsets.all(16),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: state.status == SearchStateStatus.valid
+                          ? const Color.fromARGB(255, 123, 127, 211)
+                          : Colors.grey,
+                      textStyle: const TextStyle(fontSize: 20),
+                      padding: const EdgeInsets.all(16),
+                    ),
+                    onPressed: state.status == SearchStateStatus.valid
+                        ? () {
+                            context
+                                .read<SearchBloc>()
+                                .add(const SearchButtonPressed());
+                          }
+                        : null,
+                    child: const Text(
+                      'Search',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(255, 255, 255, 255),
                       ),
-                      onPressed: state.status == SearchStateStatus.valid
-                          ? () {
-                              context
-                                  .read<SearchBloc>()
-                                  .add(SearchButtonPressed());
-                            }
-                          : null,
-                      child: const Text('Search', //Search button
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color: Color.fromARGB(255, 255, 255, 255))))
+                    ),
+                  ),
                 ],
               ),
               Visibility(
-                visible:
-                    state.status == SearchStateStatus.success ? true : false,
+                visible: state.status == SearchStateStatus.success,
                 child: Expanded(
                   child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     itemCount: state.contractors.length,
                     itemBuilder: (context, index) {
                       return _ProfileCard(contractor: state.contractors[index]);
@@ -71,53 +70,60 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
               Visibility(
-                  visible:
-                      state.status == SearchStateStatus.failure ? true : false,
-                  child: Expanded(
-                      child: Container(
+                visible: state.status == SearchStateStatus.failure,
+                child: Expanded(
+                  child: Container(
                     color: Colors.red,
                     constraints: const BoxConstraints.expand(),
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Search Failed',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(state.errormsg)
-                        ]),
-                  ))),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Search Failed',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(state.errormsg),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Visibility(
-                  visible:
-                      state.status == SearchStateStatus.loading ? true : false,
-                  child: Expanded(
-                      child: Container(
+                visible: state.status == SearchStateStatus.loading,
+                child: Expanded(
+                  child: Container(
                     color: const Color.fromARGB(255, 152, 148, 148),
                     constraints: const BoxConstraints.expand(),
                     child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 20, // Adjust the size as needed
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                              strokeWidth: 2.0,
-                            ),
-                          )
-                        ]),
-                  ))),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           );
-        }));
+        },
+      ),
+    );
   }
 }
 
 class _ProfileCard extends StatelessWidget {
-  final Contractor contractor;
-
   const _ProfileCard({
     required this.contractor,
   });
+  final Contractor contractor;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +131,7 @@ class _ProfileCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute<void>(
             builder: (context) => ContractorPage(contractor: contractor),
           ),
         );
@@ -134,13 +140,12 @@ class _ProfileCard extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: const Color.fromARGB(255, 217, 202, 202),
-            width: 1.0,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: SizedBox(
           width: double.infinity,
-          height: 150.0,
+          height: 150,
           child: Row(
             children: [
               const SizedBox(width: 30),
@@ -161,23 +166,27 @@ class _ProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(contractor.companyName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        )),
-                    Text(contractor.ownerName ?? '', //if no owner name found
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: Colors.grey,
-                        )),
+                    Text(
+                      contractor.companyName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      contractor.ownerName ?? '',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.grey,
+                      ),
+                    ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: contractor.tags.map((tag) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.only(right: 8),
                             child: OvalTags(tag: tag),
                           );
                         }).toList(),
@@ -192,18 +201,22 @@ class _ProfileCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.star,
-                          color: Color.fromARGB(255, 255, 222, 59)),
-                      Text(contractor.rating.toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                          ))
+                      const Icon(
+                        Icons.star,
+                        color: Color.fromARGB(255, 255, 222, 59),
+                      ),
+                      Text(
+                        contractor.rating.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(width: 30)
+              const SizedBox(width: 30),
             ],
           ),
         ),

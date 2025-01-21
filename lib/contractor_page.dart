@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
-import 'widgets/about_widget.dart';
-import 'widgets/contractor_card.dart';
-import 'widgets/portfolio_widget.dart';
+import 'package:rate_my_contractor/widgets/about_widget.dart';
+import 'package:rate_my_contractor/widgets/contractor_card.dart';
+import 'package:rate_my_contractor/widgets/portfolio_widget.dart';
 //import 'models/contractor.dart';
 
 class ContractorPage extends StatelessWidget {
+  const ContractorPage({required this.contractor, super.key});
   final Contractor contractor;
-  const ContractorPage({super.key, required this.contractor});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +32,8 @@ class ContractorPage extends StatelessWidget {
                 tags: contractor.tags,
               ),
               const SizedBox(height: 20),
-              AboutUsWidget(
-                aboutUs: contractor.aboutUs,
+              const AboutUsWidget(
+                aboutUs: 'this is about us',
               ),
               const SizedBox(height: 20),
               const PortfolioWidget(),
