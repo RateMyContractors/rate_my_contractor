@@ -133,45 +133,45 @@ class StarFilter extends StatelessWidget {
             value: "1starts",
             child: Row(
               children: [
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
               ],
             )),
         DropdownMenuItem(
             value: "2starts",
             child: Row(
               children: [
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
               ],
             )),
         DropdownMenuItem(
             value: "3starts",
             child: Row(
               children: [
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
               ],
             )),
         DropdownMenuItem(
             value: "4starts",
             child: Row(
               children: [
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
               ],
             )),
         DropdownMenuItem(
             value: "5starts",
             child: Row(
               children: [
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
-                Icon(Icons.star, color: Colors.amberAccent, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
+                Icon(Icons.star, color: Colors.orange, size: 20),
               ],
             )),
       ],
@@ -284,8 +284,10 @@ class _ProfileCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.star,
-                          color: Color.fromARGB(255, 255, 222, 59)),
+                      const Icon(
+                        Icons.star,
+                        color: Colors.orange,
+                      ),
                       Text(contractor.rating.toString(),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
