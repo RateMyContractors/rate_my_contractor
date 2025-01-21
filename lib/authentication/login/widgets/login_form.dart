@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/login/bloc/login_bloc.dart';
+import 'package:rate_my_contractor/authentication/signup/screens/signup_page.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -18,17 +20,61 @@ class LoginForm extends StatelessWidget {
             );
         }
       },
-      child: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _EmailInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _LoginButton(),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 120, top: 120),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey),
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
           ],
+        ),
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width * 0.4,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Column(
+            children: [
+              const Expanded(child: Padding(padding: EdgeInsets.all(12))),
+              const Expanded(
+                child: Text(
+                  'Log In',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+              ),
+              const Expanded(
+                child: Text('Login to get started'),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _EmailInput(),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _PasswordInput(),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _LoginButton(),
+              ),
+              const Expanded(
+                child: Padding(padding: EdgeInsets.all(12)),
+              ),
+              Expanded(
+                child: _SignUpText(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -49,6 +95,7 @@ class _EmailInput extends StatelessWidget {
       },
       decoration: InputDecoration(
         labelText: 'email',
+        border: const OutlineInputBorder(),
         errorText: displayError != null ? 'invalid email' : null,
       ),
     );
@@ -70,6 +117,7 @@ class _PasswordInput extends StatelessWidget {
       obscureText: true,
       decoration: InputDecoration(
         labelText: 'password',
+        border: const OutlineInputBorder(),
         errorText: displayError != null ? 'invalid password' : null,
       ),
     );
@@ -93,6 +141,33 @@ class _LoginButton extends StatelessWidget {
           ? () => context.read<LoginBloc>().add(const LoginSubmitted())
           : null,
       child: const Text('Login'),
+    );
+  }
+}
+
+class _SignUpText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (_) => BlocProvider.value(
+              value: BlocProvider.of<AuthenticationBloc>(context),
+              child: const SignupPage(),
+            ),
+          ),
+        );
+      },
+      child: const Text(
+        'Sign up',
+        style: TextStyle(
+          fontSize: 20,
+          color: Color.fromARGB(255, 193, 129, 219),
+          decoration: TextDecoration.underline,
+        ),
+      ),
     );
   }
 }

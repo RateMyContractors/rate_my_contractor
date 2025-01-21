@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/models/email.dart';
 import 'package:rate_my_contractor/authentication/login/models/password.dart';
+import 'package:rate_my_contractor/authentication/login/models/user.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -57,8 +58,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           state.email.value,
           state.password.value,
         );
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (_) {
+      } on Exception catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));
       }
     }

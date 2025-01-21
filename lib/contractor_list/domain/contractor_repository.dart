@@ -2,36 +2,36 @@ import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_p
 import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
 import 'package:rate_my_contractor/contractor_list/data/models/rating_dto.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
-import '../data/models/contractor_dto.dart';
 
 class ContractorRepository {
   const ContractorRepository(this._contractorDataRemoteProvider);
   final ContractorDataRemoteProvider _contractorDataRemoteProvider;
 
   Future<List<Contractor>> getContractors(String query) async {
-    final List<ContractorDto> dataSetContractors =
+    print(query);
+    final dataSetContractors =
         await _contractorDataRemoteProvider.getContractors(query);
-    final List<String> contractorIds = [];
+    final contractorIds = <String>[];
 
-    for (var dsContractor in dataSetContractors) {
+    for (final dsContractor in dataSetContractors) {
       contractorIds.add(dsContractor.id);
     }
 
-    List<LicenseDto> dataSetLicenses =
+    final dataSetLicenses =
         await _contractorDataRemoteProvider.getLicenses(contractorIds);
 
-    List<RatingDto> dataSetRating =
+    final dataSetRating =
         await _contractorDataRemoteProvider.getRating(contractorIds);
 
-    List<Contractor> listOfContractors = dataSetContractors.map((contractor) {
-      List<LicenseDto> licensesMatch = dataSetLicenses
+    final listOfContractors = dataSetContractors.map((contractor) {
+      final licensesMatch = dataSetLicenses
           .where((license) => license.contractorId == contractor.id)
           .toList();
 
-      List<RatingDto> ratingMatch =
+      final ratingMatch =
           dataSetRating.where((rating) => rating.id == contractor.id).toList();
 
-      List<double?> totalRatingList =
+      final totalRatingList =
           ratingMatch.map((rating) => rating.rating).toList();
 
       print('Ratings for contractor $contractorIds: $totalRatingList');

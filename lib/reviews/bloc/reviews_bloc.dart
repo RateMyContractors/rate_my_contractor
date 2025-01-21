@@ -19,11 +19,14 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
       //print('this is $event.contractorId');
       try {
         emit(state.copyWith(status: ReviewsStateStatus.loading));
+        print('printing contractor id event');
+        print(event.contractorId);
         final reviews =
             await repository.getReviews(event.contractorId); //state.query
         emit(state.copyWith(
             reviews: reviews, status: ReviewsStateStatus.success));
       } catch (error) {
+        print(error);
         emit(state.copyWith(
             errormsg: '$error', status: ReviewsStateStatus.failure));
       }

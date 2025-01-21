@@ -13,8 +13,12 @@ class ReviewsRepository {
 
   Future<List<ReviewsDto>> getReviews(String contractorId) async {
     //getting the reviews from the database
+    print('contractor being sent to the repositoruy');
+    print(contractorId);
     final List<ReviewsDto> dataSetReviews =
         await _reviewsDataProvider.getReviews(contractorId);
+    print('what is being returned from the reviews_repository');
+    print(dataSetReviews);
     return dataSetReviews;
   }
 }

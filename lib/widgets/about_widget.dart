@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AboutUsWidget extends StatelessWidget {
-  final String aboutUs;
   const AboutUsWidget({
-    super.key,
     required this.aboutUs,
+    super.key,
   });
+  final String aboutUs;
 
   @override
   Widget build(BuildContext context) {

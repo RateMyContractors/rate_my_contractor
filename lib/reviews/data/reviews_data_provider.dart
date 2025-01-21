@@ -5,8 +5,14 @@ class ReviewsDataProvider {
   const ReviewsDataProvider(this._supabaseClient);
 
   final SupabaseClient _supabaseClient;
-  Future<void> createReview(String contractorId, String reviewerId, int rating,
-      String comment, int upvote, int downvote) async {
+  Future<void> createReview(
+    String contractorId,
+    String reviewerId,
+    int rating,
+    String comment,
+    int upvote,
+    int downvote,
+  ) async {
     try {
       await _supabaseClient.from('Reviews').insert({
         'contractor_id': contractorId,
@@ -22,6 +28,8 @@ class ReviewsDataProvider {
 
   Future<List<ReviewsDto>> getReviews(String contractorId) async {
     try {
+      print('contractor being sent to the provider');
+      print(contractorId);
       final reviewJson = await _supabaseClient
           .from('Reviews')
           .select('*')
@@ -30,8 +38,10 @@ class ReviewsDataProvider {
       List<ReviewsDto> reviewsObjList = reviewJson
           .map<ReviewsDto>((review) => ReviewsDto.fromJson(review))
           .toList();
+      print(reviewsObjList);
       return reviewsObjList;
     } catch (error) {
+      print(error);
       return throw (Exception("review data fetch failed"));
     }
   }

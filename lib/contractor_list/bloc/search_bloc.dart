@@ -8,39 +8,55 @@ part 'search_event.dart';
 
 //have a try catch here and emit error state
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final ContractorRepository repository;
-
   SearchBloc(this.repository)
-      : super(const SearchState(
-          query: '',
-          errormsg: '',
-          contractors: [],
-          status: SearchStateStatus.initial,
-        )) {
+      : super(
+          const SearchState(),
+        ) {
     on<SearchTextUpdated>((event, emit) async {
       if (event.query.isEmpty) {
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             errormsg: 'User input failed to enter anyhting',
             query: event.query,
-            status: SearchStateStatus.invalid));
+            status: SearchStateStatus.invalid,
+          ),
+        );
       } else {
-        emit(state.copyWith(
-            query: event.query, status: SearchStateStatus.valid));
+        emit(
+          state.copyWith(
+            query: event.query,
+            status: SearchStateStatus.valid,
+          ),
+        );
       }
     });
 
     on<SearchButtonPressed>((event, emit) async {
       try {
-        emit(state.copyWith(
-            status: SearchStateStatus.loading)); //emit the loading state
+        emit(
+          state.copyWith(
+            status: SearchStateStatus.loading,
+          ),
+        );
+        print('what im sending to supabase from bloc');
+        print(state.query);
         final contractors =
             await repository.getContractors(state.query); //state.query
-        emit(state.copyWith(
-            contractors: contractors, status: SearchStateStatus.success));
-      } catch (error) {
-        emit(state.copyWith(
-            errormsg: '$error', status: SearchStateStatus.failure));
+        emit(
+          state.copyWith(
+            contractors: contractors,
+            status: SearchStateStatus.success,
+          ),
+        );
+      } on Exception catch (error) {
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: SearchStateStatus.failure,
+          ),
+        );
       }
     });
   }
+  final ContractorRepository repository;
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 class OvalTags extends StatelessWidget {
-  final String tag;
-
   const OvalTags({
+    required this.tag,
     super.key,
-    required this.tag
   });
+  final String tag;
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +15,15 @@ class OvalTags extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.elliptical(100, 100)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
+        padding: const EdgeInsets.all(6),
         child: Text(
           tag,
           style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12.0,
-          )
-
-        ))
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+        ),
+      ),
     );
   }
 }

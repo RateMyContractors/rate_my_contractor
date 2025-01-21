@@ -36,5 +36,6 @@ class SearchState extends Equatable {
 
   @override
   String toString() =>
-      'SearchState(isButtonOn: query: $query, errormsg: $errormsg, contractors: $contractors, status: $status)';
+      'SearchState(isButtonOn: query: $query, errormsg: $errormsg, '
+      'contractors: $contractors, status: $status)';
 }

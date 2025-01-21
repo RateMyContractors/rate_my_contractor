@@ -1,4 +1,32 @@
 class ReviewsDto {
+  ReviewsDto({
+    required this.reviewid,
+    required this.contractorId,
+    required this.reviewerId,
+    required this.comment,
+    required this.rating,
+    required this.upvote,
+    required this.downvote,
+    required this.date,
+  });
+
+  factory ReviewsDto.fromJson(Map<String, dynamic> json) {
+    final rawdate = json['created_at'] as String? ?? '';
+    final dateparsed = DateTime.parse(rawdate);
+
+    final dateOnly =
+        DateTime(dateparsed.year, dateparsed.month, dateparsed.day);
+    return ReviewsDto(
+      reviewerId: json['reviewer_id'] as String? ?? '',
+      contractorId: json['contractor_id'] as String? ?? '',
+      reviewid: json['reviewer_id'] as String? ?? '',
+      comment: json['comment'] as String? ?? '',
+      rating: json['rating'] as int? ?? 0,
+      upvote: json['up_vote'] as int? ?? 0,
+      downvote: json['down_vote'] as int? ?? 0,
+      date: dateOnly.toIso8601String(),
+    );
+  }
   final String reviewid;
   final String contractorId;
   final String reviewerId;
@@ -7,35 +35,6 @@ class ReviewsDto {
   final int upvote;
   final int downvote;
   final String date;
-
-  ReviewsDto(
-      {required this.reviewid,
-      required this.contractorId,
-      required this.reviewerId,
-      required this.comment,
-      required this.rating,
-      required this.upvote,
-      required this.downvote,
-      required this.date});
-
-//i forgot what factory was for and why are we using ?? ''
-  factory ReviewsDto.fromJson(Map<String, dynamic> json) {
-    var rawdate = json['created_at'];
-    print("Raw date: $rawdate");
-    final dateparsed = DateTime.parse(rawdate);
-    print("Parsed date: $dateparsed");
-    final dateOnly =
-        DateTime(dateparsed.year, dateparsed.month, dateparsed.day);
-    return ReviewsDto(
-        reviewerId: json['reviewer_id'] ?? '',
-        contractorId: json['contractor_id'] ?? '',
-        reviewid: json['reviewer_id'] ?? '',
-        comment: json['comment'] ?? '',
-        rating: json['rating'] ?? 0,
-        upvote: json['up_vote'] ?? 0,
-        downvote: json['down_vote'] ?? 0,
-        date: dateOnly.toString());
-  }
   @override
   String toString() =>
       'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId, comment: $comment, rating: $rating)';

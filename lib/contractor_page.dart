@@ -12,8 +12,8 @@ import 'widgets/portfolio_widget.dart';
 //import 'models/contractor.dart';
 
 class ContractorPage extends StatelessWidget {
+  const ContractorPage({required this.contractor, super.key});
   final Contractor contractor;
-  const ContractorPage({super.key, required this.contractor});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +63,7 @@ class ContractorPage extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(
+                                  MaterialPageRoute<ReviewFormPage>(
                                       builder: (_) => BlocProvider.value(
                                             value: BlocProvider.of<ReviewsBloc>(
                                                 context),

@@ -1,40 +1,38 @@
 import 'package:flutter/material.dart';
 
 class ContractorCard extends StatelessWidget {
+  const ContractorCard({
+    required this.id,
+    required this.companyName,
+    required this.phone,
+    required this.tags,
+    super.key,
+    this.ownerName,
+    this.email,
+    this.image,
+    this.rating,
+  });
   final String id;
   final String companyName;
   final String? ownerName;
   final String phone;
-  String? email;
+  final String? email;
   final String? image;
   final double? rating;
   final List<String> tags;
 
-  ContractorCard({
-    super.key,
-    required this.id,
-    required this.companyName,
-    this.ownerName,
-    required this.phone,
-    this.email,
-    this.image,
-    this.rating,
-    required this.tags,
-  });
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        border: Border.all(color: Colors.grey, width: 1.0),
-        boxShadow: [
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey),
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 5.0,
-            offset: const Offset(0, 2),
+            blurRadius: 5,
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -42,25 +40,25 @@ class ContractorCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
-            radius: 80.0,
+            radius: 80,
             backgroundColor: Colors.grey[300],
           ),
-          const SizedBox(height: 18.0),
+          const SizedBox(height: 18),
           Text(
             companyName,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 20.0,
+              fontSize: 20,
             ),
           ),
           Text(
-            "Owner: $ownerName",
+            'Owner: $ownerName',
             style: const TextStyle(
-              fontSize: 14.0,
+              fontSize: 14,
               color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -69,13 +67,13 @@ class ContractorCard extends StatelessWidget {
               Text(
                 rating.toString(),
                 style: const TextStyle(
-                  fontSize: 14.0,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 10.0),
+          const SizedBox(height: 10),
           Align(
             alignment: Alignment.centerLeft,
             child: Column(
@@ -83,29 +81,35 @@ class ContractorCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.phone,
-                        color: Color.fromARGB(255, 150, 150, 170), size: 20.0),
-                    const SizedBox(width: 8.0),
+                    const Icon(
+                      Icons.phone,
+                      color: Color.fromARGB(255, 150, 150, 170),
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
                     Text(
                       phone,
                       style: const TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 14,
                         color: Color.fromARGB(255, 0, 0, 0),
                       ),
                       textAlign: TextAlign.left,
                     ),
                   ],
                 ),
-                const SizedBox(height: 8.0),
+                const SizedBox(height: 8),
                 Row(
                   children: [
-                    const Icon(Icons.mail,
-                        color: Color.fromRGBO(150, 150, 170, 1), size: 20.0),
-                    const SizedBox(width: 8.0),
+                    const Icon(
+                      Icons.mail,
+                      color: Color.fromRGBO(150, 150, 170, 1),
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
                     Text(
-                      email = "null",
+                      email ?? 'N/A',
                       style: const TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 14,
                         color: Color.fromARGB(255, 0, 0, 0),
                       ),
                       textAlign: TextAlign.left,
@@ -115,40 +119,44 @@ class ContractorCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 16),
           Align(
             alignment: Alignment.centerLeft,
             child: Wrap(
-              spacing: 8.0,
-              runSpacing: 4.0,
+              spacing: 8,
+              runSpacing: 4,
               children: tags.map((tag) {
                 return Chip(
-                  label: Text(tag,
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                      )),
+                  label: Text(
+                    tag,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
                   backgroundColor: Colors.grey[200],
                 );
               }).toList(),
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 16),
           SizedBox(
-            width: 2000.0,
-            height: 35.0,
+            width: 2000,
+            height: 35,
             child: TextButton(
               onPressed: () {
                 // Add your contact logic here
               },
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 12.0),
+                  horizontal: 20,
+                  vertical: 12,
+                ),
                 backgroundColor: const Color.fromARGB(255, 2, 2, 2),
               ),
               child: const Text(
                 'Contact',
                 style: TextStyle(
-                  fontSize: 16.0,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(223, 221, 221, 1),
                 ),

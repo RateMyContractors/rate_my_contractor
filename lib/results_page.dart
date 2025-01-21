@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
+import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
-import 'contractor_list/domain/models/contractor.dart';
-import 'widgets/tag_widget.dart';
+import 'package:rate_my_contractor/widgets/tag_widget.dart';
 
-//first try to use bloc provider here
 class ResultsPage extends StatelessWidget {
   const ResultsPage({super.key});
 
@@ -26,7 +25,7 @@ class ResultsPage extends StatelessWidget {
                   const SortBy(),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(9.0),
+                      padding: const EdgeInsets.all(9),
                       child: SearchBar(
                         hintText: 'Search',
                         onChanged: (value) {
@@ -60,8 +59,7 @@ class ResultsPage extends StatelessWidget {
                 ],
               ),
               Visibility(
-                visible:
-                    state.status == SearchStateStatus.success ? true : false,
+                visible: state.status == SearchStateStatus.success,
                 child: Expanded(
                   child: ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -77,23 +75,26 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
               Visibility(
-                  visible:
-                      state.status == SearchStateStatus.failure ? true : false,
-                  child: Expanded(
-                      child: Container(
+                visible: state.status == SearchStateStatus.failure,
+                child: Expanded(
+                  child: Container(
                     color: Colors.red,
                     constraints: const BoxConstraints.expand(),
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Search Failed',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(state.errormsg)
-                        ]),
-                  ))),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Search Failed',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(state.errormsg),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Visibility(
-                  visible:
-                      state.status == SearchStateStatus.loading ? true : false,
+                  visible: state.status == SearchStateStatus.loading,
                   child: Expanded(
                       child: Container(
                     color: const Color.fromARGB(255, 152, 148, 148),
@@ -199,11 +200,10 @@ class SortBy extends StatelessWidget {
 }
 
 class _ProfileCard extends StatelessWidget {
-  final Contractor contractor;
-
   const _ProfileCard({
     required this.contractor,
   });
+  final Contractor contractor;
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +213,7 @@ class _ProfileCard extends StatelessWidget {
       onTap: () {
         BlocProvider.of<ReviewsBloc>(context)
             .add(ReviewsRequest(contractorId: contractor.id));
-        Navigator.push(
+        Navigator.push<ContractorPage>(
             context,
             MaterialPageRoute(
               builder: (_) => BlocProvider.value(
@@ -226,13 +226,12 @@ class _ProfileCard extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: const Color.fromARGB(255, 217, 202, 202),
-            width: 1.0,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: SizedBox(
           width: double.infinity,
-          height: 150.0,
+          height: 150,
           child: Row(
             children: [
               const SizedBox(width: 30),
@@ -253,23 +252,27 @@ class _ProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(contractor.companyName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        )),
-                    Text(contractor.ownerName ?? '', //if no owner name found
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: Colors.grey,
-                        )),
+                    Text(
+                      contractor.companyName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      contractor.ownerName ?? '',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.grey,
+                      ),
+                    ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: contractor.tags.map((tag) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsets.only(right: 8),
                             child: OvalTags(tag: tag),
                           );
                         }).toList(),
@@ -297,7 +300,7 @@ class _ProfileCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(width: 30)
+              const SizedBox(width: 30),
             ],
           ),
         ),

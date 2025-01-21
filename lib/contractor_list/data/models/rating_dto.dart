@@ -9,8 +9,8 @@ class RatingDto {
 
   factory RatingDto.fromJson(Map<String, dynamic> json) {
     return RatingDto(
-      id: json['contractor_id'] ?? '',
-      rating: json['rating'],
+      id: json['contractor_id'] as String,
+      rating: json['rating'] as double,
     );
   }
   @override
