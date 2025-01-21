@@ -7,6 +7,15 @@ abstract class ReviewsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ReviewsStarsPressed extends ReviewsEvent {
+  const ReviewsStarsPressed({required this.starRating});
+
+  final int starRating;
+
+  @override
+  List<Object> get props => [starRating];
+}
+
 class ReviewsFormButtonPressed extends ReviewsEvent {
   const ReviewsFormButtonPressed({
     required this.contractorid,

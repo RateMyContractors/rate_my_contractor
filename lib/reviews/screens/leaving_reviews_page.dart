@@ -67,16 +67,7 @@ class ReviewFormPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(Icons.star_border, size: 30),
-                      Icon(Icons.star_border, size: 30),
-                      Icon(Icons.star_border, size: 30),
-                      Icon(Icons.star_border, size: 30),
-                      Icon(Icons.star_border, size: 30),
-                    ],
-                  ),
+                  const StarSytem(),
                   const SizedBox(height: 15),
                   const Divider(height: 10),
                   const SizedBox(height: 15),
@@ -194,5 +185,65 @@ class ReviewFormPage extends StatelessWidget {
                 ],
               )));
     }));
+  }
+}
+
+class StarSytem extends StatelessWidget {
+  const StarSytem({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+          hoverColor: const Color.fromARGB(255, 255, 230, 0),
+          icon: const Icon(Icons.star_border),
+          onPressed: () {
+            context
+                .read<ReviewsBloc>()
+                .add(const ReviewsStarsPressed(starRating: 1));
+          },
+        ),
+        IconButton(
+          hoverColor: const Color.fromARGB(255, 255, 230, 0),
+          icon: const Icon(Icons.star_border),
+          onPressed: () {
+            context
+                .read<ReviewsBloc>()
+                .add(const ReviewsStarsPressed(starRating: 2));
+          },
+        ),
+        IconButton(
+          hoverColor: const Color.fromARGB(255, 255, 230, 0),
+          icon: const Icon(Icons.star_border),
+          onPressed: () {
+            context
+                .read<ReviewsBloc>()
+                .add(const ReviewsStarsPressed(starRating: 3));
+          },
+        ),
+        IconButton(
+          hoverColor: const Color.fromARGB(255, 255, 230, 0),
+          icon: const Icon(Icons.star_border),
+          onPressed: () {
+            context
+                .read<ReviewsBloc>()
+                .add(const ReviewsStarsPressed(starRating: 4));
+          },
+        ),
+        IconButton(
+          hoverColor: const Color.fromARGB(255, 255, 230, 0),
+          icon: const Icon(Icons.star_border),
+          onPressed: () {
+            context
+                .read<ReviewsBloc>()
+                .add(const ReviewsStarsPressed(starRating: 5));
+          },
+        ),
+      ],
+    );
   }
 }

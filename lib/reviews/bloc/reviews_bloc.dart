@@ -46,5 +46,15 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
             errormsg: '$error', status: ReviewsStateStatus.failure));
       }
     });
+
+    on<ReviewsStarsPressed>((event, emit) async {
+      try {
+        emit(state.copyWith(
+            rating: event.starRating, status: ReviewsStateStatus.valid));
+      } catch (error) {
+        emit(state.copyWith(
+            errormsg: '$error', status: ReviewsStateStatus.invalid));
+      }
+    });
   }
 }
