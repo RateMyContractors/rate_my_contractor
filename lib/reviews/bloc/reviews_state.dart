@@ -1,6 +1,15 @@
 part of 'reviews_bloc.dart';
 
-enum ReviewsStateStatus { initial, loading, failure, success, valid, invalid }
+enum ReviewsStateStatus {
+  initial,
+  loading,
+  failure,
+  success,
+  valid,
+  invalid,
+  passed,
+  unpassed
+}
 
 class ReviewsState extends Equatable {
   final ReviewsStateStatus status;

@@ -31,9 +31,6 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
 
     on<ReviewsFormButtonPressed>((event, emit) async {
       try {
-        print('bloc');
-        print(event.reviewerid);
-        print(event.contractorid);
         await repository.createReview(
           event.contractorid,
           event.reviewerid,
@@ -42,10 +39,10 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           state.upvote,
           state.downvote,
         );
-        emit(state.copyWith(status: ReviewsStateStatus.success));
+        emit(state.copyWith(status: ReviewsStateStatus.passed));
       } catch (error) {
         emit(state.copyWith(
-            errormsg: '$error', status: ReviewsStateStatus.failure));
+            errormsg: '$error', status: ReviewsStateStatus.unpassed));
       }
     });
 

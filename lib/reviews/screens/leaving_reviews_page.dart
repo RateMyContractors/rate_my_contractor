@@ -12,8 +12,35 @@ class ReviewFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-        body: BlocBuilder<ReviewsBloc, ReviewsState>(builder: (context, state) {
+    return BlocListener<ReviewsBloc, ReviewsState>(
+        listener: (context, state) {
+          if (state.status == ReviewsStateStatus.passed) {
+            Navigator.pop(context);
+          }
+        },
+        child: Scaffold(
+            body: ReviewForm(
+                companyName: companyName,
+                size: size,
+                contractorid: contractorid)));
+  }
+}
+
+class ReviewForm extends StatelessWidget {
+  const ReviewForm({
+    super.key,
+    required this.companyName,
+    required this.size,
+    required this.contractorid,
+  });
+
+  final String companyName;
+  final Size size;
+  final String contractorid;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ReviewsBloc, ReviewsState>(builder: (context, state) {
       return Center(
           child: Container(
               // margin: const EdgeInsets.only(bottom: 70, top: 70),
@@ -182,7 +209,7 @@ class ReviewFormPage extends StatelessWidget {
                       ])),
                 ],
               )));
-    }));
+    });
   }
 }
 
