@@ -1,4 +1,3 @@
-import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,9 +31,12 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
 
     on<ReviewsFormButtonPressed>((event, emit) async {
       try {
+        print('bloc');
+        print(event.reviewerid);
+        print(event.contractorid);
         await repository.createReview(
-          state.contractorId,
-          state.reviewerId,
+          event.contractorid,
+          event.reviewerid,
           state.rating,
           state.comment,
           state.upvote,
@@ -44,6 +46,15 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
       } catch (error) {
         emit(state.copyWith(
             errormsg: '$error', status: ReviewsStateStatus.failure));
+      }
+    });
+
+    on<ReviewsCommentChanged>((event, emit) async {
+      try {
+        emit(state.copyWith(comment: event.comment));
+      } catch (error) {
+        emit(state.copyWith(
+            errormsg: '$error', status: ReviewsStateStatus.invalid));
       }
     });
 

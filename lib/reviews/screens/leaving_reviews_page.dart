@@ -86,19 +86,17 @@ class ReviewFormPage extends StatelessWidget {
                   SizedBox(
                     height: 150,
                     width: MediaQuery.of(context).size.width * 0.6,
-                    child: TextFormField(
-                      maxLines: null,
-                      expands: true,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'What do you think of the company?'),
-                      validator: (String? value) {
-                        if (value != null || value!.isEmpty) {
-                          return 'Response cannot be left empty';
-                        }
-                        return null;
-                      },
-                    ),
+                    child: TextField(
+                        maxLines: null,
+                        expands: true,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'What do you think of the company?'),
+                        onChanged: (comment) {
+                          context
+                              .read<ReviewsBloc>()
+                              .add(ReviewsCommentChanged(comment: comment));
+                        }),
                   ),
                   const SizedBox(height: 15),
                   const Divider(height: 10),
@@ -172,8 +170,8 @@ class ReviewFormPage extends StatelessWidget {
                                   contractorid: contractorid,
                                   reviewerid:
                                       '3c335755-9c36-4f66-9d53-fbd1ef2b13ed',
-                                  rating: 4,
-                                  comment: 'testing reviews form',
+                                  rating: state.rating,
+                                  comment: state.comment,
                                   upvote: 1,
                                   downvote: 1),
                             );

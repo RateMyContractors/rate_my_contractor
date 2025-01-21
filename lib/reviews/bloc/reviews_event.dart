@@ -16,6 +16,14 @@ class ReviewsStarsPressed extends ReviewsEvent {
   List<Object> get props => [starRating];
 }
 
+class ReviewsCommentChanged extends ReviewsEvent {
+  const ReviewsCommentChanged({required this.comment});
+  final String comment;
+
+  @override
+  List<Object> get props => [comment];
+}
+
 class ReviewsFormButtonPressed extends ReviewsEvent {
   const ReviewsFormButtonPressed({
     required this.contractorid,
