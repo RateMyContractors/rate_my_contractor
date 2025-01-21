@@ -67,7 +67,7 @@ class ReviewFormPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const StarSytem(),
+                  StarSytem(star: state.rating),
                   const SizedBox(height: 15),
                   const Divider(height: 10),
                   const SizedBox(height: 15),
@@ -189,18 +189,21 @@ class ReviewFormPage extends StatelessWidget {
 }
 
 class StarSytem extends StatelessWidget {
-  const StarSytem({
-    super.key,
-  });
-
+  final int star;
+  const StarSytem({super.key, required this.star});
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         IconButton(
-          hoverColor: const Color.fromARGB(255, 255, 230, 0),
-          icon: const Icon(Icons.star_border),
+          icon: (star == 1 || star == 2 || star == 3 || star == 4 || star == 5)
+              ? const Icon(
+                  Icons.star,
+                  color: Colors.orange,
+                  size: 25.0,
+                )
+              : const Icon(Icons.star_border, size: 25.0, color: Colors.grey),
           onPressed: () {
             context
                 .read<ReviewsBloc>()
@@ -208,8 +211,13 @@ class StarSytem extends StatelessWidget {
           },
         ),
         IconButton(
-          hoverColor: const Color.fromARGB(255, 255, 230, 0),
-          icon: const Icon(Icons.star_border),
+          icon: (star == 2 || star == 3 || star == 4 || star == 5)
+              ? const Icon(
+                  Icons.star,
+                  color: Colors.orange,
+                  size: 25.0,
+                )
+              : const Icon(Icons.star_border, size: 25.0, color: Colors.grey),
           onPressed: () {
             context
                 .read<ReviewsBloc>()
@@ -217,8 +225,13 @@ class StarSytem extends StatelessWidget {
           },
         ),
         IconButton(
-          hoverColor: const Color.fromARGB(255, 255, 230, 0),
-          icon: const Icon(Icons.star_border),
+          icon: (star == 3 || star == 4 || star == 5)
+              ? const Icon(
+                  Icons.star,
+                  color: Colors.orange,
+                  size: 25.0,
+                )
+              : const Icon(Icons.star_border, size: 25.0, color: Colors.grey),
           onPressed: () {
             context
                 .read<ReviewsBloc>()
@@ -226,8 +239,13 @@ class StarSytem extends StatelessWidget {
           },
         ),
         IconButton(
-          hoverColor: const Color.fromARGB(255, 255, 230, 0),
-          icon: const Icon(Icons.star_border),
+          icon: (star == 4 || star == 5)
+              ? const Icon(
+                  Icons.star,
+                  color: Colors.orange,
+                  size: 25.0,
+                )
+              : const Icon(Icons.star_border, size: 25.0, color: Colors.grey),
           onPressed: () {
             context
                 .read<ReviewsBloc>()
@@ -235,8 +253,13 @@ class StarSytem extends StatelessWidget {
           },
         ),
         IconButton(
-          hoverColor: const Color.fromARGB(255, 255, 230, 0),
-          icon: const Icon(Icons.star_border),
+          icon: (star == 5)
+              ? const Icon(
+                  Icons.star,
+                  color: Colors.orange,
+                  size: 25.0,
+                )
+              : const Icon(Icons.star_border, size: 25.0, color: Colors.grey),
           onPressed: () {
             context
                 .read<ReviewsBloc>()
