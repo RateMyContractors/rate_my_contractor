@@ -22,6 +22,7 @@ class ReviewsState extends Equatable {
   final int downvote;
   final List<ReviewsDto> reviews;
   final String date;
+  final String username;
 
   const ReviewsState({
     this.reviewerId = '',
@@ -34,6 +35,7 @@ class ReviewsState extends Equatable {
     this.reviews = const [],
     this.status = ReviewsStateStatus.initial,
     this.date = '',
+    this.username = '',
   });
 
   ReviewsState copyWith({
@@ -47,18 +49,21 @@ class ReviewsState extends Equatable {
     List<ReviewsDto>? reviews,
     ReviewsStateStatus? status,
     String? date,
+    String? username,
   }) {
     return ReviewsState(
-        contractorId: contractorId ?? this.contractorId,
-        errormsg: errormsg ?? this.errormsg,
-        reviews: reviews ?? this.reviews,
-        status: status ?? this.status,
-        reviewerId: reviewerId ?? this.reviewerId,
-        rating: rating ?? this.rating,
-        comment: comment ?? this.comment,
-        upvote: upvote ?? this.upvote,
-        downvote: downvote ?? this.downvote,
-        date: date ?? this.date);
+      contractorId: contractorId ?? this.contractorId,
+      errormsg: errormsg ?? this.errormsg,
+      reviews: reviews ?? this.reviews,
+      status: status ?? this.status,
+      reviewerId: reviewerId ?? this.reviewerId,
+      rating: rating ?? this.rating,
+      comment: comment ?? this.comment,
+      upvote: upvote ?? this.upvote,
+      downvote: downvote ?? this.downvote,
+      date: date ?? this.date,
+      username: username ?? this.username,
+    );
   }
 
   @override
@@ -72,10 +77,11 @@ class ReviewsState extends Equatable {
         comment,
         upvote,
         downvote,
-        date
+        date,
+        username
       ];
 
   @override
   String toString() =>
-      'ReviewState(contractorId: $contractorId, errormsg: $errormsg, reviews: $reviews, status: $status)';
+      'ReviewState(contractorId: $contractorId, errormsg: $errormsg, reviews: $reviews, status: $status, username: $username)';
 }

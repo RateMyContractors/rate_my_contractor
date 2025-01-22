@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
@@ -216,8 +217,15 @@ class _ProfileCard extends StatelessWidget {
         Navigator.push<ContractorPage>(
             context,
             MaterialPageRoute(
-              builder: (_) => BlocProvider.value(
-                value: BlocProvider.of<ReviewsBloc>(context),
+              builder: (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(
+                    value: context.read<ReviewsBloc>(),
+                  ),
+                  BlocProvider.value(
+                    value: context.read<AuthenticationBloc>(),
+                  ),
+                ],
                 child: ContractorPage(contractor: contractor),
               ),
             ));

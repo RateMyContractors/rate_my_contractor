@@ -5,20 +5,15 @@ class ReviewsDataProvider {
   const ReviewsDataProvider(this._supabaseClient);
 
   final SupabaseClient _supabaseClient;
-  Future<void> createReview(
-    String contractorId,
-    String reviewerId,
-    int rating,
-    String comment,
-    int upvote,
-    int downvote,
-  ) async {
+  Future<void> createReview(String contractorId, String reviewerId, int rating,
+      String comment, int upvote, int downvote, String username) async {
     try {
       await _supabaseClient.from('Reviews').insert({
         'contractor_id': contractorId,
         'reviewer_id': reviewerId,
         'rating': rating,
-        'comment': comment
+        'comment': comment,
+        'username': username
       });
     } catch (error) {
       Exception("supabase issue$error");

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 
 class ReviewFormPage extends StatelessWidget {
@@ -13,30 +14,45 @@ class ReviewFormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return BlocListener<ReviewsBloc, ReviewsState>(
-        listener: (context, state) {
-          if (state.status == ReviewsStateStatus.passed) {
-            Navigator.pop(context);
-          }
-        },
-        child: Scaffold(
+      listener: (context, state) {
+        if (state.status == ReviewsStateStatus.passed) {
+          Navigator.pop(context);
+        }
+      },
+      child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          final username = state.user?.username ?? 'Guest';
+          final userid = state.user?.id ?? '';
+          return Scaffold(
             body: ReviewForm(
-                companyName: companyName,
-                size: size,
-                contractorid: contractorid)));
+              companyName: companyName,
+              size: size,
+              contractorid: contractorid,
+              userid: userid,
+              username: username,
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 
 class ReviewForm extends StatelessWidget {
   const ReviewForm({
-    super.key,
     required this.companyName,
     required this.size,
     required this.contractorid,
+    required this.userid,
+    required this.username,
+    super.key,
   });
 
   final String companyName;
   final Size size;
   final String contractorid;
+  final String username;
+  final String userid;
 
   @override
   Widget build(BuildContext context) {
@@ -194,13 +210,14 @@ class ReviewForm extends StatelessWidget {
                           onPressed: () {
                             BlocProvider.of<ReviewsBloc>(context).add(
                               ReviewsFormButtonPressed(
-                                  contractorid: contractorid,
-                                  reviewerid:
-                                      '3c335755-9c36-4f66-9d53-fbd1ef2b13ed',
-                                  rating: state.rating,
-                                  comment: state.comment,
-                                  upvote: 1,
-                                  downvote: 1),
+                                contractorid: contractorid,
+                                reviewerid: userid,
+                                rating: state.rating,
+                                comment: state.comment,
+                                upvote: 1,
+                                downvote: 1,
+                                username: username,
+                              ),
                             );
                           },
                           child: const Text('Post'),

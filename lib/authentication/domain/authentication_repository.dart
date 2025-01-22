@@ -42,8 +42,10 @@ class AuthenticationRepository {
             email: user?.email,
             firstname: metadata!['first_name'] as String?,
             lastname: metadata['last_name'] as String?,
-            username: metadata['username'] as String?,
+            username: metadata['display_name'] as String?,
           );
+          print(currentuser.username);
+          print(currentuser.firstname);
           return currentuser;
         } else {
           const currentuser = User(

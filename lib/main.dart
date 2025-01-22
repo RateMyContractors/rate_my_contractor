@@ -207,6 +207,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               BlocProvider.value(
                                 value: context.read<ReviewsBloc>(),
                               ),
+                              BlocProvider.value(
+                                value: context.read<AuthenticationBloc>(),
+                              ),
                             ],
                             child: const ResultsPage(),
                           ),

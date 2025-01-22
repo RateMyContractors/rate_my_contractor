@@ -8,6 +8,7 @@ class ReviewsDto {
     required this.upvote,
     required this.downvote,
     required this.date,
+    required this.username,
   });
 
   factory ReviewsDto.fromJson(Map<String, dynamic> json) {
@@ -25,6 +26,7 @@ class ReviewsDto {
       upvote: json['up_vote'] as int? ?? 0,
       downvote: json['down_vote'] as int? ?? 0,
       date: dateOnly.toIso8601String(),
+      username: json['username'] as String? ?? '',
     );
   }
   final String reviewid;
@@ -35,7 +37,8 @@ class ReviewsDto {
   final int upvote;
   final int downvote;
   final String date;
+  final String username;
   @override
   String toString() =>
-      'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId, comment: $comment, rating: $rating)';
+      'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId, comment: $comment, rating: $rating, username: $username)';
 }

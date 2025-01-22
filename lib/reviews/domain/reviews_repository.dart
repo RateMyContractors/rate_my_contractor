@@ -6,19 +6,13 @@ class ReviewsRepository {
   final ReviewsDataProvider _reviewsDataProvider;
 
   Future<void> createReview(String contractorId, String reviewerId, int rating,
-      String comment, int upvote, int downvote) async {
+      String comment, int upvote, int downvote, String username) async {
     await _reviewsDataProvider.createReview(
-        contractorId, reviewerId, rating, comment, upvote, downvote);
+        contractorId, reviewerId, rating, comment, upvote, downvote, username);
   }
 
   Future<List<ReviewsDto>> getReviews(String contractorId) async {
-    //getting the reviews from the database
-    print('contractor being sent to the repositoruy');
-    print(contractorId);
-    final List<ReviewsDto> dataSetReviews =
-        await _reviewsDataProvider.getReviews(contractorId);
-    print('what is being returned from the reviews_repository');
-    print(dataSetReviews);
+    final dataSetReviews = await _reviewsDataProvider.getReviews(contractorId);
     return dataSetReviews;
   }
 }
