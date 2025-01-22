@@ -44,8 +44,6 @@ class AuthenticationRepository {
             lastname: metadata['last_name'] as String?,
             username: metadata['display_name'] as String?,
           );
-          print(currentuser.username);
-          print(currentuser.firstname);
           return currentuser;
         } else {
           const currentuser = User(

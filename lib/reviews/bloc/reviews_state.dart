@@ -78,7 +78,7 @@ class ReviewsState extends Equatable {
         upvote,
         downvote,
         date,
-        username
+        username,
       ];
 
   @override

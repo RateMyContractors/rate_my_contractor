@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
-import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/widgets/tag_widget.dart';
 
 class ResultsPage extends StatelessWidget {
@@ -12,10 +12,10 @@ class ResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var filteredcontractor;
     return Scaffold(
-        appBar: AppBar(),
-        body: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+      appBar: AppBar(),
+      body: BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state) {
           return Column(
             children: [
               Row(
@@ -38,24 +38,28 @@ class ResultsPage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: state.status == SearchStateStatus.valid
-                            ? const Color.fromARGB(255, 123, 127, 211)
-                            : Colors.grey,
-                        textStyle: const TextStyle(fontSize: 20),
-                        padding: const EdgeInsets.all(16),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: state.status == SearchStateStatus.valid
+                          ? const Color.fromARGB(255, 123, 127, 211)
+                          : Colors.grey,
+                      textStyle: const TextStyle(fontSize: 20),
+                      padding: const EdgeInsets.all(16),
+                    ),
+                    onPressed: state.status == SearchStateStatus.valid
+                        ? () {
+                            context
+                                .read<SearchBloc>()
+                                .add(const SearchButtonPressed());
+                          }
+                        : null,
+                    child: const Text(
+                      'Search', //Search button
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(255, 255, 255, 255),
                       ),
-                      onPressed: state.status == SearchStateStatus.valid
-                          ? () {
-                              context
-                                  .read<SearchBloc>()
-                                  .add(const SearchButtonPressed());
-                            }
-                          : null,
-                      child: const Text('Search', //Search button
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              color: Color.fromARGB(255, 255, 255, 255)))),
+                    ),
+                  ),
                   const SizedBox(width: 30),
                 ],
               ),
@@ -63,16 +67,12 @@ class ResultsPage extends StatelessWidget {
                 visible: state.status == SearchStateStatus.success,
                 child: Expanded(
                   child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      itemCount: state.contractors.length,
-                      itemBuilder: (context, index) {
-                        // if (state.contractors[index].rating != 0) {
-                        //   return _ProfileCard(
-                        //       contractor: state.contractors[index]);
-                        // }
-                        return _ProfileCard(
-                            contractor: state.contractors[index]);
-                      }),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    itemCount: state.contractors.length,
+                    itemBuilder: (context, index) {
+                      return _ProfileCard(contractor: state.contractors[index]);
+                    },
+                  ),
                 ),
               ),
               Visibility(
@@ -95,28 +95,33 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
               Visibility(
-                  visible: state.status == SearchStateStatus.loading,
-                  child: Expanded(
-                      child: Container(
+                visible: state.status == SearchStateStatus.loading,
+                child: Expanded(
+                  child: Container(
                     color: const Color.fromARGB(255, 152, 148, 148),
                     constraints: const BoxConstraints.expand(),
                     child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 20, // Adjust the size as needed
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                              strokeWidth: 2.0,
-                            ),
-                          )
-                        ]),
-                  ))),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20, // Adjust the size as needed
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           );
-        }));
+        },
+      ),
+    );
   }
 }
 
@@ -130,52 +135,57 @@ class StarFilter extends StatelessWidget {
     return DropdownButton(
       hint: const Icon(Icons.filter_alt),
       items: const [
-        DropdownMenuItem(value: "Allstars", child: Text("All Ratings")),
+        DropdownMenuItem(value: 'Allstars', child: Text('All Ratings')),
         DropdownMenuItem(
-            value: "1starts",
-            child: Row(
-              children: [
-                Icon(Icons.star, color: Colors.orange, size: 20),
-              ],
-            )),
+          value: '1starts',
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
         DropdownMenuItem(
-            value: "2starts",
-            child: Row(
-              children: [
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-              ],
-            )),
+          value: '2starts',
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
         DropdownMenuItem(
-            value: "3starts",
-            child: Row(
-              children: [
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-              ],
-            )),
+          value: '3starts',
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
         DropdownMenuItem(
-            value: "4starts",
-            child: Row(
-              children: [
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-              ],
-            )),
+          value: '4starts',
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
         DropdownMenuItem(
-            value: "5starts",
-            child: Row(
-              children: [
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                Icon(Icons.star, color: Colors.orange, size: 20),
-              ],
-            )),
+          value: '5starts',
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
       ],
       onChanged: (value) => (),
     );
@@ -192,8 +202,8 @@ class SortBy extends StatelessWidget {
     return DropdownButton(
       hint: const Icon(Icons.sort_rounded),
       items: const [
-        DropdownMenuItem(value: "asc", child: Text("Ascending (A-Z)")),
-        DropdownMenuItem(value: "des", child: Text("Descending (Z-A)")),
+        DropdownMenuItem(value: 'asc', child: Text('Ascending (A-Z)')),
+        DropdownMenuItem(value: 'des', child: Text('Descending (Z-A)')),
       ],
       onChanged: (value) => (),
     );
@@ -208,27 +218,26 @@ class _ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var contractor_id = contractor.id;
-    print('contractor id being passed:$contractor_id');
     return GestureDetector(
       onTap: () {
         BlocProvider.of<ReviewsBloc>(context)
             .add(ReviewsRequest(contractorId: contractor.id));
         Navigator.push<ContractorPage>(
-            context,
-            MaterialPageRoute(
-              builder: (_) => MultiBlocProvider(
-                providers: [
-                  BlocProvider.value(
-                    value: context.read<ReviewsBloc>(),
-                  ),
-                  BlocProvider.value(
-                    value: context.read<AuthenticationBloc>(),
-                  ),
-                ],
-                child: ContractorPage(contractor: contractor),
-              ),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (_) => MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: context.read<ReviewsBloc>(),
+                ),
+                BlocProvider.value(
+                  value: context.read<AuthenticationBloc>(),
+                ),
+              ],
+              child: ContractorPage(contractor: contractor),
+            ),
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -299,11 +308,13 @@ class _ProfileCard extends StatelessWidget {
                         Icons.star,
                         color: Colors.orange,
                       ),
-                      Text(contractor.rating.toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                          ))
+                      Text(
+                        contractor.rating.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
                     ],
                   ),
                 ],

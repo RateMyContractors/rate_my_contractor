@@ -16,15 +16,17 @@ class ContractorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        ),
-        body: BlocBuilder<ReviewsBloc, ReviewsState>(builder: (context, state) {
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      ),
+      body: BlocBuilder<ReviewsBloc, ReviewsState>(
+        builder: (context, state) {
           return SingleChildScrollView(
             child: Container(
-                color: const Color.fromARGB(0, 255, 255, 255),
-                margin: const EdgeInsets.only(right: 120, left: 120, top: 20),
-                child: Column(children: [
+              color: const Color.fromARGB(0, 255, 255, 255),
+              margin: const EdgeInsets.only(right: 120, left: 120, top: 20),
+              child: Column(
+                children: [
                   ContractorCard(
                     id: contractor.id,
                     companyName: contractor.companyName,
@@ -59,76 +61,87 @@ class ContractorPage extends StatelessWidget {
                     child: Column(
                       children: [
                         TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute<ReviewFormPage>(
-                                    builder: (_) => MultiBlocProvider(
-                                      providers: [
-                                        BlocProvider.value(
-                                          value: context.read<ReviewsBloc>(),
-                                        ),
-                                        BlocProvider.value(
-                                          value: context
-                                              .read<AuthenticationBloc>(),
-                                        ),
-                                      ],
-                                      child: ReviewFormPage(
-                                          companyName: contractor.companyName,
-                                          contractorid: contractor.id),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<ReviewFormPage>(
+                                builder: (_) => MultiBlocProvider(
+                                  providers: [
+                                    BlocProvider.value(
+                                      value: context.read<ReviewsBloc>(),
                                     ),
-                                  ));
-                            },
-                            child: const Text('Write a review')),
-                        const Text('Customer Reviews\n',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            )),
+                                    BlocProvider.value(
+                                      value: context.read<AuthenticationBloc>(),
+                                    ),
+                                  ],
+                                  child: ReviewFormPage(
+                                    companyName: contractor.companyName,
+                                    contractorid: contractor.id,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text('Write a review'),
+                        ),
+                        const Text(
+                          'Customer Reviews\n',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                         //call ratingWidget here
                         RatingWidget(
-                            rating: contractor.rating,
-                            totalRating: contractor
-                                .totalRating), //[2, 3, 4, 5]), // totalRatingList),
+                          rating: contractor.rating,
+                          totalRating: contractor.totalRating,
+                        ),
                         Visibility(
-                            visible: state.status == ReviewsStateStatus.success
-                                ? true
-                                : false,
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Center(
-                                      child: SizedBox(
-                                          width: 360,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            itemCount: state.reviews.length,
-                                            itemBuilder: (context, index) {
-                                              // final review =
-                                              //     state.reviews[index].reviewerId;
-                                              return Center(
-                                                  child: ReviewCard(
-                                                reviewerName: state
-                                                    .reviews[index].username,
-                                                rating:
-                                                    state.reviews[index].rating,
-                                                comment: state
-                                                    .reviews[index].comment,
-                                                date: state.reviews[index]
-                                                    .date, //review.date,
-                                              ));
-                                            },
-                                          )))
-                                ]))
+                          visible: state.status == ReviewsStateStatus.success
+                              ? true
+                              : false,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: SizedBox(
+                                  width: 360,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: state.reviews.length,
+                                    itemBuilder: (context, index) {
+                                      // final review =
+                                      //     state.reviews[index].reviewerId;
+                                      return Center(
+                                        child: ReviewCard(
+                                          reviewerName:
+                                              state.reviews[index].username,
+                                          rating: state.reviews[index].rating,
+                                          comment: state.reviews[index].comment,
+                                          date: state.reviews[index]
+                                              .date, //review.date,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  )
-                ])),
+                  ),
+                ],
+              ),
+            ),
           );
-        }));
+        },
+      ),
+    );
   }
 }

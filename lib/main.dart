@@ -5,13 +5,13 @@ import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
-import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
+import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
+import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
 import 'package:rate_my_contractor/results_page.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/reviews/data/reviews_data_provider.dart';
 import 'package:rate_my_contractor/reviews/domain/reviews_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
-import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,14 +26,16 @@ void main() async {
   final authRepository = AuthenticationRepository(userDataProvider);
   final reviewsDataProvider = ReviewsDataProvider(supabaseClient);
   final reviewsRepository = ReviewsRepository(reviewsDataProvider);
-  runApp(MultiRepositoryProvider(
-    providers: [
-      RepositoryProvider.value(value: repository),
-      RepositoryProvider.value(value: authRepository),
-      RepositoryProvider.value(value: reviewsRepository),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: repository),
+        RepositoryProvider.value(value: authRepository),
+        RepositoryProvider.value(value: reviewsRepository),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -41,37 +43,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Contractor Webapp',
-        theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromARGB(255, 231, 228, 245),
-          useMaterial3: true,
-        ),
-        home: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => SearchBloc(
-                RepositoryProvider.of<ContractorRepository>(context),
+      title: 'Contractor Webapp',
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color.fromARGB(255, 231, 228, 245),
+        useMaterial3: true,
+      ),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => SearchBloc(
+              RepositoryProvider.of<ContractorRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => ReviewsBloc(
+              RepositoryProvider.of<ReviewsRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => AuthenticationBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
+            )..add(
+                AuthenticationSubscriptionRequested(),
               ),
-            ),
-            BlocProvider(
-              create: (context) => ReviewsBloc(
-                RepositoryProvider.of<ReviewsRepository>(context),
-              ),
-            ),
-            BlocProvider(
-              create: (context) => AuthenticationBloc(
-                authenticationRepository:
-                    RepositoryProvider.of<AuthenticationRepository>(context),
-              )..add(
-                  AuthenticationSubscriptionRequested(),
-                ),
-            ),
-          ],
-          child: const MyHomePage(title: 'Contractor Home Page'),
-          // child: const ReviewFormPage(
-          //   companyName: 'Bridget co.',
-          // ),
-        ));
+          ),
+        ],
+        child: const MyHomePage(title: 'Contractor Home Page'),
+        // child: const ReviewFormPage(
+        //   companyName: 'Bridget co.',
+        // ),
+      ),
+    );
   }
 }
 
@@ -193,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {
-                      var currBlocContext = context;
+                      final currBlocContext = context;
                       BlocProvider.of<SearchBloc>(currBlocContext)
                           .add(const SearchButtonPressed());
                       Navigator.push(

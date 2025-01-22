@@ -14,17 +14,14 @@ class ContractorDataRemoteProvider {
       final contractorJson = await _supabaseClient
           .from('Contractors') // your table name in Supabase
           .select() //.ilike('company_name', '%$query%');
-          .or('company_name.ilike.%$query%,address.ilike.%$query%,phone.ilike.%$query%,owner.ilike.%$query%,phone.ilike.%$query%'); //not sure what would happen if we added email or owner since we have them all in NUll in our DB
-      print(contractorJson);
+          .or('company_name.ilike.%$query%,address.ilike.%$query%,phone.ilike.%$query%,owner.ilike.%$query%,phone.ilike.%$query%');
       final contractorObjList = contractorJson
           .map<ContractorDto>(
             ContractorDto.fromJson,
           )
           .toList();
-      print(contractorObjList);
       return contractorObjList;
     } catch (error) {
-      print(error);
       return throw Exception('data fetch failed: contractor table');
     }
   }
@@ -33,14 +30,14 @@ class ContractorDataRemoteProvider {
     try {
       final licensesJson = await _supabaseClient
           .from('Licenses')
-          .select('*')
+          .select()
           .inFilter('contractor_id', contractorIds);
 
       final licenseObjList =
           licensesJson.map((license) => LicenseDto.fromJson(license)).toList();
       return licenseObjList;
     } catch (error) {
-      return throw (Exception("data fetch failed: licenses table"));
+      return throw Exception('data fetch failed: licenses table');
     }
   }
 
@@ -56,7 +53,7 @@ class ContractorDataRemoteProvider {
       //here we have a list of objects of ratings
       return ratingObjList;
     } catch (error) {
-      return throw (Exception("data fetch failed: Ratings table"));
+      return throw Exception('data fetch failed: Ratings table');
     }
   }
 }

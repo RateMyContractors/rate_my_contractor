@@ -3,19 +3,16 @@ part of 'search_bloc.dart';
 enum SearchStateStatus { initial, loading, failure, success, valid, invalid }
 
 class SearchState extends Equatable {
-  final SearchStateStatus status;
-  final String query;
-  final String errormsg;
-  //final String filter;
-  final List<Contractor> contractors;
-
   const SearchState({
     this.query = '',
     this.errormsg = '',
     this.contractors = const [],
     this.status = SearchStateStatus.initial,
-    //this.filter = '',
   });
+  final SearchStateStatus status;
+  final String query;
+  final String errormsg;
+  final List<Contractor> contractors;
 
   SearchState copyWith({
     String? query,

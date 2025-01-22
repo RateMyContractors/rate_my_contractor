@@ -38,8 +38,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             status: SearchStateStatus.loading,
           ),
         );
-        print('what im sending to supabase from bloc');
-        print(state.query);
         final contractors =
             await repository.getContractors(state.query); //state.query
         emit(
