@@ -14,6 +14,10 @@ class AuthenticationRepository {
     );
   }
 
+  Future<void> signOut() async {
+    await _userDataProvider.signOut();
+  }
+
   Future<void> signUp(
     String email,
     String password,

@@ -4,6 +4,7 @@ import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart'
 import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
+import 'package:rate_my_contractor/authentication/logout/bloc/logout_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
 import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
@@ -58,6 +59,12 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => ReviewsBloc(
               RepositoryProvider.of<ReviewsRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => LogOutBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
             ),
           ),
           BlocProvider(
@@ -147,12 +154,28 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       )
-                    : Text(
-                        'Hello $username',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
+                    : DropdownButton<String>(
+                        hint: Text(
+                          'Hello $username',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
                         ),
+                        items: const [
+                          DropdownMenuItem(
+                            value: 'logout',
+                            child:
+                                Text('Logout', style: TextStyle(fontSize: 20)),
+                          ),
+                        ],
+                        onChanged: (String? value) {
+                          if (value == 'logout') {
+                            context
+                                .read<LogOutBloc>()
+                                .add(const LogOutPressed());
+                          }
+                        },
                       ),
               );
             },
