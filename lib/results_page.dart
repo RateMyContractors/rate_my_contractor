@@ -205,7 +205,18 @@ class SortBy extends StatelessWidget {
         DropdownMenuItem(value: 'asc', child: Text('Ascending (A-Z)')),
         DropdownMenuItem(value: 'des', child: Text('Descending (Z-A)')),
       ],
-      onChanged: (value) => (),
+      onChanged: (value) => {
+        if (value == 'asc')
+          {
+            context.read<SearchBloc>().add(const SearchSortPressed(sort: true)),
+          }
+        else if (value == 'des')
+          {
+            context
+                .read<SearchBloc>()
+                .add(const SearchSortPressed(sort: false)),
+          },
+      },
     );
   }
 }

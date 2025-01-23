@@ -31,6 +31,36 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
     });
 
+    on<SearchSortPressed>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(sort: event.sort, status: SearchStateStatus.valid),
+        );
+        emit(
+          state.copyWith(
+            status: SearchStateStatus.loading,
+          ),
+        );
+        final contractors = await repository.getContractors(
+          state.query,
+          sortcontractors: event.sort,
+        ); //state.query
+        emit(
+          state.copyWith(
+            contractors: contractors,
+            status: SearchStateStatus.success,
+          ),
+        );
+      } on Exception catch (error) {
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: SearchStateStatus.failure,
+          ),
+        );
+      }
+    });
+
     on<SearchButtonPressed>((event, emit) async {
       try {
         emit(
@@ -38,8 +68,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             status: SearchStateStatus.loading,
           ),
         );
-        final contractors =
-            await repository.getContractors(state.query); //state.query
+        final contractors = await repository.getContractors(
+          state.query,
+          sortcontractors: state.sort,
+        ); //state.query
         emit(
           state.copyWith(
             contractors: contractors,

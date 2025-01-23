@@ -7,14 +7,17 @@ class ContractorDataRemoteProvider {
   const ContractorDataRemoteProvider(this._supabaseClient);
 
   final SupabaseClient _supabaseClient;
-  Future<List<ContractorDto>> getContractors(String query) async {
-    //Join table to reviews to show the average rating for the contractor
-
+  Future<List<ContractorDto>> getContractors(
+    String query, {
+    required bool sort,
+  }) async {
     try {
       final contractorJson = await _supabaseClient
           .from('Contractors') // your table name in Supabase
           .select() //.ilike('company_name', '%$query%');
-          .or('company_name.ilike.%$query%,address.ilike.%$query%,phone.ilike.%$query%,owner.ilike.%$query%,phone.ilike.%$query%');
+          .or('company_name.ilike.%$query%,address.ilike.%$query%,phone.ilike.%$query%,owner.ilike.%$query%,phone.ilike.%$query%')
+          .order('company_name', ascending: sort);
+
       final contractorObjList = contractorJson
           .map<ContractorDto>(
             ContractorDto.fromJson,

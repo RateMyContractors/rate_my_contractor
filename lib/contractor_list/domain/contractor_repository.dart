@@ -5,9 +5,12 @@ class ContractorRepository {
   const ContractorRepository(this._contractorDataRemoteProvider);
   final ContractorDataRemoteProvider _contractorDataRemoteProvider;
 
-  Future<List<Contractor>> getContractors(String query) async {
-    final dataSetContractors =
-        await _contractorDataRemoteProvider.getContractors(query);
+  Future<List<Contractor>> getContractors(
+    String query, {
+    required bool sortcontractors,
+  }) async {
+    final dataSetContractors = await _contractorDataRemoteProvider
+        .getContractors(query, sort: sortcontractors);
     final contractorIds = <String>[];
 
     for (final dsContractor in dataSetContractors) {
