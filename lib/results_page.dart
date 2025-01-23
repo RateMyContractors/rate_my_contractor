@@ -70,7 +70,9 @@ class ResultsPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     itemCount: state.contractors.length,
                     itemBuilder: (context, index) {
-                      return _ProfileCard(contractor: state.contractors[index]);
+                      return _ProfileCard(
+                        contractor: state.contractors[index],
+                      );
                     },
                   ),
                 ),
@@ -135,9 +137,9 @@ class StarFilter extends StatelessWidget {
     return DropdownButton(
       hint: const Icon(Icons.filter_alt),
       items: const [
-        DropdownMenuItem(value: 'Allstars', child: Text('All Ratings')),
+        DropdownMenuItem(value: 100, child: Text('All Ratings')),
         DropdownMenuItem(
-          value: '1starts',
+          value: 1,
           child: Row(
             children: [
               Icon(Icons.star, color: Colors.orange, size: 20),
@@ -145,7 +147,7 @@ class StarFilter extends StatelessWidget {
           ),
         ),
         DropdownMenuItem(
-          value: '2starts',
+          value: 2,
           child: Row(
             children: [
               Icon(Icons.star, color: Colors.orange, size: 20),
@@ -154,7 +156,7 @@ class StarFilter extends StatelessWidget {
           ),
         ),
         DropdownMenuItem(
-          value: '3starts',
+          value: 3,
           child: Row(
             children: [
               Icon(Icons.star, color: Colors.orange, size: 20),
@@ -164,7 +166,7 @@ class StarFilter extends StatelessWidget {
           ),
         ),
         DropdownMenuItem(
-          value: '4starts',
+          value: 4,
           child: Row(
             children: [
               Icon(Icons.star, color: Colors.orange, size: 20),
@@ -175,7 +177,7 @@ class StarFilter extends StatelessWidget {
           ),
         ),
         DropdownMenuItem(
-          value: '5starts',
+          value: 5,
           child: Row(
             children: [
               Icon(Icons.star, color: Colors.orange, size: 20),
@@ -187,7 +189,11 @@ class StarFilter extends StatelessWidget {
           ),
         ),
       ],
-      onChanged: (value) => (),
+      onChanged: (value) {
+        if (value is int) {
+          context.read<SearchBloc>().add(SearchFilterPressed(filter: value));
+        }
+      },
     );
   }
 }

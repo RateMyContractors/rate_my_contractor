@@ -26,7 +26,7 @@ class SearchButtonPressed extends SearchEvent {
 class SearchFilterPressed extends SearchEvent {
   const SearchFilterPressed({required this.filter});
 
-  final String filter;
+  final int filter;
 
   @override
   List<Object> get props => [filter];

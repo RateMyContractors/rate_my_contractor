@@ -87,6 +87,31 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         );
       }
     });
+
+    on<SearchFilterPressed>(
+      (event, emit) async {
+        List<Contractor> filteredContractors;
+        final contractors = await repository.getContractors(
+          state.query,
+          sortcontractors: state.sort,
+        ); //state.query
+        if (event.filter == 100) {
+          filteredContractors = contractors;
+        } else {
+          filteredContractors = contractors.where((contractor) {
+            return contractor.rating >= event.filter &&
+                contractor.rating < event.filter + 1.0;
+          }).toList();
+        }
+        emit(
+          state.copyWith(
+            filter: event.filter,
+            contractors: filteredContractors,
+            status: SearchStateStatus.success,
+          ),
+        );
+      },
+    );
   }
   final ContractorRepository repository;
 }
