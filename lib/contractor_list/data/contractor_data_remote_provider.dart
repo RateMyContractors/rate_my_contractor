@@ -33,7 +33,7 @@ class ContractorDataRemoteProvider {
     try {
       final licensesJson = await _supabaseClient
           .from('Licenses')
-          .select('*')
+          .select()
           .inFilter('contractor_id', contractorIds);
 
       List<LicenseDto> licenseObjList =

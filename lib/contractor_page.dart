@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
+import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
+import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
+import 'package:rate_my_contractor/widgets/about_widget.dart';
+import 'package:rate_my_contractor/widgets/contractor_card.dart';
+import 'package:rate_my_contractor/widgets/portfolio_widget.dart';
 import 'package:rate_my_contractor/widgets/rating_widget.dart';
 import 'package:rate_my_contractor/widgets/review_card.dart';
-import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
-import 'widgets/about_widget.dart';
-import 'widgets/contractor_card.dart';
-import 'widgets/portfolio_widget.dart';
 //import 'models/contractor.dart';
 
 class ContractorPage extends StatelessWidget {
@@ -48,15 +49,15 @@ class ContractorPage extends StatelessWidget {
                   const PortfolioWidget(),
                   const SizedBox(height: 20),
                   Container(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(color: Colors.grey, width: 1.0),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.grey),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
-                          blurRadius: 5.0,
+                          blurRadius: 5,
                           offset: const Offset(0, 2),
                         ),
                       ],
@@ -95,9 +96,37 @@ class ContractorPage extends StatelessWidget {
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
+                                    SnackBar(
+                                      content: const Text(
                                         'Please log in to write a review.',
+                                      ),
+                                      action: SnackBarAction(
+                                        label: 'OK',
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute<LoginPage>(
+                                              builder: (_) => MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                        AuthenticationBloc>(
+                                                      context,
+                                                    ),
+                                                  ),
+                                                  BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                        SearchBloc>(context),
+                                                  ),
+                                                  BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                        ReviewsBloc>(context),
+                                                  ),
+                                                ],
+                                                child: const LoginPage(),
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   );
@@ -107,17 +136,19 @@ class ContractorPage extends StatelessWidget {
                             );
                           },
                         ),
-                        const Text('Customer Reviews\n',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                            )),
+                        const Text(
+                          'Customer Reviews\n',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ),
                         //call ratingWidget here
                         RatingWidget(
-                            rating: contractor.rating,
-                            totalRating: contractor
-                                .totalRating), //[2, 3, 4, 5]), // totalRatingList),
+                          rating: contractor.rating,
+                          totalRating: contractor.totalRating,
+                        ), //[2, 3, 4, 5]), // totalRatingList),
                         Visibility(
                           visible: state.status == ReviewsStateStatus.success,
                           child: ListView.builder(

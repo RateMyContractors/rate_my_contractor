@@ -1,11 +1,4 @@
 class ContractorDto {
-  final String id;
-  final String companyname;
-  final String address;
-  final String phone;
-  final String? owner;
-  final String? email;
-
   ContractorDto({
     required this.id,
     required this.companyname,
@@ -25,7 +18,13 @@ class ContractorDto {
       email: json['email'] as String? ?? '',
     );
   }
-  
+  final String id;
+  final String companyname;
+  final String address;
+  final String phone;
+  final String? owner;
+  final String? email;
+
   @override
   String toString() =>
       'ContractorDto(id: $id, companyname: $companyname, owner: $owner, email: $email, address: $address, phone: $phone,)';

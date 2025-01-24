@@ -10,23 +10,33 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
   final ReviewsRepository repository;
 
   ReviewsBloc(this.repository)
-      : super(const ReviewsState(
-          contractorId: '',
-          errormsg: '',
-          reviews: [],
-          status: ReviewsStateStatus.initial,
-        )) {
+      : super(
+          const ReviewsState(
+            contractorId: '',
+            errormsg: '',
+            reviews: [],
+            status: ReviewsStateStatus.initial,
+          ),
+        ) {
     on<ReviewsRequest>((event, emit) async {
       //print('this is $event.contractorId');
       try {
         emit(state.copyWith(status: ReviewsStateStatus.loading));
         final reviews =
             await repository.getReviews(event.contractorId); //state.query
-        emit(state.copyWith(
-            reviews: reviews, status: ReviewsStateStatus.success));
+        emit(
+          state.copyWith(
+            reviews: reviews,
+            status: ReviewsStateStatus.success,
+          ),
+        );
       } catch (error) {
-        emit(state.copyWith(
-            errormsg: '$error', status: ReviewsStateStatus.failure));
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: ReviewsStateStatus.failure,
+          ),
+        );
       }
     });
 
@@ -42,8 +52,12 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
         );
         emit(state.copyWith(status: ReviewsStateStatus.success));
       } catch (error) {
-        emit(state.copyWith(
-            errormsg: '$error', status: ReviewsStateStatus.failure));
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: ReviewsStateStatus.failure,
+          ),
+        );
       }
     });
   }
