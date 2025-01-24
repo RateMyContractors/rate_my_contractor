@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
-import '../../data/models/contractor_dto.dart';
 
 class Contractor extends Equatable {
   /// Everything that a contractor DTO would have

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
+import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
@@ -12,20 +14,22 @@ import 'widgets/portfolio_widget.dart';
 //import 'models/contractor.dart';
 
 class ContractorPage extends StatelessWidget {
+  const ContractorPage({required this.contractor, super.key});
   final Contractor contractor;
-  const ContractorPage({super.key, required this.contractor});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        ),
-        body: BlocBuilder<ReviewsBloc, ReviewsState>(builder: (context, state) {
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      ),
+      body: BlocBuilder<ReviewsBloc, ReviewsState>(
+        builder: (context, state) {
           return SingleChildScrollView(
             child: Container(
-                color: const Color.fromARGB(0, 255, 255, 255),
-                margin: const EdgeInsets.only(right: 120, left: 120, top: 20),
-                child: Column(children: [
+              color: const Color.fromARGB(0, 255, 255, 255),
+              margin: const EdgeInsets.only(right: 120, left: 120, top: 20),
+              child: Column(
+                children: [
                   ContractorCard(
                     id: contractor.id,
                     companyName: contractor.companyName,
@@ -38,7 +42,7 @@ class ContractorPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const AboutUsWidget(
-                    aboutUs: "this is about us",
+                    aboutUs: 'this is about us',
                   ),
                   const SizedBox(height: 20),
                   const PortfolioWidget(),
@@ -59,19 +63,51 @@ class ContractorPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ReviewFormPage(
+                        BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                          builder: (context, state) {
+                            return TextButton(
+                              onPressed: () {
+                                BlocProvider.of<AuthenticationBloc>(context)
+                                    .add(AuthenticationWriteReview());
+                                if (state.status ==
+                                    AuthenticationStatus.authenticated) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<ReviewFormPage>(
+                                      builder: (_) => MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider.value(
+                                            value: BlocProvider.of<ReviewsBloc>(
+                                              context,
+                                            ),
+                                          ),
+                                          BlocProvider.value(
+                                            value: BlocProvider.of<
+                                                AuthenticationBloc>(context),
+                                          ),
+                                        ],
+                                        child: ReviewFormPage(
                                           companyName: contractor.companyName,
-                                          contractorid: '',
-                                        )),
-                              );
-                            },
-                            child: const Text('Write a review')),
-                        const Text("Customer Reviews\n",
+                                          contractorid: contractor.id,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Please log in to write a review.',
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: const Text('Write a review'),
+                            );
+                          },
+                        ),
+                        const Text('Customer Reviews\n',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 24,
@@ -83,30 +119,32 @@ class ContractorPage extends StatelessWidget {
                             totalRating: contractor
                                 .totalRating), //[2, 3, 4, 5]), // totalRatingList),
                         Visibility(
-                            visible: state.status == ReviewsStateStatus.success
-                                ? true
-                                : false,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.reviews.length,
-                              itemBuilder: (context, index) {
-                                // final review =
-                                //     state.reviews[index].reviewerId;
-                                return ReviewCard(
-                                  reviewerName: state.reviews[index].reviewerId,
-                                  rating: state.reviews[index].rating,
-                                  comment: state.reviews[index].comment,
-                                  date:
-                                      state.reviews[index].date, //review.date,
-                                );
-                              },
-                            ))
+                          visible: state.status == ReviewsStateStatus.success,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: state.reviews.length,
+                            itemBuilder: (context, index) {
+                              // final review =
+                              //     state.reviews[index].reviewerId;
+                              return ReviewCard(
+                                reviewerName: state.reviews[index].reviewerId,
+                                rating: state.reviews[index].rating,
+                                comment: state.reviews[index].comment,
+                                date: state.reviews[index].date, //review.date,
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     ),
-                  )
-                ])),
+                  ),
+                ],
+              ),
+            ),
           );
-        }));
+        },
+      ),
+    );
   }
 }

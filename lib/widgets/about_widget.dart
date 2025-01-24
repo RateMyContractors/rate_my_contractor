@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+
 class AboutUsWidget extends StatelessWidget {
-  final String aboutUs;
   const AboutUsWidget({
     super.key,
     required this.aboutUs,
   });
+  final String aboutUs;
 
   @override
   Widget build(BuildContext context) {
@@ -39,3 +40,4 @@ class AboutUsWidget extends StatelessWidget {
     );
   }
 }
+

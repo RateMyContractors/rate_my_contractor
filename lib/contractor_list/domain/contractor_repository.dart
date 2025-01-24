@@ -2,22 +2,22 @@ import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_p
 import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
 import 'package:rate_my_contractor/contractor_list/data/models/rating_dto.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
-import '../data/models/contractor_dto.dart';
 
 class ContractorRepository {
   const ContractorRepository(this._contractorDataRemoteProvider);
   final ContractorDataRemoteProvider _contractorDataRemoteProvider;
 
   Future<List<Contractor>> getContractors(String query) async {
-    final List<ContractorDto> dataSetContractors =
+    final dataSetContractors =
         await _contractorDataRemoteProvider.getContractors(query);
-    final List<String> contractorIds = [];
+    final contractorIds = <String>[];
+    //List<Contractor> listOfContractors = [];
 
-    for (var dsContractor in dataSetContractors) {
+    for (final dsContractor in dataSetContractors) {
       contractorIds.add(dsContractor.id);
     }
 
-    List<LicenseDto> dataSetLicenses =
+    final dataSetLicenses =
         await _contractorDataRemoteProvider.getLicenses(contractorIds);
 
     List<RatingDto> dataSetRating =

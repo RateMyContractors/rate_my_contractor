@@ -13,13 +13,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
 import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
+import 'package:rate_my_contractor/results_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
-  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   final supabaseClient = SupabaseClient(
-    dotenv.env['SUPABASE_URL']!,
-    dotenv.env['SUPABASE_KEY']!,
+    const String.fromEnvironment('SUPABASE_URL'),
+    const String.fromEnvironment('SUPABASE_KEY'),
+    authOptions: const AuthClientOptions(authFlowType: AuthFlowType.implicit),
   );
   final remoteProvider = ContractorDataRemoteProvider(supabaseClient);
   final repository = ContractorRepository(remoteProvider);
@@ -77,7 +79,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({required this.title, super.key});
   final String title;
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -92,10 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           backgroundColor: theme.primaryColor,
           title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Padding(
-                padding: EdgeInsets.only(top: 20.0),
+                padding: EdgeInsets.only(top: 20),
                 child: Image(
                   matchTextDirection: true,
                   image: AssetImage('assets/logo.png'),
@@ -111,30 +112,51 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
               builder: (context, state) {
-                return state.status != AuthenticationStatus.authenticated
-                    ? TextButton(
-                        onPressed: () {
-                          Navigator.push(
+                final username = state.user?.firstname ?? 'Guest';
+                return Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: state.status != AuthenticationStatus.authenticated
+                      ? TextButton(
+                          onPressed: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute<void>(
-                                  builder: (_) => BlocProvider.value(
-                                        value:
-                                            BlocProvider.of<AuthenticationBloc>(
-                                                context),
-                                        child: const LoginPage(),
-                                      )));
-                        },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
+                                builder: (_) => MultiBlocProvider(
+                                  providers: [
+                                    BlocProvider.value(
+                                      value:
+                                          BlocProvider.of<AuthenticationBloc>(
+                                        context,
+                                      ),
+                                    ),
+                                    BlocProvider.value(
+                                      value:
+                                          BlocProvider.of<SearchBloc>(context),
+                                    ),
+                                  ],
+                                  child: const LoginPage(),
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Login',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          'Hello $username',
+                          style: const TextStyle(
                             fontSize: 20,
                             color: Colors.white,
                           ),
                         ),
-                      )
-                    : const Text(
-                        'Hello User!',
-                      );
+                );
               },
             ),
           ],
@@ -180,16 +202,22 @@ class _MyHomePageState extends State<MyHomePage> {
                             .add(const SearchButtonPressed());
                         Navigator.push(
                           currBlocContext,
-                          MaterialPageRoute(
-                              builder: (_) => MultiBlocProvider(
-                                    providers: [
-                                      BlocProvider.value(
-                                          value: context.read<SearchBloc>()),
-                                      BlocProvider.value(
-                                          value: context.read<ReviewsBloc>())
-                                    ],
-                                    child: const ResultsPage(),
-                                  )),
+                          MaterialPageRoute<ResultsPage>(
+                            builder: (_) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider.value(
+                                  value: context.read<SearchBloc>(),
+                                ),
+                                BlocProvider.value(
+                                  value: context.read<ReviewsBloc>(),
+                                ),
+                                BlocProvider.value(
+                                  value: context.read<AuthenticationBloc>(),
+                                ),
+                              ],
+                              child: const ResultsPage(),
+                            ),
+                          ),
                         );
                       },
                       style: ElevatedButton.styleFrom(

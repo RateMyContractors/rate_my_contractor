@@ -41,11 +41,12 @@ dependencies:
   supabase_flutter: ^2.0.0
   flutter_dotenv: ^5.2.1
   formz: ^0.8.0
-  
+  mock_supabase_http_client: ^0.0.3+1
+  intl: ^0.20.1
 
 dev_dependencies:
   mocktail: ^1.0.0
-  bloc_test: ^9.1.0
+  bloc_test: ^9.1.7
   flutter_test:
     sdk: flutter
 
@@ -55,6 +56,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  very_good_analysis: ^7.0.0
+  test: ^1.25.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -69,7 +72,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-      - .env
       - assets/logo.png
       - assets/samplepictures/fix1.jpg
       - assets/samplepictures/fix2.jpg

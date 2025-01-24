@@ -1,7 +1,4 @@
 class RatingDto {
-  final String id;
-  final double? rating;
-
   RatingDto({
     required this.id,
     this.rating,
@@ -9,10 +6,12 @@ class RatingDto {
 
   factory RatingDto.fromJson(Map<String, dynamic> json) {
     return RatingDto(
-      id: json['contractor_id'] ?? '',
-      rating: json['rating'],
+      id: json['contractor_id'] as String? ?? '',
+      rating: json['rating'] as double? ?? 0,
     );
   }
+  final String id;
+  final double? rating;
   @override
   String toString() => 'ContractorDto(id: $id, companyname: $rating';
 }
