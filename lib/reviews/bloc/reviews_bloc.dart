@@ -47,6 +47,11 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           event.username,
         );
         emit(state.copyWith(status: ReviewsStateStatus.passed));
+        emit(state.copyWith(status: ReviewsStateStatus.loading));
+        final reviews = await repository.getReviews(event.contractorid);
+        emit(
+          state.copyWith(reviews: reviews, status: ReviewsStateStatus.success),
+        );
       } catch (error) {
         emit(
           state.copyWith(
