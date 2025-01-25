@@ -1,7 +1,4 @@
 class RatingDto {
-  final String id;
-  final double? rating;
-
   RatingDto({
     required this.id,
     this.rating,
@@ -13,6 +10,8 @@ class RatingDto {
       rating: json['rating'] as double,
     );
   }
+  final String id;
+  final double? rating;
   @override
   String toString() => 'ContractorDto(id: $id, companyname: $rating';
 }

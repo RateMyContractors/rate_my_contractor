@@ -25,6 +25,10 @@ class ContractorDto {
   final String? owner;
   final String? email;
   @override
-  String toString() =>
-      'ContractorDto(id: $id, companyname: $companyname, owner: $owner, email: $email, address: $address, phone: $phone,)';
+  String toString() => ' ContractorDto(id: $id, '
+      'companyname: $companyname,'
+      ' owner: $owner,'
+      ' email: $email,'
+      ' address: $address, '
+      'phone: $phone,)';
 }

@@ -41,5 +41,6 @@ class ReviewsDto {
   final String username;
   @override
   String toString() =>
-      'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId, comment: $comment, rating: $rating, username: $username)';
+      'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId,'
+      ' comment: $comment, rating: $rating, username: $username)';
 }

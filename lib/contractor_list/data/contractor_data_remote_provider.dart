@@ -15,7 +15,11 @@ class ContractorDataRemoteProvider {
       final contractorJson = await _supabaseClient
           .from('Contractors') // your table name in Supabase
           .select() //.ilike('company_name', '%$query%');
-          .or('company_name.ilike.%$query%,address.ilike.%$query%,phone.ilike.%$query%,owner.ilike.%$query%,phone.ilike.%$query%')
+          .or('company_name.ilike.%$query%,'
+              'address.ilike.%$query%,'
+              'phone.ilike.%$query%,'
+              'owner.ilike.%$query%,'
+              'phone.ilike.%$query%')
           .order('company_name', ascending: sort);
 
       final contractorObjList = contractorJson
@@ -24,8 +28,8 @@ class ContractorDataRemoteProvider {
           )
           .toList();
       return contractorObjList;
-    } catch (error) {
-      return throw Exception('data fetch failed: contractor table');
+    } on Exception catch (error) {
+      return throw Exception('data fetch failed: contractor table$error');
     }
   }
 
@@ -36,11 +40,10 @@ class ContractorDataRemoteProvider {
           .select()
           .inFilter('contractor_id', contractorIds);
 
-      final licenseObjList =
-          licensesJson.map((license) => LicenseDto.fromJson(license)).toList();
+      final licenseObjList = licensesJson.map(LicenseDto.fromJson).toList();
       return licenseObjList;
-    } catch (error) {
-      return throw Exception('data fetch failed: licenses table');
+    } on Exception catch (error) {
+      return throw Exception('data fetch failed: licenses table$error');
     }
   }
 
@@ -50,13 +53,11 @@ class ContractorDataRemoteProvider {
           .from('Reviews')
           .select('contractor_id, rating')
           .inFilter('contractor_id', contractorIds);
-      List<RatingDto> ratingObjList =
-          ratingsJson.map((rating) => RatingDto.fromJson(rating)).toList();
+      final ratingObjList = ratingsJson.map(RatingDto.fromJson).toList();
 
-      //here we have a list of objects of ratings
       return ratingObjList;
-    } catch (error) {
-      return throw Exception('data fetch failed: Ratings table');
+    } on Exception catch (error) {
+      return throw Exception('data fetch failed: Ratings table$error');
     }
   }
 }

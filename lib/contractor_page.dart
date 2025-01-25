@@ -98,12 +98,9 @@ class ContractorPage extends StatelessWidget {
                           totalRating: contractor.totalRating,
                         ),
                         Visibility(
-                          visible: state.status == ReviewsStateStatus.success
-                              ? true
-                              : false,
+                          visible: state.status == ReviewsStateStatus.success,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Center(
                                 child: SizedBox(

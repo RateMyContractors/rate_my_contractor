@@ -12,18 +12,6 @@ enum ReviewsStateStatus {
 }
 
 class ReviewsState extends Equatable {
-  final ReviewsStateStatus status;
-  final String contractorId;
-  final String errormsg;
-  final String reviewerId;
-  final int rating;
-  final String comment;
-  final int upvote;
-  final int downvote;
-  final List<ReviewsDto> reviews;
-  final String date;
-  final String username;
-
   const ReviewsState({
     this.reviewerId = '',
     this.rating = 0,
@@ -37,6 +25,17 @@ class ReviewsState extends Equatable {
     this.date = '',
     this.username = '',
   });
+  final ReviewsStateStatus status;
+  final String contractorId;
+  final String errormsg;
+  final String reviewerId;
+  final int rating;
+  final String comment;
+  final int upvote;
+  final int downvote;
+  final List<ReviewsDto> reviews;
+  final String date;
+  final String username;
 
   ReviewsState copyWith({
     String? contractorId,
@@ -83,5 +82,7 @@ class ReviewsState extends Equatable {
 
   @override
   String toString() =>
-      'ReviewState(contractorId: $contractorId, errormsg: $errormsg, reviews: $reviews, status: $status, username: $username)';
+      'ReviewState(contractorId: $contractorId, errormsg: $errormsg,'
+      ' reviews: $reviews,'
+      ' status: $status, username: $username)';
 }

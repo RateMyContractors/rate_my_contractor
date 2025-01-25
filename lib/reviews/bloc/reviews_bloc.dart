@@ -7,8 +7,6 @@ part 'reviews_event.dart';
 part 'reviews_state.dart';
 
 class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
-  final ReviewsRepository repository;
-
   ReviewsBloc(this.repository)
       : super(
           const ReviewsState(),
@@ -25,7 +23,7 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
             status: ReviewsStateStatus.success,
           ),
         );
-      } catch (error) {
+      } on Exception catch (error) {
         emit(
           state.copyWith(
             errormsg: '$error',
@@ -52,7 +50,7 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
         emit(
           state.copyWith(reviews: reviews, status: ReviewsStateStatus.success),
         );
-      } catch (error) {
+      } on Exception catch (error) {
         emit(
           state.copyWith(
             errormsg: '$error',
@@ -65,7 +63,7 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
     on<ReviewsCommentChanged>((event, emit) async {
       try {
         emit(state.copyWith(comment: event.comment));
-      } catch (error) {
+      } on Exception catch (error) {
         emit(
           state.copyWith(
             errormsg: '$error',
@@ -83,7 +81,7 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
             status: ReviewsStateStatus.valid,
           ),
         );
-      } catch (error) {
+      } on Exception catch (error) {
         emit(
           state.copyWith(
             errormsg: '$error',
@@ -93,4 +91,5 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
       }
     });
   }
+  final ReviewsRepository repository;
 }

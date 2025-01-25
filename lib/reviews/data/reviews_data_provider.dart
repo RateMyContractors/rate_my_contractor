@@ -22,7 +22,7 @@ class ReviewsDataProvider {
         'comment': comment,
         'username': username,
       });
-    } catch (error) {
+    } on Exception catch (error) {
       Exception('supabase issue$error');
     }
   }
@@ -33,12 +33,11 @@ class ReviewsDataProvider {
           .from('Reviews')
           .select()
           .eq('contractor_id', contractorId);
-      List<ReviewsDto> reviewsObjList = reviewJson
-          .map<ReviewsDto>((review) => ReviewsDto.fromJson(review))
-          .toList();
+      final reviewsObjList =
+          reviewJson.map<ReviewsDto>(ReviewsDto.fromJson).toList();
       return reviewsObjList;
-    } catch (error) {
-      return throw Exception('review data fetch failed');
+    } on Exception catch (error) {
+      return throw Exception('review data fetch failed$error');
     }
   }
 }
