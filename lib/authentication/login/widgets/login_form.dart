@@ -52,15 +52,9 @@ class LoginForm extends StatelessWidget {
               const Expanded(
                 child: Padding(padding: EdgeInsets.all(12)),
               ),
-              Expanded(
-                child: _EmailInput(),
-              ),
-              const Expanded(
-                child: Padding(padding: EdgeInsets.all(12)),
-              ),
-              Expanded(
-                child: _PasswordInput(),
-              ),
+              _EmailInput(),
+              const SizedBox(height: 16),
+              _PasswordInput(),
               const Expanded(
                 child: Padding(padding: EdgeInsets.all(12)),
               ),
@@ -119,6 +113,7 @@ class _PasswordInput extends StatelessWidget {
         labelText: 'password',
         border: const OutlineInputBorder(),
         errorText: displayError != null ? 'invalid password' : null,
+        errorStyle: const TextStyle(overflow: TextOverflow.visible),
       ),
     );
   }

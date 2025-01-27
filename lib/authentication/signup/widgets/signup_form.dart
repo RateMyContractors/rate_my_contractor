@@ -86,33 +86,22 @@ class SignupForm extends StatelessWidget {
               const Expanded(
                 child: Padding(padding: EdgeInsets.all(12)),
               ),
-              Expanded(
-                child: _FirstNameInput(),
-              ),
+              _FirstNameInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _LastNameInput(),
-              ),
+              _LastNameInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _UsernameInput(),
-              ),
+              _UsernameInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _EmailInput(),
-              ),
+              _EmailInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _PasswordInput(),
-              ),
+              _PasswordInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _ReEnterPasswordInput(),
-              ),
+              _ReEnterPasswordInput(),
               const Padding(padding: EdgeInsets.all(12)),
               Expanded(
                 child: _SignUpButton(),
               ),
+              const Padding(padding: EdgeInsets.all(12)),
             ],
           ),
         ),
