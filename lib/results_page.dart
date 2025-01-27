@@ -40,7 +40,7 @@ class ResultsPage extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: state.status == SearchStateStatus.valid
-                          ? const Color.fromARGB(255, 123, 127, 211)
+                          ? Theme.of(context).colorScheme.primary
                           : Colors.grey,
                       textStyle: const TextStyle(fontSize: 20),
                       padding: const EdgeInsets.all(16),

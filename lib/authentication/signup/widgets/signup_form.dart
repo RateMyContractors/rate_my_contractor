@@ -122,15 +122,17 @@ class _ContractorAndUserButton extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: userType == 'Contractor'
-                  ? const Color.fromARGB(255, 196, 170, 229)
-                  : const Color.fromARGB(255, 213, 219, 223),
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
+              print('contractor');
               context
                   .read<SignUpBloc>()
                   .add(const SignUpUserType('Contractor'));
             },
-            child: const Text('Contractor'),
+            child: const Text('Contractor',
+                style: TextStyle(color: Color.fromARGB(255, 245, 243, 243))),
           ),
         ),
         const SizedBox(width: 20),
@@ -138,13 +140,15 @@ class _ContractorAndUserButton extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: userType == 'User'
-                  ? const Color.fromARGB(255, 196, 170, 229)
-                  : const Color.fromARGB(255, 213, 219, 223),
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
+              print('user');
               context.read<SignUpBloc>().add(const SignUpUserType('User'));
             },
-            child: const Text('User'),
+            child: const Text('User',
+                style: TextStyle(color: Color.fromARGB(255, 245, 243, 243))),
           ),
         ),
       ],
@@ -162,7 +166,7 @@ class _SignUpButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('SignUpForm_continue_raisedButton'),
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 181, 113, 192),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       onPressed: () => context.read<SignUpBloc>().add(const SignUpSubmitted()),
       child: const Text(

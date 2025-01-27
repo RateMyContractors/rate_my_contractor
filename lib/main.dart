@@ -46,8 +46,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Contractor Webapp',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 231, 228, 245),
-        useMaterial3: true,
+        primaryColor: Colors.black,
+        colorScheme: const ColorScheme(
+          primary: Color.fromARGB(255, 255, 129, 50),
+          onPrimary: Color.fromARGB(255, 0, 0, 0),
+          secondary: Color.fromARGB(255, 132, 132, 132),
+          onSecondary: Color.fromARGB(255, 253, 250, 255),
+          error: Color.fromARGB(255, 141, 51, 45),
+          onError: Colors.white,
+          surface: Color.fromARGB(255, 255, 255, 255),
+          onSurface: Color.fromARGB(255, 0, 0, 0),
+          brightness: Brightness.light,
+        ),
       ),
       home: MultiBlocProvider(
         providers: [
@@ -111,7 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             IconButton(
-              icon: const Text('RateMyContractor'),
+              icon: const Text(
+                'RateMyContractor',
+              ),
               onPressed: () {},
             ),
           ],
@@ -150,7 +162,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 20,
-                            color: Colors.white,
                           ),
                         ),
                       )
@@ -159,7 +170,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           'Hello $username',
                           style: const TextStyle(
                             fontSize: 20,
-                            color: Colors.white,
                           ),
                         ),
                         items: const [
@@ -191,7 +201,6 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
             const SizedBox(height: 15),
@@ -199,7 +208,6 @@ class _MyHomePageState extends State<MyHomePage> {
               'Fastest way to browse, review and see contractors in your area!',
               style: TextStyle(
                 fontSize: 25,
-                color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
             const SizedBox(height: 15),
@@ -243,15 +251,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 123, 127, 211),
                       minimumSize: const Size(50, 50),
                       padding: const EdgeInsets.all(16),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                     child: const Text(
                       'Search',
                       style: TextStyle(
                         fontSize: 20,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                        color: Color.fromARGB(255, 245, 243, 243),
                       ),
                     ),
                   ),

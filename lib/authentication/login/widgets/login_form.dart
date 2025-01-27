@@ -159,7 +159,6 @@ class _SignUpText extends StatelessWidget {
         'Sign up',
         style: TextStyle(
           fontSize: 20,
-          color: Color.fromARGB(255, 193, 129, 219),
           decoration: TextDecoration.underline,
         ),
       ),

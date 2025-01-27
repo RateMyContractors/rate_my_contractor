@@ -94,7 +94,6 @@ class ReviewForm extends StatelessWidget {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        color: Color.fromARGB(255, 139, 63, 177),
                       ),
                     ),
                   ),
