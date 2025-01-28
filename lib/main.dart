@@ -137,14 +137,18 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: theme.primaryColor,
         title: Row(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Image(
-                matchTextDirection: true,
-                image: AssetImage('assets/logo.png'),
-                height: 40,
+            Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/hat.png',
+                  width: 30, // Set the width
+                  height: 30, // Set the height
+                  fit: BoxFit.cover, // Ensures the image fills the oval
+                ),
               ),
             ),
+            const SizedBox(width: 10),
             Text(
               'RateMyContractor',
               style: Theme.of(context).textTheme.displaySmall,
