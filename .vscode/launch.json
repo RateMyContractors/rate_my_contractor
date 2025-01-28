@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "rate_my_contractor",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+              "--dart-define=SUPABASE_URL=https://rcikaswrmpjubjnqlwdc.supabase.co",
+              "--dart-define=SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjaWthc3dybXBqdWJqbnFsd2RjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAzMjc2ODQsImV4cCI6MjA0NTkwMzY4NH0.RKkOTT7e1gYACopxkC4YFOcpHRvPPBzohDGi2k9Anr0",
+              "--dart-define=SUPABASE_SR=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjaWthc3dybXBqdWJqbnFsd2RjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczMDMyNzY4NCwiZXhwIjoyMDQ1OTAzNjg0fQ.XcW5_RbY9A3c1m2CFlpYXR8ML0eAwHSh_Inyri_vySk"
+            ]
+          },
+        {
+            "name": "rate_my_contractor (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "rate_my_contractor (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

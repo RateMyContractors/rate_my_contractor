@@ -22,3 +22,27 @@ class SearchTextUpdated extends SearchEvent {
 class SearchButtonPressed extends SearchEvent {
   const SearchButtonPressed();
 }
+
+class SearchFilterPressed extends SearchEvent {
+  const SearchFilterPressed({required this.filter});
+
+  final int filter;
+
+  @override
+  List<Object> get props => [filter];
+
+  @override
+  String toString() => 'Search filtered {filter: $filter}';
+}
+
+class SearchSortPressed extends SearchEvent {
+  const SearchSortPressed({required this.sort});
+
+  final bool sort;
+
+  @override
+  List<Object> get props => [sort];
+
+  @override
+  String toString() => 'Search filtered {sort: $sort}';
+}

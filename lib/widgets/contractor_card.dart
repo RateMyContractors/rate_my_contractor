@@ -62,7 +62,7 @@ class ContractorCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.star, color: Colors.amber, size: 20),
+              const Icon(Icons.star, color: Colors.orange, size: 20),
               const SizedBox(width: 5),
               Text(
                 rating.toString(),

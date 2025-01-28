@@ -51,6 +51,7 @@ void main() {
                   contractorId: '845',
                 ),
               ],
+              totalRating: [],
             ),
             Contractor(
               id: '123',
@@ -69,6 +70,7 @@ void main() {
                   contractorId: '123',
                 ),
               ],
+              totalRating: [],
             ),
           ],
         ),
@@ -133,6 +135,7 @@ void main() {
               address: '10821 S KENTON AVE, OAK LAWN, IL 60453-',
               tags: ['Electrical Contractor (General)'],
               phone: '(708) 423-6967',
+              totalRating: [1, 3],
               licenses: [],
             ),
           ],
