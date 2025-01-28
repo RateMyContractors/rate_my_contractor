@@ -126,13 +126,14 @@ class _ContractorAndUserButton extends StatelessWidget {
                   : Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
-              print('contractor');
               context
                   .read<SignUpBloc>()
                   .add(const SignUpUserType('Contractor'));
             },
-            child: const Text('Contractor',
-                style: TextStyle(color: Color.fromARGB(255, 245, 243, 243))),
+            child: Text(
+              'Contractor',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
           ),
         ),
         const SizedBox(width: 20),
@@ -144,11 +145,12 @@ class _ContractorAndUserButton extends StatelessWidget {
                   : Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
-              print('user');
               context.read<SignUpBloc>().add(const SignUpUserType('User'));
             },
-            child: const Text('User',
-                style: TextStyle(color: Color.fromARGB(255, 245, 243, 243))),
+            child: Text(
+              'User',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
           ),
         ),
       ],
@@ -169,10 +171,7 @@ class _SignUpButton extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       onPressed: () => context.read<SignUpBloc>().add(const SignUpSubmitted()),
-      child: const Text(
-        'Sign Up',
-        style: TextStyle(color: Color.fromARGB(255, 245, 243, 243)),
-      ),
+      child: Text('Sign Up', style: Theme.of(context).textTheme.displaySmall),
     );
   }
 }

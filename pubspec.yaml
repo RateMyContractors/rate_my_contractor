@@ -36,6 +36,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   flutter_dotenv: ^5.2.1
   formz: ^0.8.0
+  google_fonts: ^6.2.1
   intl: ^0.20.1
 
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.black,
         colorScheme: const ColorScheme(
-          primary: Color.fromARGB(255, 255, 129, 50),
+          primary: Color.fromARGB(255, 248, 137, 94),
           onPrimary: Color.fromARGB(255, 0, 0, 0),
           secondary: Color.fromARGB(255, 132, 132, 132),
           onSecondary: Color.fromARGB(255, 253, 250, 255),
@@ -57,6 +58,30 @@ class MyApp extends StatelessWidget {
           surface: Color.fromARGB(255, 255, 255, 255),
           onSurface: Color.fromARGB(255, 0, 0, 0),
           brightness: Brightness.light,
+        ),
+        //displaylarge will  be for anyhting like the contractor page items
+        //titlelarge will be for the title in the beginning of the website
+        //body medium will be for other searches basically
+        //display small will be for subitems
+        textTheme: TextTheme(
+          displayLarge: GoogleFonts.libreFranklin(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          titleLarge: GoogleFonts.libreFranklin(
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          bodyMedium: GoogleFonts.libreFranklin(
+            fontSize: 20,
+            color: Colors.black,
+          ),
+          displaySmall: GoogleFonts.libreFranklin(
+            fontSize: 20,
+            color: const Color.fromARGB(255, 255, 255, 255),
+          ),
         ),
       ),
       home: MultiBlocProvider(
@@ -110,9 +135,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
-        title: Row(
+        title: const Row(
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 20),
               child: Image(
                 matchTextDirection: true,
@@ -120,11 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 40,
               ),
             ),
-            IconButton(
-              icon: const Text(
-                'RateMyContractor',
-              ),
-              onPressed: () {},
+            Text(
+              'RateMyContractor',
             ),
           ],
         ),
@@ -157,26 +179,21 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           'Login',
                           textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                       )
                     : DropdownButton<String>(
                         hint: Text(
                           'Hello $username',
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                         items: const [
                           DropdownMenuItem(
                             value: 'logout',
-                            child:
-                                Text('Logout', style: TextStyle(fontSize: 20)),
+                            child: Text('Logout'),
                           ),
                         ],
                         onChanged: (String? value) {
@@ -196,19 +213,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'Find who you need',
-              style: TextStyle(
-                fontSize: 50,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 15),
             const Text(
               'Fastest way to browse, review and see contractors in your area!',
-              style: TextStyle(
-                fontSize: 25,
-              ),
+              style: TextStyle(),
             ),
             const SizedBox(height: 15),
             Padding(
@@ -255,12 +267,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(16),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                    child: const Text(
+                    child: Text(
                       'Search',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(255, 245, 243, 243),
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   ),
                 ],

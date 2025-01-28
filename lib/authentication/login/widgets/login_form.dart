@@ -132,10 +132,13 @@ class _LoginButton extends StatelessWidget {
 
     return ElevatedButton(
       key: const Key('loginForm_continue_raisedButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
       onPressed: isValid
           ? () => context.read<LoginBloc>().add(const LoginSubmitted())
           : null,
-      child: const Text('Login'),
+      child: Text('Login', style: Theme.of(context).textTheme.displaySmall),
     );
   }
 }
