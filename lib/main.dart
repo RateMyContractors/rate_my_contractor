@@ -135,9 +135,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
-        title: const Row(
+        title: Row(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 20),
               child: Image(
                 matchTextDirection: true,
@@ -147,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               'RateMyContractor',
+              style: Theme.of(context).textTheme.displaySmall,
             ),
           ],
         ),

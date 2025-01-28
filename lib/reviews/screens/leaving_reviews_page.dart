@@ -91,9 +91,10 @@ class ReviewForm extends StatelessWidget {
                     alignment: Alignment.centerLeft, // Align text to the left
                     child: Text(
                       companyName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ),
@@ -196,15 +197,15 @@ class ReviewForm extends StatelessWidget {
                             ),
                           ],
                         )
-                      : const Column(
+                      : Column(
                           children: [
                             Icon(
                               Icons.upload,
-                              color: Color.fromARGB(255, 163, 64, 170),
+                              color: Theme.of(context).colorScheme.primary,
                               size: 50,
                               semanticLabel: 'Insert Photo',
                             ),
-                            Text('Upload'),
+                            const Text('Upload'),
                           ],
                         ),
                 ),
@@ -217,14 +218,14 @@ class ReviewForm extends StatelessWidget {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              const Color.fromARGB(255, 163, 64, 170),
+                              Theme.of(context).colorScheme.primary,
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: const Text(
+                        child: Text(
                           'Cancel',
-                          style: TextStyle(color: Colors.white),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -242,7 +243,8 @@ class ReviewForm extends StatelessWidget {
                             ),
                           );
                         },
-                        child: const Text('Post'),
+                        child:
+                            const Text('Post', style: TextStyle(fontSize: 20)),
                       ),
                       const SizedBox(width: 8),
                     ],
