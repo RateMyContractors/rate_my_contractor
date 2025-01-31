@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
+import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
+import 'package:rate_my_contractor/contractor_page.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 
 class ReviewFormPage extends StatelessWidget {
   const ReviewFormPage({
-    required this.companyName,
-    required this.contractorid,
+    required this.contractor,
     super.key,
   });
-  final String companyName;
-  final String contractorid;
+  final Contractor contractor;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,22 @@ class ReviewFormPage extends StatelessWidget {
     return BlocListener<ReviewsBloc, ReviewsState>(
       listener: (context, state) {
         if (state.status == ReviewsStateStatus.passed) {
-          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute<ReviewFormPage>(
+              builder: (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(
+                    value: context.read<ReviewsBloc>(),
+                  ),
+                  BlocProvider.value(
+                    value: context.read<AuthenticationBloc>(),
+                  ),
+                ],
+                child: ContractorPage(contractor: contractor),
+              ),
+            ),
+          );
         }
       },
       child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -27,9 +42,9 @@ class ReviewFormPage extends StatelessWidget {
           final userid = state.user?.id ?? '';
           return Scaffold(
             body: ReviewForm(
-              companyName: companyName,
+              companyName: contractor.companyName,
               size: size,
-              contractorid: contractorid,
+              contractorid: contractor.id,
               userid: userid,
               username: username,
             ),

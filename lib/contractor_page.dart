@@ -74,8 +74,7 @@ class ContractorPage extends StatelessWidget {
                                     ),
                                   ],
                                   child: ReviewFormPage(
-                                    companyName: contractor.companyName,
-                                    contractorid: contractor.id,
+                                    contractor: contractor,
                                   ),
                                 ),
                               ),
