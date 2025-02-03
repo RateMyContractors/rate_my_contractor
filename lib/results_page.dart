@@ -210,6 +210,8 @@ class SortBy extends StatelessWidget {
       items: const [
         DropdownMenuItem(value: 'asc', child: Text('Ascending (A-Z)')),
         DropdownMenuItem(value: 'des', child: Text('Descending (Z-A)')),
+        DropdownMenuItem(value: 'asc', child: Text('Ascending (A-Z)')),
+        DropdownMenuItem(value: 'des', child: Text('Descending (Z-A)')),
       ],
       onChanged: (value) => {
         if (value == 'asc')
@@ -239,16 +241,19 @@ class _ProfileCard extends StatelessWidget {
       onTap: () {
         BlocProvider.of<ReviewsBloc>(context)
             .add(ReviewsRequest(contractorId: contractor.id));
-        Navigator.push<ContractorPage>(
+        Navigator.push(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute<ContractorPage>(
             builder: (_) => MultiBlocProvider(
               providers: [
                 BlocProvider.value(
-                  value: context.read<ReviewsBloc>(),
+                  value: BlocProvider.of<ReviewsBloc>(context),
                 ),
                 BlocProvider.value(
-                  value: context.read<AuthenticationBloc>(),
+                  value: BlocProvider.of<AuthenticationBloc>(context),
+                ),
+                BlocProvider.value(
+                  value: BlocProvider.of<SearchBloc>(context),
                 ),
               ],
               child: ContractorPage(contractor: contractor),

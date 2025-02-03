@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
+import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
+import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
+import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
@@ -9,6 +12,7 @@ import 'package:rate_my_contractor/widgets/contractor_card.dart';
 import 'package:rate_my_contractor/widgets/portfolio_widget.dart';
 import 'package:rate_my_contractor/widgets/rating_widget.dart';
 import 'package:rate_my_contractor/widgets/review_card.dart';
+//import 'models/contractor.dart';
 
 class ContractorPage extends StatelessWidget {
   const ContractorPage({required this.contractor, super.key});
@@ -59,28 +63,79 @@ class ContractorPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<ReviewFormPage>(
-                                builder: (_) => MultiBlocProvider(
-                                  providers: [
-                                    BlocProvider.value(
-                                      value: context.read<ReviewsBloc>(),
+                        BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                          builder: (context, state) {
+                            return TextButton(
+                              onPressed: () {
+                                BlocProvider.of<AuthenticationBloc>(context)
+                                    .add(AuthenticationWriteReview());
+                                if (state.status ==
+                                    AuthenticationStatus.authenticated) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<ReviewFormPage>(
+                                      builder: (_) => MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider.value(
+                                            value: BlocProvider.of<ReviewsBloc>(
+                                              context,
+                                            ),
+                                          ),
+                                          BlocProvider.value(
+                                            value: BlocProvider.of<
+                                                AuthenticationBloc>(context),
+                                          ),
+                                        ],
+                                        child: ReviewFormPage(
+                                          contractor: contractor,
+                                        ),
+                                      ),
                                     ),
-                                    BlocProvider.value(
-                                      value: context.read<AuthenticationBloc>(),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: const Text(
+                                        'Please log in to write a review.',
+                                      ),
+                                      action: SnackBarAction(
+                                        label: 'OK',
+                                        textColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        onPressed: () {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute<LoginPage>(
+                                              builder: (_) => MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                        AuthenticationBloc>(
+                                                      context,
+                                                    ),
+                                                  ),
+                                                  BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                        SearchBloc>(context),
+                                                  ),
+                                                  BlocProvider.value(
+                                                    value: BlocProvider.of<
+                                                        ReviewsBloc>(context),
+                                                  ),
+                                                ],
+                                                child: const LoginPage(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  ],
-                                  child: ReviewFormPage(
-                                    contractor: contractor,
-                                  ),
-                                ),
-                              ),
+                                  );
+                                }
+                              },
+                              child: const Text('Write a review'),
                             );
                           },
-                          child: const Text('Write a review'),
                         ),
                         const Text(
                           'Customer Reviews\n',

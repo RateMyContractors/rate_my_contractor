@@ -215,6 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
+        //block builder
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

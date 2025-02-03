@@ -36,6 +36,7 @@ class AboutUsWidget extends StatelessWidget {
             ),
           ),
           Text(aboutUs, style: const TextStyle(fontSize: 16)),
+          Text(aboutUs, style: const TextStyle(fontSize: 16)),
         ],
       ),
     );

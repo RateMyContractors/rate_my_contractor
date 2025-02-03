@@ -24,6 +24,7 @@ class ContractorDto {
   final String phone;
   final String? owner;
   final String? email;
+
   @override
   String toString() => ' ContractorDto(id: $id, '
       'companyname: $companyname,'
