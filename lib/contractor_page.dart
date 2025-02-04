@@ -145,16 +145,15 @@ class ContractorPage extends StatelessWidget {
                             color: Color.fromARGB(255, 0, 0, 0),
                           ),
                         ),
-                        //call ratingWidget here
-                        RatingWidget(
-                          rating: contractor.rating,
-                          totalRating: contractor.totalRating,
-                        ),
                         Visibility(
                           visible: state.status == ReviewsStateStatus.success,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              //call ratingWidget here
+                              RatingWidget(
+                                entirerating: state.reviews,
+                              ),
                               Center(
                                 child: SizedBox(
                                   width: 360,

@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 
 class RatingWidget extends StatelessWidget {
   const RatingWidget({
-    required this.rating,
-    required this.totalRating,
+    //required this.rating,
+    // required this.totalRating,
+    // required this.totalRatings,
+    required this.entirerating,
     super.key,
   });
-  final double rating;
-  final List<double?> totalRating;
+  //final double rating;
+  // final List<double?> totalRating;
+  // final int totalRatings;
+  final List<ReviewsDto> entirerating;
 
   @override
   Widget build(BuildContext context) {
-    final avgRate = rating;
+    //final avgRate = rating;
     final ratingCounts = <int, int>{for (var i = 1; i <= 5; i++) i: 0};
+    // final totalRatingLength = totalRating.length;
+
+    //rating - 2.8 inika is passing
+    var totalRating =
+        entirerating.map((x) => x.rating).toList(); //[ 3, 3, 2, 3, 3]
     final totalRatingLength = totalRating.length;
+
+    double avgRate = totalRating.fold(0, (a, b) => a + b / totalRatingLength);
+    avgRate = double.parse(avgRate.toStringAsFixed(1));
 
     for (final ratings in totalRating) {
       if (ratings != null) {
