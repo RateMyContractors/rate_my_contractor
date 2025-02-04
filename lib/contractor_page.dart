@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
+import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
 import 'package:rate_my_contractor/widgets/about_widget.dart';
 import 'package:rate_my_contractor/widgets/contractor_card.dart';
@@ -157,23 +159,40 @@ class ContractorPage extends StatelessWidget {
                               Center(
                                 child: SizedBox(
                                   width: 360,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: state.reviews.length,
-                                    itemBuilder: (context, index) {
-                                      // final review =
-                                      //     state.reviews[index].reviewerId;
-                                      return Center(
-                                        child: ReviewCard(
-                                          reviewerName:
-                                              state.reviews[index].username,
-                                          rating: state.reviews[index].rating,
-                                          comment: state.reviews[index].comment,
-                                          date: state.reviews[index]
-                                              .date, //review.date,
-                                        ),
+                                  child: Builder(
+                                    builder: (context) {
+                                      final dateSortedReviews =
+                                          List<ReviewsDto>.from(state.reviews)
+                                            ..sort(
+                                              (a, b) => DateFormat(
+                                                'MMMM d, yyyy',
+                                              ).parse(b.date).compareTo(
+                                                    DateFormat('MMMM d, yyyy')
+                                                        .parse(a.date),
+                                                  ),
+                                            );
+
+                                      return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: dateSortedReviews
+                                            .length, //state.reviews.length,
+                                        itemBuilder: (context, index) {
+                                          return Center(
+                                            child: ReviewCard(
+                                              reviewerName: dateSortedReviews[
+                                                      index]
+                                                  .username, // Use sorted list
+                                              rating: dateSortedReviews[index]
+                                                  .rating,
+                                              comment: dateSortedReviews[index]
+                                                  .comment,
+                                              date:
+                                                  dateSortedReviews[index].date,
+                                            ),
+                                          );
+                                        },
                                       );
                                     },
                                   ),
