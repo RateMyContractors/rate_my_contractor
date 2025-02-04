@@ -210,8 +210,6 @@ class SortBy extends StatelessWidget {
       items: const [
         DropdownMenuItem(value: 'asc', child: Text('Ascending (A-Z)')),
         DropdownMenuItem(value: 'des', child: Text('Descending (Z-A)')),
-        DropdownMenuItem(value: 'asc', child: Text('Ascending (A-Z)')),
-        DropdownMenuItem(value: 'des', child: Text('Descending (Z-A)')),
       ],
       onChanged: (value) => {
         if (value == 'asc')

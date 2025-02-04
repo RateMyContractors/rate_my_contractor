@@ -80,7 +80,7 @@ class RatingWidget extends StatelessWidget {
               }),
               const SizedBox(width: 10),
               Text(
-                '$avgRate out of 5',
+                avgRate.isNaN ? '0 out of 5' : '$avgRate out of 5',
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Roboto',

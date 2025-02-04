@@ -35,6 +35,7 @@ class ContractorCard extends StatelessWidget {
 
           avgRate = totalRating.fold(0, (a, b) => a + b) / totalRatingLength;
           avgRate = double.parse(avgRate.toStringAsFixed(1));
+          print('avgRate$avgRate');
         }
         return Container(
           padding: const EdgeInsets.all(16),
@@ -78,7 +79,7 @@ class ContractorCard extends StatelessWidget {
                   const Icon(Icons.star, color: Colors.orange, size: 20),
                   const SizedBox(width: 5),
                   Text(
-                    avgRate.toString(),
+                    avgRate.isNaN ? '0' : avgRate.toString(),
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
