@@ -179,7 +179,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     value: BlocProvider.of<SearchBloc>(context),
                                   ),
                                 ],
-                                child: const LoginPage(),
+                                child: const LoginPage(
+                                  route: '',
+                                ),
                               ),
                             ),
                           );

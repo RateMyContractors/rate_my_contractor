@@ -17,8 +17,20 @@ class Contractor extends Equatable {
     this.aboutUs,
   });
 
-  /// Everything that a contractor DTO would have
-  /// Plus the list of Licenses associated with that contractor
+  const Contractor.defaultValue()
+      : id = '',
+        companyName = '',
+        address = '',
+        tags = const [],
+        phone = '0000000000',
+        licenses = const [],
+        totalRating = const [],
+        ownerName = 'Unknown',
+        image = '',
+        rating = 0.0,
+        email = '',
+        aboutUs = '';
+
   final String id;
   final String companyName;
   final String address;

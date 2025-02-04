@@ -41,7 +41,9 @@ class SignupForm extends StatelessWidget {
                       value: BlocProvider.of<AuthenticationBloc>(
                         context,
                       ),
-                      child: const LoginPage(),
+                      child: const LoginPage(
+                        route: '',
+                      ),
                     ),
                   ),
                 );

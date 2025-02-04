@@ -123,7 +123,10 @@ class ContractorPage extends StatelessWidget {
                                                         ReviewsBloc>(context),
                                                   ),
                                                 ],
-                                                child: const LoginPage(),
+                                                child: LoginPage(
+                                                  contractor: contractor,
+                                                  route: 'reviewform',
+                                                ),
                                               ),
                                             ),
                                           );
