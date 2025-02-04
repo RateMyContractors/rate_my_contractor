@@ -5,6 +5,7 @@ import 'package:rate_my_contractor/authentication/domain/authentication_reposito
 import 'package:rate_my_contractor/authentication/login/bloc/login_bloc.dart';
 import 'package:rate_my_contractor/authentication/login/widgets/login_form.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
+import 'package:rate_my_contractor/contractor_page.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
 
@@ -35,7 +36,7 @@ class LoginPage extends StatelessWidget {
                       value: BlocProvider.of<AuthenticationBloc>(context),
                     ),
                   ],
-                  child: ReviewFormPage(
+                  child: ContractorPage(
                     contractor: contractor ?? const Contractor.defaultValue(),
                   ),
                 ),

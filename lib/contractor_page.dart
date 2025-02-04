@@ -12,7 +12,6 @@ import 'package:rate_my_contractor/widgets/contractor_card.dart';
 import 'package:rate_my_contractor/widgets/portfolio_widget.dart';
 import 'package:rate_my_contractor/widgets/rating_widget.dart';
 import 'package:rate_my_contractor/widgets/review_card.dart';
-//import 'models/contractor.dart';
 
 class ContractorPage extends StatelessWidget {
   const ContractorPage({required this.contractor, super.key});
@@ -25,6 +24,7 @@ class ContractorPage extends StatelessWidget {
       ),
       body: BlocBuilder<ReviewsBloc, ReviewsState>(
         builder: (context, state) {
+          final reviews = state.reviews;
           return SingleChildScrollView(
             child: Container(
               color: const Color.fromARGB(0, 255, 255, 255),
@@ -65,34 +65,11 @@ class ContractorPage extends StatelessWidget {
                       children: [
                         BlocBuilder<AuthenticationBloc, AuthenticationState>(
                           builder: (context, state) {
+                            final username = state.user?.username;
                             return TextButton(
                               onPressed: () {
-                                BlocProvider.of<AuthenticationBloc>(context)
-                                    .add(AuthenticationWriteReview());
-                                if (state.status ==
+                                if (state.status !=
                                     AuthenticationStatus.authenticated) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute<ReviewFormPage>(
-                                      builder: (_) => MultiBlocProvider(
-                                        providers: [
-                                          BlocProvider.value(
-                                            value: BlocProvider.of<ReviewsBloc>(
-                                              context,
-                                            ),
-                                          ),
-                                          BlocProvider.value(
-                                            value: BlocProvider.of<
-                                                AuthenticationBloc>(context),
-                                          ),
-                                        ],
-                                        child: ReviewFormPage(
-                                          contractor: contractor,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: const Text(
@@ -125,7 +102,7 @@ class ContractorPage extends StatelessWidget {
                                                 ],
                                                 child: LoginPage(
                                                   contractor: contractor,
-                                                  route: 'reviewform',
+                                                  route: 'reviewcontractor',
                                                 ),
                                               ),
                                             ),
@@ -134,7 +111,39 @@ class ContractorPage extends StatelessWidget {
                                       ),
                                     ),
                                   );
+                                  return;
                                 }
+                                if (reviews.any(
+                                  (review) => review.username == username,
+                                )) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Thank you for the review'),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<ReviewFormPage>(
+                                    builder: (_) => MultiBlocProvider(
+                                      providers: [
+                                        BlocProvider.value(
+                                          value: BlocProvider.of<ReviewsBloc>(
+                                            context,
+                                          ),
+                                        ),
+                                        BlocProvider.value(
+                                          value: BlocProvider.of<
+                                              AuthenticationBloc>(context),
+                                        ),
+                                      ],
+                                      child: ReviewFormPage(
+                                        contractor: contractor,
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
                               child: const Text('Write a review'),
                             );
@@ -153,7 +162,6 @@ class ContractorPage extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              //call ratingWidget here
                               RatingWidget(
                                 entirerating: state.reviews,
                               ),
@@ -166,16 +174,13 @@ class ContractorPage extends StatelessWidget {
                                         const NeverScrollableScrollPhysics(),
                                     itemCount: state.reviews.length,
                                     itemBuilder: (context, index) {
-                                      // final review =
-                                      //     state.reviews[index].reviewerId;
                                       return Center(
                                         child: ReviewCard(
                                           reviewerName:
                                               state.reviews[index].username,
                                           rating: state.reviews[index].rating,
                                           comment: state.reviews[index].comment,
-                                          date: state.reviews[index]
-                                              .date, //review.date,
+                                          date: state.reviews[index].date,
                                         ),
                                       );
                                     },
