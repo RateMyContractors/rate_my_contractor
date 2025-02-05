@@ -10,10 +10,13 @@ class AboutUsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(16),
+      width: 1200,
+      height: 300,
       decoration: BoxDecoration(
         color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey),
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
         boxShadow: const [
           BoxShadow(
             blurRadius: 5,
@@ -21,7 +24,6 @@ class AboutUsWidget extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -33,10 +35,8 @@ class AboutUsWidget extends StatelessWidget {
               color: Color.fromARGB(255, 0, 0, 0),
             ),
           ),
-          Text(
-            aboutUs,
-            style: const TextStyle(fontSize: 16),
-          ),
+          Text(aboutUs, style: const TextStyle(fontSize: 16)),
+          Text(aboutUs, style: const TextStyle(fontSize: 16)),
         ],
       ),
     );

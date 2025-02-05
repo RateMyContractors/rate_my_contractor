@@ -9,6 +9,7 @@ class Contractor extends Equatable {
     required this.tags,
     required this.phone,
     required this.licenses,
+    required this.totalRating,
     this.ownerName,
     this.image,
     this.rating = 0,
@@ -16,8 +17,20 @@ class Contractor extends Equatable {
     this.aboutUs,
   });
 
-  /// Everything that a contractor DTO would have
-  /// Plus the list of Licenses associated with that contractor
+  const Contractor.defaultValue()
+      : id = '',
+        companyName = '',
+        address = '',
+        tags = const [],
+        phone = '0000000000',
+        licenses = const [],
+        totalRating = const [],
+        ownerName = 'Unknown',
+        image = '',
+        rating = 0.0,
+        email = '',
+        aboutUs = '';
+
   final String id;
   final String companyName;
   final String address;
@@ -29,6 +42,7 @@ class Contractor extends Equatable {
   final String? email;
   final String? aboutUs;
   final List<LicenseDto> licenses;
+  final List<double?> totalRating;
 
   @override
   List<Object?> get props => [
@@ -42,5 +56,6 @@ class Contractor extends Equatable {
         email,
         aboutUs,
         licenses,
+        totalRating,
       ];
 }

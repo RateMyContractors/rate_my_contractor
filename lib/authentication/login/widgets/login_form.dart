@@ -52,15 +52,9 @@ class LoginForm extends StatelessWidget {
               const Expanded(
                 child: Padding(padding: EdgeInsets.all(12)),
               ),
-              Expanded(
-                child: _EmailInput(),
-              ),
-              const Expanded(
-                child: Padding(padding: EdgeInsets.all(12)),
-              ),
-              Expanded(
-                child: _PasswordInput(),
-              ),
+              _EmailInput(),
+              const SizedBox(height: 16),
+              _PasswordInput(),
               const Expanded(
                 child: Padding(padding: EdgeInsets.all(12)),
               ),
@@ -119,6 +113,7 @@ class _PasswordInput extends StatelessWidget {
         labelText: 'password',
         border: const OutlineInputBorder(),
         errorText: displayError != null ? 'invalid password' : null,
+        errorStyle: const TextStyle(overflow: TextOverflow.visible),
       ),
     );
   }
@@ -137,10 +132,13 @@ class _LoginButton extends StatelessWidget {
 
     return ElevatedButton(
       key: const Key('loginForm_continue_raisedButton'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
       onPressed: isValid
           ? () => context.read<LoginBloc>().add(const LoginSubmitted())
           : null,
-      child: const Text('Login'),
+      child: Text('Login', style: Theme.of(context).textTheme.displaySmall),
     );
   }
 }
@@ -164,7 +162,6 @@ class _SignUpText extends StatelessWidget {
         'Sign up',
         style: TextStyle(
           fontSize: 20,
-          color: Color.fromARGB(255, 193, 129, 219),
           decoration: TextDecoration.underline,
         ),
       ),
