@@ -33,6 +33,7 @@ class SignupForm extends StatelessWidget {
             duration: const Duration(days: 1),
             action: SnackBarAction(
               label: 'Continue',
+              textColor: Theme.of(context).colorScheme.primary,
               onPressed: () {
                 Navigator.push(
                   context,
