@@ -172,35 +172,22 @@ class ContractorPage extends StatelessWidget {
                                   width: 360,
                                   child: Builder(
                                     builder: (context) {
-                                      final dateSortedReviews =
-                                          List<ReviewsDto>.from(state.reviews)
-                                            ..sort(
-                                              (a, b) => DateFormat(
-                                                'MMMM d, yyyy',
-                                              ).parse(b.date).compareTo(
-                                                    DateFormat('MMMM d, yyyy')
-                                                        .parse(a.date),
-                                                  ),
-                                            );
-
                                       return ListView.builder(
                                         shrinkWrap: true,
                                         physics:
                                             const NeverScrollableScrollPhysics(),
-                                        itemCount: dateSortedReviews
+                                        itemCount: state.reviews
                                             .length, //state.reviews.length,
                                         itemBuilder: (context, index) {
                                           return Center(
                                             child: ReviewCard(
-                                              reviewerName: dateSortedReviews[
-                                                      index]
+                                              reviewerName: state.reviews[index]
                                                   .username, // Use sorted list
-                                              rating: dateSortedReviews[index]
-                                                  .rating,
-                                              comment: dateSortedReviews[index]
-                                                  .comment,
-                                              date:
-                                                  dateSortedReviews[index].date,
+                                              rating:
+                                                  state.reviews[index].rating,
+                                              comment:
+                                                  state.reviews[index].comment,
+                                              date: state.reviews[index].date,
                                             ),
                                           );
                                         },

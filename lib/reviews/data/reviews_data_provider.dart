@@ -32,7 +32,8 @@ class ReviewsDataProvider {
       final reviewJson = await _supabaseClient
           .from('Reviews')
           .select()
-          .eq('contractor_id', contractorId);
+          .eq('contractor_id', contractorId)
+          .order('modified_at', ascending: false);
       final reviewsObjList =
           reviewJson.map<ReviewsDto>(ReviewsDto.fromJson).toList();
       return reviewsObjList;
