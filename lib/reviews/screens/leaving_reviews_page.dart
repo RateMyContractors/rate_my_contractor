@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
@@ -185,40 +186,61 @@ class ReviewForm extends StatelessWidget {
                 const SizedBox(height: 15),
                 SizedBox(
                   child: size.width < 800
-                      ? const Row(
+                      ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Column(
                               children: [
-                                Icon(
-                                  Icons.upload,
-                                  color: Color.fromARGB(255, 163, 64, 170),
-                                  size: 50,
-                                  semanticLabel: 'Insert Photo',
+                                IconButton(
+                                  onPressed: () {
+                                    print('pressed');
+                                    ImagePicker()
+                                        .pickImage(source: ImageSource.gallery);
+                                  },
+                                  icon: const Icon(
+                                    Icons.upload,
+                                    color: Color.fromARGB(255, 163, 64, 170),
+                                    size: 50,
+                                    semanticLabel: 'Insert Photo',
+                                  ),
                                 ),
-                                Text('Upload'),
+                                const Text('Upload'),
                               ],
                             ),
                             Column(
                               children: [
-                                Icon(
-                                  Icons.camera_alt,
-                                  color: Color.fromARGB(255, 163, 64, 170),
-                                  size: 50,
-                                  semanticLabel: 'take_a_picture',
+                                IconButton(
+                                  onPressed: () {
+                                    print('pressed');
+                                    ImagePicker()
+                                        .pickImage(source: ImageSource.camera);
+                                  },
+                                  icon: const Icon(
+                                    Icons.camera_alt,
+                                    color: Color.fromARGB(255, 163, 64, 170),
+                                    size: 50,
+                                    semanticLabel: 'take_a_picture',
+                                  ),
                                 ),
-                                Text('Take a picture'),
+                                const Text('Take a picture'),
                               ],
                             ),
                           ],
                         )
                       : Column(
                           children: [
-                            Icon(
-                              Icons.upload,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 50,
-                              semanticLabel: 'Insert Photo',
+                            IconButton(
+                              onPressed: () {
+                                print('pressed');
+                                ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                              },
+                              icon: const Icon(
+                                Icons.upload,
+                                color: Color.fromARGB(255, 163, 64, 170),
+                                size: 50,
+                                semanticLabel: 'Insert Photo',
+                              ),
                             ),
                             const Text('Upload'),
                           ],
