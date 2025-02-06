@@ -64,29 +64,30 @@ class MyApp extends StatelessWidget {
         //body medium will be for other searches basically
         //display small will be for subitems
         textTheme: TextTheme(
-            displayLarge: GoogleFonts.libreFranklin(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-            titleLarge: GoogleFonts.libreFranklin(
-              fontSize: 50,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-            bodyMedium: GoogleFonts.libreFranklin(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-            displaySmall: GoogleFonts.libreFranklin(
-              fontSize: 20,
-              color: const Color.fromARGB(255, 255, 255, 255),
-            ),
-            headlineLarge: GoogleFonts.libreFranklin(
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-              color: const Color.fromARGB(255, 255, 255, 255),
-            )),
+          displayLarge: GoogleFonts.libreFranklin(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          titleLarge: GoogleFonts.libreFranklin(
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          bodyMedium: GoogleFonts.libreFranklin(
+            fontSize: 20,
+            color: Colors.black,
+          ),
+          displaySmall: GoogleFonts.libreFranklin(
+            fontSize: 20,
+            color: const Color.fromARGB(255, 255, 255, 255),
+          ),
+          headlineLarge: GoogleFonts.libreFranklin(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+            color: const Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
       ),
       home: MultiBlocProvider(
         providers: [
@@ -141,23 +142,26 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: theme.primaryColor,
         title: Row(
           children: [
-            Column(children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 0.05),
-                child: Image.asset(
-                  'assets/logo.png',
-                  height:
-                      35, // Set the height// Ensures the image fills the oval
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 0.05),
+                  child: Image.asset(
+                    'assets/logo.png',
+                    height:
+                        35, // Set the height// Ensures the image fills the oval
+                  ),
                 ),
-              ),
-            ]),
+              ],
+            ),
             const SizedBox(width: 10),
             Padding(
-                padding: const EdgeInsets.only(top: 0.5),
-                child: Text(
-                  'RateMyContractor',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                )),
+              padding: const EdgeInsets.only(top: 0.5),
+              child: Text(
+                'RateMyContractor',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+            ),
           ],
         ),
         actions: [

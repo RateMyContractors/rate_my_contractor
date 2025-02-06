@@ -19,7 +19,7 @@ class ReviewFormPage extends StatelessWidget {
     return BlocListener<ReviewsBloc, ReviewsState>(
       listener: (context, state) {
         if (state.status == ReviewsStateStatus.passed) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute<ReviewFormPage>(
               builder: (_) => MultiBlocProvider(
@@ -279,6 +279,7 @@ class ReviewForm extends StatelessWidget {
                               username: username,
                             ),
                           );
+                          Navigator.pop(context);
                         },
                         child:
                             const Text('Post', style: TextStyle(fontSize: 20)),

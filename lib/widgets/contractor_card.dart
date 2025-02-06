@@ -35,7 +35,7 @@ class ContractorCard extends StatelessWidget {
 
           avgRate = totalRating.fold(0, (a, b) => a + b) / totalRatingLength;
           avgRate = double.parse(avgRate.toStringAsFixed(1));
-          print('avgRate$avgRate');
+          //print('avgRate$avgRate');
         }
         return Container(
           padding: const EdgeInsets.all(16),

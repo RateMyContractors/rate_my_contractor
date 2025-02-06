@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
-import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:rate_my_contractor/reviews/screens/leaving_reviews_page.dart';
 import 'package:rate_my_contractor/widgets/about_widget.dart';
 import 'package:rate_my_contractor/widgets/contractor_card.dart';
