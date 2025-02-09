@@ -46,7 +46,7 @@ class ContractorPage extends StatelessWidget {
                     aboutUs: contractor.aboutUs ?? '',
                   ),
                   const SizedBox(height: 20),
-                  const PortfolioWidget(),
+                  PortfolioWidget(image: contractor.image),
                   const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(16),
