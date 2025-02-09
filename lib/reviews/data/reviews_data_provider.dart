@@ -14,6 +14,7 @@ class ReviewsDataProvider {
     int upvote,
     int downvote,
     String username,
+    String usertype,
   ) async {
     try {
       await _supabaseClient.from('Reviews').insert({
@@ -22,6 +23,7 @@ class ReviewsDataProvider {
         'rating': rating,
         'comment': comment,
         'username': username,
+        'user_type': usertype
       });
     } on Exception catch (error) {
       Exception('supabase issue$error');

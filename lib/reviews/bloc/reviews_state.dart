@@ -24,6 +24,7 @@ class ReviewsState extends Equatable {
     this.status = ReviewsStateStatus.initial,
     this.date = '',
     this.username = '',
+    this.usertype = '',
   });
   final ReviewsStateStatus status;
   final String contractorId;
@@ -36,6 +37,7 @@ class ReviewsState extends Equatable {
   final List<ReviewsDto> reviews;
   final String date;
   final String username;
+  final String usertype;
 
   ReviewsState copyWith({
     String? contractorId,
@@ -49,6 +51,7 @@ class ReviewsState extends Equatable {
     ReviewsStateStatus? status,
     String? date,
     String? username,
+    String? usertype,
   }) {
     return ReviewsState(
       contractorId: contractorId ?? this.contractorId,
@@ -62,6 +65,7 @@ class ReviewsState extends Equatable {
       downvote: downvote ?? this.downvote,
       date: date ?? this.date,
       username: username ?? this.username,
+      usertype: usertype ?? this.usertype,
     );
   }
 
@@ -78,11 +82,12 @@ class ReviewsState extends Equatable {
         downvote,
         date,
         username,
+        usertype,
       ];
 
   @override
   String toString() =>
       'ReviewState(contractorId: $contractorId, errormsg: $errormsg,'
       ' reviews: $reviews,'
-      ' status: $status, username: $username)';
+      ' status: $status, username: $username, usertype: $usertype)';
 }

@@ -13,6 +13,7 @@ class ReviewsRepository {
     int upvote,
     int downvote,
     String username,
+    String usertype,
   ) async {
     await _reviewsDataProvider.createReview(
       contractorId,
@@ -22,6 +23,7 @@ class ReviewsRepository {
       upvote,
       downvote,
       username,
+      usertype,
     );
   }
 

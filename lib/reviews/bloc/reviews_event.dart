@@ -33,6 +33,7 @@ class ReviewsFormButtonPressed extends ReviewsEvent {
     required this.upvote,
     required this.downvote,
     required this.username,
+    required this.usertype,
   });
 
   final String contractorid;
@@ -42,10 +43,19 @@ class ReviewsFormButtonPressed extends ReviewsEvent {
   final int upvote;
   final int downvote;
   final String username;
+  final String usertype;
 
   @override
-  List<Object> get props =>
-      [contractorid, reviewerid, rating, comment, upvote, downvote, username];
+  List<Object> get props => [
+        contractorid,
+        reviewerid,
+        rating,
+        comment,
+        upvote,
+        downvote,
+        username,
+        usertype,
+      ];
 }
 
 class ReviewsRequest extends ReviewsEvent {

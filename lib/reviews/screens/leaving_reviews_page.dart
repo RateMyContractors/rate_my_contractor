@@ -40,6 +40,7 @@ class ReviewFormPage extends StatelessWidget {
       child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           final username = state.user?.username ?? 'Guest';
+          final usertype = state.user?.usertype ?? 'noneprovided';
           final userid = state.user?.id ?? '';
           return Scaffold(
             body: ReviewForm(
@@ -48,6 +49,7 @@ class ReviewFormPage extends StatelessWidget {
               contractorid: contractor.id,
               userid: userid,
               username: username,
+              usertype: usertype,
             ),
           );
         },
@@ -63,6 +65,7 @@ class ReviewForm extends StatelessWidget {
     required this.contractorid,
     required this.userid,
     required this.username,
+    required this.usertype,
     super.key,
   });
 
@@ -71,6 +74,7 @@ class ReviewForm extends StatelessWidget {
   final String contractorid;
   final String username;
   final String userid;
+  final String usertype;
 
   @override
   Widget build(BuildContext context) {
@@ -279,6 +283,7 @@ class ReviewForm extends StatelessWidget {
                               upvote: 1,
                               downvote: 1,
                               username: username,
+                              usertype: usertype,
                             ),
                           );
                           Navigator.pop(context);

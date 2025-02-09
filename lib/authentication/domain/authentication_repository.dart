@@ -47,6 +47,7 @@ class AuthenticationRepository {
             firstname: metadata!['first_name'] as String?,
             lastname: metadata['last_name'] as String?,
             username: metadata['display_name'] as String?,
+            usertype: metadata['user_type'] as String?,
           );
           return currentuser;
         } else {

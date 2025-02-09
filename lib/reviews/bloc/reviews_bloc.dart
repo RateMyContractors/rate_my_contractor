@@ -43,6 +43,7 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           state.upvote,
           state.downvote,
           event.username,
+          event.usertype,
         );
         emit(state.copyWith(status: ReviewsStateStatus.passed));
         emit(state.copyWith(status: ReviewsStateStatus.loading));

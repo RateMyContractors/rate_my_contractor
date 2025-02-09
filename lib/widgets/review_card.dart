@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
@@ -6,6 +7,7 @@ class ReviewCard extends StatelessWidget {
     required this.rating,
     required this.comment,
     required this.date,
+    required this.usertype,
     super.key,
     this.image,
   });
@@ -14,6 +16,7 @@ class ReviewCard extends StatelessWidget {
   final String comment;
   final String? image;
   final String date;
+  final String usertype;
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +49,28 @@ class ReviewCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Text(
-                  reviewerName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Roboto',
-                    fontSize: 14,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      reviewerName,
+                      style: GoogleFonts.libreFranklin(
+                        fontSize: 16,
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Visibility(
+                      visible: usertype != 'EMPTY',
+                      child: Text(
+                        usertype,
+                        style: GoogleFonts.libreFranklin(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: const Color.fromARGB(255, 248, 137, 94),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
