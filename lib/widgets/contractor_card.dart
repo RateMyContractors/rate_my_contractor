@@ -65,11 +65,14 @@ class ContractorCard extends StatelessWidget {
                   fontSize: 20,
                 ),
               ),
-              Text(
-                'Owner: $ownerName',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Color.fromARGB(255, 0, 0, 0),
+              Visibility(
+                visible: ownerName != '',
+                child: Text(
+                  'Owner: $ownerName',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -93,42 +96,48 @@ class ContractorCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.phone,
-                          color: Color.fromARGB(255, 150, 150, 170),
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          phone,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 0, 0, 0),
+                    Visibility(
+                      visible: phone != '',
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.phone,
+                            color: Color.fromARGB(255, 150, 150, 170),
+                            size: 20,
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                          const SizedBox(width: 8),
+                          Text(
+                            phone,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.mail,
-                          color: Color.fromRGBO(150, 150, 170, 1),
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          email ?? 'N/A',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 0, 0, 0),
+                    Visibility(
+                      visible: email != '',
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.mail,
+                            color: Color.fromRGBO(150, 150, 170, 1),
+                            size: 20,
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                          const SizedBox(width: 8),
+                          Text(
+                            email ?? 'N/A',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

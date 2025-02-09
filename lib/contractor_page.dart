@@ -42,8 +42,8 @@ class ContractorPage extends StatelessWidget {
                     tags: contractor.tags,
                   ),
                   const SizedBox(height: 20),
-                  const AboutUsWidget(
-                    aboutUs: 'this is about us',
+                  AboutUsWidget(
+                    aboutUs: contractor.aboutUs ?? '',
                   ),
                   const SizedBox(height: 20),
                   const PortfolioWidget(),
