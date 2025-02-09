@@ -197,9 +197,10 @@ class ReviewForm extends StatelessWidget {
                                     ImagePicker()
                                         .pickImage(source: ImageSource.gallery);
                                   },
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.upload,
-                                    color: Color.fromARGB(255, 163, 64, 170),
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                     size: 50,
                                     semanticLabel: 'Insert Photo',
                                   ),
@@ -215,9 +216,10 @@ class ReviewForm extends StatelessWidget {
                                     ImagePicker()
                                         .pickImage(source: ImageSource.camera);
                                   },
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.camera_alt,
-                                    color: Color.fromARGB(255, 163, 64, 170),
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                     size: 50,
                                     semanticLabel: 'take_a_picture',
                                   ),
@@ -235,9 +237,9 @@ class ReviewForm extends StatelessWidget {
                                 ImagePicker()
                                     .pickImage(source: ImageSource.gallery);
                               },
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.upload,
-                                color: Color.fromARGB(255, 163, 64, 170),
+                                color: Theme.of(context).colorScheme.primary,
                                 size: 50,
                                 semanticLabel: 'Insert Photo',
                               ),

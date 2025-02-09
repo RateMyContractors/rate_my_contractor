@@ -28,7 +28,6 @@ class SignupForm extends StatelessWidget {
           final snackBar = SnackBar(
             content: const Text(
               'A verification link has been sent to your email account',
-              style: TextStyle(fontSize: 30),
             ),
             duration: const Duration(days: 1),
             action: SnackBarAction(

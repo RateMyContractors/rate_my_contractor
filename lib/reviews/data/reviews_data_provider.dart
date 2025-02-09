@@ -5,6 +5,7 @@ class ReviewsDataProvider {
   const ReviewsDataProvider(this._supabaseClient);
 
   final SupabaseClient _supabaseClient;
+
   Future<void> createReview(
     String contractorId,
     String reviewerId,
