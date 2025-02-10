@@ -23,7 +23,7 @@ class ReviewsDataProvider {
         'rating': rating,
         'comment': comment,
         'username': username,
-        'user_type': usertype
+        'user_type': usertype,
       });
     } on Exception catch (error) {
       Exception('supabase issue$error');

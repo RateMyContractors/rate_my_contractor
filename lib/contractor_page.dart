@@ -18,6 +18,7 @@ class ContractorPage extends StatelessWidget {
   final Contractor contractor;
   @override
   Widget build(BuildContext context) {
+    const scrollPhysics = NeverScrollableScrollPhysics();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
@@ -172,15 +173,13 @@ class ContractorPage extends StatelessWidget {
                                     builder: (context) {
                                       return ListView.builder(
                                         shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemCount: state.reviews
-                                            .length, //state.reviews.length,
+                                        physics: scrollPhysics,
+                                        itemCount: state.reviews.length,
                                         itemBuilder: (context, index) {
                                           return Center(
                                             child: ReviewCard(
-                                              reviewerName: state.reviews[index]
-                                                  .username, // Use sorted list
+                                              reviewerName:
+                                                  state.reviews[index].username,
                                               rating:
                                                   state.reviews[index].rating,
                                               comment:
