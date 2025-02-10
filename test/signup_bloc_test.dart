@@ -6,6 +6,7 @@ import 'package:rate_my_contractor/authentication/signup/models/email.dart';
 import 'package:rate_my_contractor/authentication/signup/models/firstname.dart';
 import 'package:rate_my_contractor/authentication/signup/models/lastname.dart';
 import 'package:rate_my_contractor/authentication/signup/models/password.dart';
+import 'package:rate_my_contractor/authentication/signup/models/username.dart';
 import 'package:test/test.dart';
 
 class MockAuthenticationRepository extends Mock
@@ -80,56 +81,27 @@ void main() {
         ),
       ],
     );
+
+    blocTest<SignUpBloc, SignUpState>(
+      'emits username changed valdation',
+      build: () => SignUpBloc(authenticationRepository: mockRepository),
+      act: (bloc) => bloc.add(const SignUpUsernameChanged('username10')),
+      expect: () => [
+        const SignUpState(
+          username: Username.dirty('username10'),
+        ),
+      ],
+    );
+
+    blocTest<SignUpBloc, SignUpState>(
+      'emits usertype changed valdation',
+      build: () => SignUpBloc(authenticationRepository: mockRepository),
+      act: (bloc) => bloc.add(const SignUpUserType('user')),
+      expect: () => [
+        const SignUpState(
+          userType: 'user',
+        ),
+      ],
+    );
   });
 }
-/*
-
-  FutureOr<void> _onUsernameChanged(
-    SignUpUsernameChanged event,
-    Emitter<SignUpState> emit,
-  ) {
-    final username = Username.dirty(event.username);
-    emit(
-      state.copyWith(
-        username: username,
-        isValid: Formz.validate([
-          username,
-          state.lastName,
-          state.firstName,
-          state.password,
-          state.email,
-        ]),
-      ),
-    );
-  }
-
-  FutureOr<void> _onSubmitted(
-    SignUpSubmitted event,
-    Emitter<SignUpState> emit,
-  ) async {
-    if (state.isValid) {
-      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-      try {
-        await _authenticationRepository.signUp(
-          state.email.value,
-          state.password.value,
-          state.username.value,
-          state.firstName.value,
-          state.lastName.value,
-          state.userType,
-        );
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } on Exception catch (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      }
-    }
-  }
-
-  FutureOr<void> _onUserTypeChanged(
-    SignUpUserType event,
-    Emitter<SignUpState> emit,
-  ) {
-    emit(state.copyWith(userType: event.userType));
-  }
-}
-*/
