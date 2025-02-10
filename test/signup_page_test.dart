@@ -104,6 +104,13 @@ void main() {
 
       expect(contractorButton, findsOneWidget);
       expect(userButton, findsOneWidget);
+
+      expect(find.text('Re-enter Password'), findsOneWidget);
+      expect(find.text('Password'), findsOneWidget);
+      expect(find.text('Email'), findsOneWidget);
+      expect(find.text('Last Name'), findsOneWidget);
+      expect(find.text('First Name'), findsOneWidget);
+      expect(find.text('username'), findsOneWidget);
     });
   });
 }
