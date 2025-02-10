@@ -167,7 +167,6 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(SignupPage), findsOneWidget);
 
-      // Simulate SignUp failure by changing the state
       when(() => mockSignupBloc.state)
           .thenReturn(const SignUpState(status: FormzSubmissionStatus.failure));
     });

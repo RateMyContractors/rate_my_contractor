@@ -210,6 +210,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(SnackBar), findsOneWidget);
       expect(find.text('Please log in to write a review.'), findsOneWidget);
+      expect(find.text('Customer Reviews\n'), findsOneWidget);
     });
   });
 }
