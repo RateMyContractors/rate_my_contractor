@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
@@ -111,6 +112,64 @@ void main() {
       expect(find.text('Last Name'), findsOneWidget);
       expect(find.text('First Name'), findsOneWidget);
       expect(find.text('username'), findsOneWidget);
+    });
+
+    testWidgets('Signup failed', (WidgetTester tester) async {
+      when(() => mockAuthenticationBloc.state)
+          .thenReturn(const AuthenticationState.unauthenticated());
+
+      await tester.pumpWidget(
+        RepositoryProvider<AuthenticationRepository>.value(
+          value: mockAuthenticationRepository,
+          child: MaterialApp(
+            home: MultiBlocProvider(
+              providers: [
+                BlocProvider<SearchBloc>.value(value: mockSearchBloc),
+                BlocProvider<AuthenticationBloc>.value(
+                  value: mockAuthenticationBloc,
+                ),
+              ],
+              child: const MyHomePage(title: 'Contractor Home Page'),
+            ),
+            routes: {
+              '/login': (context) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider<AuthenticationBloc>.value(
+                        value: mockAuthenticationBloc,
+                      ),
+                      BlocProvider<LoginBloc>.value(value: mockLoginBloc),
+                    ],
+                    child: const LoginForm(),
+                  ),
+              '/Signup': (context) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider<AuthenticationBloc>.value(
+                        value: mockAuthenticationBloc,
+                      ),
+                      BlocProvider<SignUpBloc>.value(value: mockSignupBloc),
+                    ],
+                    child: const SignupForm(),
+                  ),
+            },
+          ),
+        ),
+      );
+      expect(find.byType(MyHomePage), findsOneWidget);
+
+      expect(find.text('Login'), findsOne);
+      final loginButtonFinder = find.widgetWithText(TextButton, 'Login');
+      await tester.tap(loginButtonFinder);
+      await tester.pumpAndSettle();
+      expect(find.byType(LoginForm), findsOneWidget);
+      final signUpText = find.text('Sign up');
+
+      await tester.tap(signUpText);
+      await tester.pumpAndSettle();
+      expect(find.byType(SignupPage), findsOneWidget);
+
+      // Simulate SignUp failure by changing the state
+      when(() => mockSignupBloc.state)
+          .thenReturn(const SignUpState(status: FormzSubmissionStatus.failure));
     });
   });
 }

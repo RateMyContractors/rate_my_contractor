@@ -33,6 +33,7 @@ void main() {
     test('repos initialize correctly', () {
       expect(mockRepository, isNotNull);
     });
+
     testWidgets('Displays login button', (WidgetTester tester) async {
       when(() => mockAuthenticationBloc.state)
           .thenReturn(const AuthenticationState.unauthenticated());
