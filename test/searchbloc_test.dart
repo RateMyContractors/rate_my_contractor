@@ -11,4 +11,10 @@ void main() {
         ', '
         'contractors: [], status: SearchStateStatus.initial)');
   });
+
+  test('Search Event for SearchText updated', () {
+    const searchtext = SearchTextUpdated(query: 'i');
+
+    expect(searchtext.toString(), 'Search Commenced {query: i}');
+  });
 }
