@@ -17,4 +17,16 @@ void main() {
 
     expect(searchtext.toString(), 'Search Commenced {query: i}');
   });
+
+  test('Search Event for SearchFilterPressed', () {
+    const searchtext = SearchFilterPressed(filter: 2);
+
+    expect(searchtext.toString(), 'Search filtered {filter: 2}');
+  });
+
+  test('Search Sort Pressed for Search event', () {
+    const searchtext = SearchSortPressed(sort: true);
+
+    expect(searchtext.toString(), 'Search filtered {sort: true}');
+  });
 }
