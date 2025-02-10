@@ -59,10 +59,6 @@ class MyApp extends StatelessWidget {
           onSurface: Color.fromARGB(255, 0, 0, 0),
           brightness: Brightness.light,
         ),
-        //displaylarge will  be for anyhting like the contractor page items
-        //titlelarge will be for the title in the beginning of the website
-        //body medium will be for other searches basically
-        //display small will be for subitems
         textTheme: TextTheme(
           displayLarge: GoogleFonts.libreFranklin(
             fontSize: 30,

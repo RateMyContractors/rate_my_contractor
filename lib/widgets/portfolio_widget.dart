@@ -23,7 +23,6 @@ class PortfolioWidget extends StatelessWidget {
       'assets/samplepictures/fix2.jpg',
       'assets/samplepictures/fix3.jpg',
     ];
-    print(image);
     return Visibility(
       visible: image != null,
       child: Container(

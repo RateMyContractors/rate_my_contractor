@@ -1,4 +1,3 @@
-//receives events and produces states
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
@@ -6,7 +5,6 @@ import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart
 part 'search_state.dart';
 part 'search_event.dart';
 
-//have a try catch here and emit error state
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc(this.repository)
       : super(
@@ -44,7 +42,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         final contractors = await repository.getContractors(
           state.query,
           sortcontractors: event.sort,
-        ); //state.query
+        );
         emit(
           state.copyWith(
             contractors: contractors,
@@ -71,7 +69,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         final contractors = await repository.getContractors(
           state.query,
           sortcontractors: state.sort,
-        ); //state.query
+        );
         emit(
           state.copyWith(
             contractors: contractors,
@@ -94,7 +92,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         final contractors = await repository.getContractors(
           state.query,
           sortcontractors: state.sort,
-        ); //state.query
+        );
         if (event.filter == 100) {
           filteredContractors = contractors;
         } else {

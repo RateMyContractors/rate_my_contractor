@@ -197,7 +197,6 @@ class ReviewForm extends StatelessWidget {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    print('pressed');
                                     ImagePicker()
                                         .pickImage(source: ImageSource.gallery);
                                   },
@@ -216,7 +215,6 @@ class ReviewForm extends StatelessWidget {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    print('pressed');
                                     ImagePicker()
                                         .pickImage(source: ImageSource.camera);
                                   },
@@ -237,7 +235,6 @@ class ReviewForm extends StatelessWidget {
                           children: [
                             IconButton(
                               onPressed: () {
-                                print('pressed');
                                 ImagePicker()
                                     .pickImage(source: ImageSource.gallery);
                               },
