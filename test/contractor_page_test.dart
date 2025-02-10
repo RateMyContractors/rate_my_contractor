@@ -204,6 +204,12 @@ void main() {
       expect(find.byType(ContractorPage), findsOneWidget);
       expect(find.text('"Z" ELECTRIC'), findsOneWidget);
       expect(find.text('(708) 423-6967'), findsOneWidget);
+
+      await tester.scrollUntilVisible(find.text('Write a review'), 100);
+      await tester.tap(find.text('Write a review'));
+      await tester.pumpAndSettle();
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Please log in to write a review.'), findsOneWidget);
     });
   });
 }
