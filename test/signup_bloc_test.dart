@@ -1,15 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/material.dart';
-import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/signup/bloc/signup_bloc.dart';
 import 'package:rate_my_contractor/authentication/signup/models/email.dart';
-import 'package:rate_my_contractor/authentication/signup/models/firstname.dart';
-import 'package:rate_my_contractor/authentication/signup/models/lastname.dart';
 import 'package:rate_my_contractor/authentication/signup/models/password.dart';
-import 'package:rate_my_contractor/authentication/signup/models/username.dart';
 import 'package:test/test.dart';
 
 class MockAuthenticationRepository extends Mock
