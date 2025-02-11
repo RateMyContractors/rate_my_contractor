@@ -31,13 +31,11 @@ void main() {
   late MockSearchBloc mockSearchBloc;
   late MockAuthenticationBloc mockAuthenticationBloc;
   late MockReviewsBloc mockReviewsBloc;
-  late MockLogOutBloc mockLogOutBloc;
 
   setUp(() {
     mockSearchBloc = MockSearchBloc();
     mockAuthenticationBloc = MockAuthenticationBloc();
     mockReviewsBloc = MockReviewsBloc();
-    mockLogOutBloc = MockLogOutBloc();
   });
 
   group('Reviewform test', () {
@@ -140,6 +138,9 @@ void main() {
       await tester.scrollUntilVisible(find.text('Write a review'), 100);
       await tester.tap(find.text('Write a review'));
       await tester.pumpAndSettle();
+      await tester.tap(find.text('"Z" ELECTRIC'));
+      await tester.tap(find.text('Create Review'));
+      await tester.tap(find.text('Overall Rating'));
     });
   });
 }
