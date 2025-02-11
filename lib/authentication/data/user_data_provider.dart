@@ -5,12 +5,15 @@ class UserDataProvider {
 
   final SupabaseClient _supabaseClient;
 
-  /// Sign in
   Future<void> signIn(String email, String password) async {
     await _supabaseClient.auth.signInWithPassword(
       email: email,
       password: password,
     );
+  }
+
+  Future<void> signOut() async {
+    await _supabaseClient.auth.signOut();
   }
 
   Future<void> signUp(

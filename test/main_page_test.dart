@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
+import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/main.dart';
 
@@ -14,16 +15,25 @@ class MockAuthenticationBloc
     extends MockBloc<AuthenticationEvent, AuthenticationState>
     implements AuthenticationBloc {}
 
+class MockAuthenticationRepository extends Mock
+    implements AuthenticationRepository {}
+
 void main() {
   late MockSearchBloc mockSearchBloc;
   late MockAuthenticationBloc mockAuthenticationBloc;
+  late MockAuthenticationRepository mockRepository;
 
   setUp(() {
     mockSearchBloc = MockSearchBloc();
     mockAuthenticationBloc = MockAuthenticationBloc();
+    mockRepository = MockAuthenticationRepository();
   });
 
   group('Main page unauthenticated user view', () {
+    test('repos initialize correctly', () {
+      expect(mockRepository, isNotNull);
+    });
+
     testWidgets('Displays login button', (WidgetTester tester) async {
       when(() => mockAuthenticationBloc.state)
           .thenReturn(const AuthenticationState.unauthenticated());

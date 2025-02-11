@@ -14,6 +14,10 @@ class AuthenticationRepository {
     );
   }
 
+  Future<void> signOut() async {
+    await _userDataProvider.signOut();
+  }
+
   Future<void> signUp(
     String email,
     String password,
@@ -42,7 +46,8 @@ class AuthenticationRepository {
             email: user?.email,
             firstname: metadata!['first_name'] as String?,
             lastname: metadata['last_name'] as String?,
-            username: metadata['username'] as String?,
+            username: metadata['display_name'] as String?,
+            usertype: metadata['user_type'] as String?,
           );
           return currentuser;
         } else {

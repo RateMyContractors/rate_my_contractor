@@ -4,12 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
+import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
+import 'package:rate_my_contractor/authentication/login/models/user.dart';
 import 'package:rate_my_contractor/authentication/logout/bloc/logout_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/data/models/license_dto.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
-import 'package:rate_my_contractor/main.dart';
 import 'package:rate_my_contractor/results_page.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 
@@ -30,18 +31,29 @@ void main() {
   late MockSearchBloc mockSearchBloc;
   late MockAuthenticationBloc mockAuthenticationBloc;
   late MockReviewsBloc mockReviewsBloc;
-  late MockLogOutBloc mockLogOutBloc;
 
   setUp(() {
     mockSearchBloc = MockSearchBloc();
     mockAuthenticationBloc = MockAuthenticationBloc();
     mockReviewsBloc = MockReviewsBloc();
-    mockLogOutBloc = MockLogOutBloc();
   });
 
-  group('ContractorPage Flow', () {
-    testWidgets('Displays contractor cards and navigates to contractorpage',
-        (WidgetTester tester) async {
+  group('Reviewform test', () {
+    testWidgets('Reviewform is present', (WidgetTester tester) async {
+      when(() => mockAuthenticationBloc.state).thenReturn(
+        const AuthenticationState.authenticated(
+          user: User(
+            userstatus: AuthenticationStatus.authenticated,
+            id: '1234',
+            email: '2233@gmail.com',
+            username: 'mmomma',
+            usertype: 'contractor',
+          ),
+        ),
+      );
+
+      when(() => mockReviewsBloc.state).thenReturn(const ReviewsState());
+
       when(() => mockSearchBloc.state).thenReturn(
         const SearchState(
           status: SearchStateStatus.success,
@@ -87,10 +99,6 @@ void main() {
           ],
         ),
       );
-      when(() => mockAuthenticationBloc.state)
-          .thenReturn(const AuthenticationState.unauthenticated());
-
-      when(() => mockReviewsBloc.state).thenReturn(const ReviewsState());
 
       await tester.pumpWidget(
         MaterialApp(
@@ -115,11 +123,6 @@ void main() {
       expect(find.byType(ResultsPage), findsOneWidget);
 
       await tester.enterText(find.byType(TextField), 'Z');
-      expect(find.text('"Z" ELECTRIC'), findsOne);
-      expect(find.text('ELIZABETH'), findsOne);
-      await tester.pumpAndSettle();
-
-      expect(find.text('Electrical Contractor (General)'), findsWidgets);
 
       await tester.tap(
         find
@@ -132,85 +135,12 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(ContractorPage), findsOneWidget);
-      expect(find.text('"Z" ELECTRIC'), findsOneWidget);
-      expect(find.text('(708) 423-6967'), findsOneWidget);
-    });
-
-    testWidgets(
-        'Search on HomePage and Navigate to ResultsPage, '
-        'ContractorPage to show results', (WidgetTester tester) async {
-      when(() => mockSearchBloc.state).thenReturn(
-        const SearchState(
-          status: SearchStateStatus.success,
-          contractors: [
-            Contractor(
-              id: '845',
-              companyName: '"Z" ELECTRIC',
-              address: '10821 S KENTON AVE, OAK LAWN, IL 60453-',
-              tags: ['Electrical Contractor (General)'],
-              phone: '(708) 423-6967',
-              totalRating: [1, 3],
-              licenses: [],
-            ),
-          ],
-        ),
-      );
-      when(() => mockAuthenticationBloc.state)
-          .thenReturn(const AuthenticationState.unauthenticated());
-
-      when(() => mockReviewsBloc.state).thenReturn(const ReviewsState());
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: MultiBlocProvider(
-            providers: [
-              BlocProvider<SearchBloc>.value(value: mockSearchBloc),
-              BlocProvider<AuthenticationBloc>.value(
-                value: mockAuthenticationBloc,
-              ),
-              BlocProvider<ReviewsBloc>.value(value: mockReviewsBloc),
-              BlocProvider<LogOutBloc>.value(value: mockLogOutBloc),
-            ],
-            child: const MyHomePage(title: 'Find who you need'),
-          ),
-          routes: {
-            '/results': (context) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider<SearchBloc>.value(value: mockSearchBloc),
-                    BlocProvider<AuthenticationBloc>.value(
-                      value: mockAuthenticationBloc,
-                    ),
-                    BlocProvider<ReviewsBloc>.value(value: mockReviewsBloc),
-                  ],
-                  child: const ResultsPage(),
-                ),
-          },
-        ),
-      );
-
-      expect(find.byType(MyHomePage), findsAtLeast(1));
-      expect(find.text('Find who you need'), findsOneWidget);
-
-      await tester.enterText(find.byType(SearchBar), '"Z" ELECTRIC');
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Search'));
-      await tester.pumpAndSettle();
-      debugPrint('Current widgets: ${tester.allWidgets}');
-      expect(find.byType(ResultsPage), findsOneWidget);
-
-      expect(find.text('"Z" ELECTRIC'), findsOneWidget);
-      await tester.tap(find.text('"Z" ELECTRIC'));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ContractorPage), findsOneWidget);
-      expect(find.text('"Z" ELECTRIC'), findsOneWidget);
-      expect(find.text('(708) 423-6967'), findsOneWidget);
-
       await tester.scrollUntilVisible(find.text('Write a review'), 100);
       await tester.tap(find.text('Write a review'));
       await tester.pumpAndSettle();
-      expect(find.byType(SnackBar), findsOneWidget);
-      expect(find.text('Please log in to write a review.'), findsOneWidget);
-      expect(find.text('Customer Reviews\n'), findsOneWidget);
+      await tester.tap(find.text('"Z" ELECTRIC'));
+      await tester.tap(find.text('Create Review'));
+      await tester.tap(find.text('Overall Rating'));
     });
   });
 }

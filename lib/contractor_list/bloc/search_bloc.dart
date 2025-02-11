@@ -1,4 +1,3 @@
-//receives events and produces states
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
@@ -6,7 +5,6 @@ import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart
 part 'search_state.dart';
 part 'search_event.dart';
 
-//have a try catch here and emit error state
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc(this.repository)
       : super(
@@ -31,15 +29,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
     });
 
-    on<SearchButtonPressed>((event, emit) async {
+    on<SearchSortPressed>((event, emit) async {
       try {
+        emit(
+          state.copyWith(sort: event.sort, status: SearchStateStatus.valid),
+        );
         emit(
           state.copyWith(
             status: SearchStateStatus.loading,
           ),
-        ); //emit the loading state
-        final contractors =
-            await repository.getContractors(state.query); //state.query
+        );
+        final contractors = await repository.getContractors(
+          state.query,
+          sortcontractors: event.sort,
+        );
         emit(
           state.copyWith(
             contractors: contractors,
@@ -55,6 +58,58 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         );
       }
     });
+
+    on<SearchButtonPressed>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(
+            status: SearchStateStatus.loading,
+          ),
+        );
+        final contractors = await repository.getContractors(
+          state.query,
+          sortcontractors: state.sort,
+        );
+        emit(
+          state.copyWith(
+            contractors: contractors,
+            status: SearchStateStatus.success,
+          ),
+        );
+      } on Exception catch (error) {
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: SearchStateStatus.failure,
+          ),
+        );
+      }
+    });
+
+    on<SearchFilterPressed>(
+      (event, emit) async {
+        List<Contractor> filteredContractors;
+        final contractors = await repository.getContractors(
+          state.query,
+          sortcontractors: state.sort,
+        );
+        if (event.filter == 100) {
+          filteredContractors = contractors;
+        } else {
+          filteredContractors = contractors.where((contractor) {
+            return contractor.rating >= event.filter &&
+                contractor.rating < event.filter + 1.0;
+          }).toList();
+        }
+        emit(
+          state.copyWith(
+            filter: event.filter,
+            contractors: filteredContractors,
+            status: SearchStateStatus.success,
+          ),
+        );
+      },
+    );
   }
   final ContractorRepository repository;
 }

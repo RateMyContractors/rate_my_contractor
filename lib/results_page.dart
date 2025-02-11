@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/domain/models/contractor.dart';
 import 'package:rate_my_contractor/contractor_page.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 import 'package:rate_my_contractor/widgets/tag_widget.dart';
 
 class ResultsPage extends StatelessWidget {
@@ -19,6 +21,9 @@ class ResultsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(width: 30),
+                  const StarFilter(),
+                  const SortBy(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(9),
@@ -35,7 +40,7 @@ class ResultsPage extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: state.status == SearchStateStatus.valid
-                          ? const Color.fromARGB(255, 123, 127, 211)
+                          ? Theme.of(context).colorScheme.primary
                           : Colors.grey,
                       textStyle: const TextStyle(fontSize: 20),
                       padding: const EdgeInsets.all(16),
@@ -48,13 +53,14 @@ class ResultsPage extends StatelessWidget {
                           }
                         : null,
                     child: const Text(
-                      'Search',
+                      'Search', //Search button
                       style: TextStyle(
                         fontSize: 20,
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
                   ),
+                  const SizedBox(width: 30),
                 ],
               ),
               Visibility(
@@ -64,7 +70,9 @@ class ResultsPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     itemCount: state.contractors.length,
                     itemBuilder: (context, index) {
-                      return _ProfileCard(contractor: state.contractors[index]);
+                      return _ProfileCard(
+                        contractor: state.contractors[index],
+                      );
                     },
                   ),
                 ),
@@ -98,7 +106,7 @@ class ResultsPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 20,
+                          width: 20, // Adjust the size as needed
                           height: 20,
                           child: CircularProgressIndicator(
                             valueColor:
@@ -119,6 +127,106 @@ class ResultsPage extends StatelessWidget {
   }
 }
 
+class StarFilter extends StatelessWidget {
+  const StarFilter({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      hint: const Icon(Icons.filter_alt),
+      items: const [
+        DropdownMenuItem(value: 100, child: Text('All Ratings')),
+        DropdownMenuItem(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
+        DropdownMenuItem(
+          value: 2,
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
+        DropdownMenuItem(
+          value: 3,
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
+        DropdownMenuItem(
+          value: 4,
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
+        DropdownMenuItem(
+          value: 5,
+          child: Row(
+            children: [
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+              Icon(Icons.star, color: Colors.orange, size: 20),
+            ],
+          ),
+        ),
+      ],
+      onChanged: (value) {
+        if (value is int) {
+          context.read<SearchBloc>().add(SearchFilterPressed(filter: value));
+        }
+      },
+    );
+  }
+}
+
+class SortBy extends StatelessWidget {
+  const SortBy({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+      hint: const Icon(Icons.sort_rounded),
+      items: const [
+        DropdownMenuItem(value: 'asc', child: Text('Ascending (A-Z)')),
+        DropdownMenuItem(value: 'des', child: Text('Descending (Z-A)')),
+      ],
+      onChanged: (value) => {
+        if (value == 'asc')
+          {
+            context.read<SearchBloc>().add(const SearchSortPressed(sort: true)),
+          }
+        else if (value == 'des')
+          {
+            context
+                .read<SearchBloc>()
+                .add(const SearchSortPressed(sort: false)),
+          },
+      },
+    );
+  }
+}
+
 class _ProfileCard extends StatelessWidget {
   const _ProfileCard({
     required this.contractor,
@@ -129,10 +237,25 @@ class _ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        BlocProvider.of<ReviewsBloc>(context)
+            .add(ReviewsRequest(contractorId: contractor.id));
         Navigator.push(
           context,
-          MaterialPageRoute<void>(
-            builder: (context) => ContractorPage(contractor: contractor),
+          MaterialPageRoute<ContractorPage>(
+            builder: (_) => MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: BlocProvider.of<ReviewsBloc>(context),
+                ),
+                BlocProvider.value(
+                  value: BlocProvider.of<AuthenticationBloc>(context),
+                ),
+                BlocProvider.value(
+                  value: BlocProvider.of<SearchBloc>(context),
+                ),
+              ],
+              child: ContractorPage(contractor: contractor),
+            ),
           ),
         );
       },
@@ -203,7 +326,7 @@ class _ProfileCard extends StatelessWidget {
                     children: [
                       const Icon(
                         Icons.star,
-                        color: Color.fromARGB(255, 255, 222, 59),
+                        color: Colors.orange,
                       ),
                       Text(
                         contractor.rating.toString(),

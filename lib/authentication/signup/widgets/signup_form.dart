@@ -28,11 +28,11 @@ class SignupForm extends StatelessWidget {
           final snackBar = SnackBar(
             content: const Text(
               'A verification link has been sent to your email account',
-              style: TextStyle(fontSize: 30),
             ),
             duration: const Duration(days: 1),
             action: SnackBarAction(
               label: 'Continue',
+              textColor: Theme.of(context).colorScheme.primary,
               onPressed: () {
                 Navigator.push(
                   context,
@@ -41,7 +41,9 @@ class SignupForm extends StatelessWidget {
                       value: BlocProvider.of<AuthenticationBloc>(
                         context,
                       ),
-                      child: const LoginPage(),
+                      child: const LoginPage(
+                        route: '',
+                      ),
                     ),
                   ),
                 );
@@ -86,33 +88,22 @@ class SignupForm extends StatelessWidget {
               const Expanded(
                 child: Padding(padding: EdgeInsets.all(12)),
               ),
-              Expanded(
-                child: _FirstNameInput(),
-              ),
+              _FirstNameInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _LastNameInput(),
-              ),
+              _LastNameInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _UsernameInput(),
-              ),
+              _UsernameInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _EmailInput(),
-              ),
+              _EmailInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _PasswordInput(),
-              ),
+              _PasswordInput(),
               const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _ReEnterPasswordInput(),
-              ),
+              _ReEnterPasswordInput(),
               const Padding(padding: EdgeInsets.all(12)),
               Expanded(
                 child: _SignUpButton(),
               ),
+              const Padding(padding: EdgeInsets.all(12)),
             ],
           ),
         ),
@@ -133,15 +124,18 @@ class _ContractorAndUserButton extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: userType == 'Contractor'
-                  ? const Color.fromARGB(255, 196, 170, 229)
-                  : const Color.fromARGB(255, 213, 219, 223),
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
               context
                   .read<SignUpBloc>()
                   .add(const SignUpUserType('Contractor'));
             },
-            child: const Text('Contractor'),
+            child: Text(
+              'Contractor',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
           ),
         ),
         const SizedBox(width: 20),
@@ -149,13 +143,16 @@ class _ContractorAndUserButton extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: userType == 'User'
-                  ? const Color.fromARGB(255, 196, 170, 229)
-                  : const Color.fromARGB(255, 213, 219, 223),
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.secondary,
             ),
             onPressed: () {
               context.read<SignUpBloc>().add(const SignUpUserType('User'));
             },
-            child: const Text('User'),
+            child: Text(
+              'User',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
           ),
         ),
       ],
@@ -173,13 +170,10 @@ class _SignUpButton extends StatelessWidget {
     return ElevatedButton(
       key: const Key('SignUpForm_continue_raisedButton'),
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 181, 113, 192),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       onPressed: () => context.read<SignUpBloc>().add(const SignUpSubmitted()),
-      child: const Text(
-        'Sign Up',
-        style: TextStyle(color: Color.fromARGB(255, 245, 243, 243)),
-      ),
+      child: Text('Sign Up', style: Theme.of(context).textTheme.displaySmall),
     );
   }
 }

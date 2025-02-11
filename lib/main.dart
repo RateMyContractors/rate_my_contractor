@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/data/user_data_provider.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
 import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
+import 'package:rate_my_contractor/authentication/logout/bloc/logout_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/contractor_list/data/contractor_data_remote_provider.dart';
 import 'package:rate_my_contractor/contractor_list/domain/contractor_repository.dart';
 import 'package:rate_my_contractor/results_page.dart';
+import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
+import 'package:rate_my_contractor/reviews/data/reviews_data_provider.dart';
+import 'package:rate_my_contractor/reviews/domain/reviews_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -21,11 +26,14 @@ void main() async {
   final repository = ContractorRepository(remoteProvider);
   final userDataProvider = UserDataProvider(supabaseClient);
   final authRepository = AuthenticationRepository(userDataProvider);
+  final reviewsDataProvider = ReviewsDataProvider(supabaseClient);
+  final reviewsRepository = ReviewsRepository(reviewsDataProvider);
   runApp(
     MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: repository),
         RepositoryProvider.value(value: authRepository),
+        RepositoryProvider.value(value: reviewsRepository),
       ],
       child: const MyApp(),
     ),
@@ -39,14 +47,60 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Contractor Webapp',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromARGB(255, 231, 228, 245),
-        useMaterial3: true,
+        primaryColor: Colors.black,
+        colorScheme: const ColorScheme(
+          primary: Color.fromARGB(255, 248, 137, 94),
+          onPrimary: Color.fromARGB(255, 0, 0, 0),
+          secondary: Color.fromARGB(255, 132, 132, 132),
+          onSecondary: Color.fromARGB(255, 253, 250, 255),
+          error: Color.fromARGB(255, 141, 51, 45),
+          onError: Colors.white,
+          surface: Color.fromARGB(255, 255, 255, 255),
+          onSurface: Color.fromARGB(255, 0, 0, 0),
+          brightness: Brightness.light,
+        ),
+        textTheme: TextTheme(
+          displayLarge: GoogleFonts.libreFranklin(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          titleLarge: GoogleFonts.libreFranklin(
+            fontSize: 50,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          bodyMedium: GoogleFonts.libreFranklin(
+            fontSize: 20,
+            color: Colors.black,
+          ),
+          displaySmall: GoogleFonts.libreFranklin(
+            fontSize: 20,
+            color: const Color.fromARGB(255, 255, 255, 255),
+          ),
+          headlineLarge: GoogleFonts.libreFranklin(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+            color: const Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
       ),
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => SearchBloc(
               RepositoryProvider.of<ContractorRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => ReviewsBloc(
+              RepositoryProvider.of<ReviewsRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => LogOutBloc(
+              authenticationRepository:
+                  RepositoryProvider.of<AuthenticationRepository>(context),
             ),
           ),
           BlocProvider(
@@ -59,6 +113,9 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: const MyHomePage(title: 'Contractor Home Page'),
+        // child: const ReviewFormPage(
+        //   companyName: 'Bridget co.',
+        // ),
       ),
     );
   }
@@ -81,17 +138,25 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: theme.primaryColor,
         title: Row(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Image(
-                matchTextDirection: true,
-                image: AssetImage('assets/logo.png'),
-                height: 40,
-              ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 0.05),
+                  child: Image.asset(
+                    'assets/logo.png',
+                    height:
+                        35, // Set the height// Ensures the image fills the oval
+                  ),
+                ),
+              ],
             ),
-            IconButton(
-              icon: const Text('RateMyContractor'),
-              onPressed: () {},
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.only(top: 0.5),
+              child: Text(
+                'RateMyContractor',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
             ),
           ],
         ),
@@ -119,26 +184,37 @@ class _MyHomePageState extends State<MyHomePage> {
                                     value: BlocProvider.of<SearchBloc>(context),
                                   ),
                                 ],
-                                child: const LoginPage(),
+                                child: const LoginPage(
+                                  route: '',
+                                ),
                               ),
                             ),
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           'Login',
                           textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                       )
-                    : Text(
-                        'Hello $username',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
+                    : DropdownButton<String>(
+                        hint: Text(
+                          'Hello $username',
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
+                        items: const [
+                          DropdownMenuItem(
+                            value: 'logout',
+                            child: Text('Logout'),
+                          ),
+                        ],
+                        onChanged: (String? value) {
+                          if (value == 'logout') {
+                            context
+                                .read<LogOutBloc>()
+                                .add(const LogOutPressed());
+                          }
+                        },
                       ),
               );
             },
@@ -146,24 +222,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
+        //block builder
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'Find who you need',
-              style: TextStyle(
-                fontSize: 50,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 15),
             const Text(
               'Fastest way to browse, review and see contractors in your area!',
-              style: TextStyle(
-                fontSize: 25,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
+              style: TextStyle(),
             ),
             const SizedBox(height: 15),
             Padding(
@@ -187,27 +257,32 @@ class _MyHomePageState extends State<MyHomePage> {
                           .add(const SearchButtonPressed());
                       Navigator.push(
                         currBlocContext,
-                        MaterialPageRoute<void>(
-                          builder: (_) => BlocProvider.value(
-                            value: BlocProvider.of<SearchBloc>(
-                              currBlocContext,
-                            ),
+                        MaterialPageRoute<ResultsPage>(
+                          builder: (_) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider.value(
+                                value: context.read<SearchBloc>(),
+                              ),
+                              BlocProvider.value(
+                                value: context.read<ReviewsBloc>(),
+                              ),
+                              BlocProvider.value(
+                                value: context.read<AuthenticationBloc>(),
+                              ),
+                            ],
                             child: const ResultsPage(),
                           ),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 123, 127, 211),
                       minimumSize: const Size(50, 50),
                       padding: const EdgeInsets.all(16),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                    child: const Text(
+                    child: Text(
                       'Search',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                   ),
                 ],
