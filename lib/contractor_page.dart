@@ -20,9 +20,7 @@ class ContractorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const scrollPhysics = NeverScrollableScrollPhysics();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-      ),
+      appBar: AppBar(),
       body: BlocBuilder<ReviewsBloc, ReviewsState>(
         builder: (context, state) {
           final reviews = state.reviews;
