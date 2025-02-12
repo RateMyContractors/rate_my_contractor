@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
@@ -33,6 +35,18 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
       }
     });
 
+    on<ReviewUploadImage>((event, emit) async {
+      try {
+        await repository.uploadImageToSupabase(state.imageFile);
+      } on Exception catch (error) {
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: ReviewsStateStatus.failure,
+          ),
+        );
+      }
+    });
     on<ReviewsFormButtonPressed>((event, emit) async {
       try {
         await repository.createReview(
@@ -43,6 +57,7 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           state.upvote,
           state.downvote,
           event.username,
+          state.imageUrls,
         );
         emit(state.copyWith(status: ReviewsStateStatus.passed));
         emit(state.copyWith(status: ReviewsStateStatus.loading));

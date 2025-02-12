@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:rate_my_contractor/reviews/data/reviews_data_provider.dart';
 
@@ -13,6 +15,7 @@ class ReviewsRepository {
     int upvote,
     int downvote,
     String username,
+    List<String> imageUrls,
   ) async {
     await _reviewsDataProvider.createReview(
       contractorId,
@@ -22,11 +25,18 @@ class ReviewsRepository {
       upvote,
       downvote,
       username,
+      imageUrls,
     );
   }
 
   Future<List<ReviewsDto>> getReviews(String contractorId) async {
     final dataSetReviews = await _reviewsDataProvider.getReviews(contractorId);
     return dataSetReviews;
+  }
+
+  Future<String?> uploadImageToSupabase(File? imageFile) async {
+    final imagefile =
+        await _reviewsDataProvider.uploadImageToSupabase(imageFile);
+    return imagefile;
   }
 }

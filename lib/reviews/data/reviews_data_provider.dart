@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -13,6 +15,7 @@ class ReviewsDataProvider {
     int upvote,
     int downvote,
     String username,
+    List<String> imageUrls,
   ) async {
     try {
       await _supabaseClient.from('Reviews').insert({
@@ -21,6 +24,7 @@ class ReviewsDataProvider {
         'rating': rating,
         'comment': comment,
         'username': username,
+        'image_urls': imageUrls,
       });
     } on Exception catch (error) {
       Exception('supabase issue$error');
@@ -39,6 +43,19 @@ class ReviewsDataProvider {
       return reviewsObjList;
     } on Exception catch (error) {
       return throw Exception('review data fetch failed$error');
+    }
+  }
+
+  Future<String?> uploadImageToSupabase(File? imageFile) async {
+    try {
+      final fileName =
+          '${DateTime.now().millisecondsSinceEpoch}_${imageFile?.path.split('/').last}';
+      await _supabaseClient.storage
+          .from('reviews')
+          .upload(fileName, imageFile!);
+      return _supabaseClient.storage.from('reviews').getPublicUrl(fileName);
+    } on Exception catch (error) {
+      return throw Exception('upload to supabase failed $error');
     }
   }
 }

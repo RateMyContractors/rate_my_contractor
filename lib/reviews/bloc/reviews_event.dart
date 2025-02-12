@@ -33,6 +33,7 @@ class ReviewsFormButtonPressed extends ReviewsEvent {
     required this.upvote,
     required this.downvote,
     required this.username,
+    required this.imageUrls,
   });
 
   final String contractorid;
@@ -42,10 +43,19 @@ class ReviewsFormButtonPressed extends ReviewsEvent {
   final int upvote;
   final int downvote;
   final String username;
+  final List<String> imageUrls;
 
   @override
-  List<Object> get props =>
-      [contractorid, reviewerid, rating, comment, upvote, downvote, username];
+  List<Object> get props => [
+        contractorid,
+        reviewerid,
+        rating,
+        comment,
+        upvote,
+        downvote,
+        username,
+        imageUrls,
+      ];
 }
 
 class ReviewsRequest extends ReviewsEvent {
@@ -56,4 +66,14 @@ class ReviewsRequest extends ReviewsEvent {
   List<Object> get props => [contractorId];
   @override
   String toString() => 'Reviews requested {contractorId: $contractorId}';
+}
+
+class ReviewUploadImage extends ReviewsEvent {
+  const ReviewUploadImage({required this.imageFile});
+
+  final File imageFile;
+  @override
+  List<Object> get props => [imageFile];
+  @override
+  String toString() => 'Reviews requested {imageFile: $imageFile}';
 }

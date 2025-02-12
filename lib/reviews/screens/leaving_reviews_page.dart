@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -194,8 +196,17 @@ class ReviewForm extends StatelessWidget {
                                 IconButton(
                                   onPressed: () {
                                     print('pressed');
-                                    ImagePicker()
-                                        .pickImage(source: ImageSource.gallery);
+                                    File chosenFile = ImagePicker().pickImage(
+                                      source: ImageSource.gallery,
+                                    ) as File;
+                                    context.read<ReviewsBloc>().add(
+                                          ReviewUploadImage(
+                                            imageFile: chosenFile,
+                                          ),
+                                        );
+                                    BlocProvider.of<ReviewsBloc>(context).add(
+                                      ReviewUploadImage(imageFile: chosenFile),
+                                    );
                                   },
                                   icon: const Icon(
                                     Icons.upload,
@@ -212,6 +223,7 @@ class ReviewForm extends StatelessWidget {
                                 IconButton(
                                   onPressed: () {
                                     print('pressed');
+
                                     ImagePicker()
                                         .pickImage(source: ImageSource.camera);
                                   },
@@ -277,6 +289,7 @@ class ReviewForm extends StatelessWidget {
                               upvote: 1,
                               downvote: 1,
                               username: username,
+                              imageUrls: [],
                             ),
                           );
                           Navigator.pop(context);

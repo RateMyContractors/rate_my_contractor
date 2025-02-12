@@ -8,12 +8,14 @@ class ReviewCard extends StatelessWidget {
     required this.date,
     super.key,
     this.image,
+    this.imageUrls,
   });
   final String reviewerName;
   final int rating;
   final String comment;
   final String? image;
   final String date;
+  final String? imageUrls;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,7 @@ class ReviewCard extends StatelessWidget {
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: reviewImages.length,
+                    itemCount: imageUrls?.length, //reviewImages.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
@@ -103,7 +105,9 @@ class ReviewCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                              image: NetworkImage(reviewImages[index]),
+                              image: NetworkImage(
+                                imageUrls![index],
+                              ), //reviewImages[index]),
                               fit: BoxFit.cover,
                             ),
                           ),

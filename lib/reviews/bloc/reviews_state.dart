@@ -13,6 +13,7 @@ enum ReviewsStateStatus {
 
 class ReviewsState extends Equatable {
   const ReviewsState({
+    this.imageFile, //see what to do abt required here
     this.reviewerId = '',
     this.rating = 0,
     this.comment = '',
@@ -24,6 +25,7 @@ class ReviewsState extends Equatable {
     this.status = ReviewsStateStatus.initial,
     this.date = '',
     this.username = '',
+    this.imageUrls = const [],
   });
   final ReviewsStateStatus status;
   final String contractorId;
@@ -36,6 +38,8 @@ class ReviewsState extends Equatable {
   final List<ReviewsDto> reviews;
   final String date;
   final String username;
+  final List<String> imageUrls;
+  final File? imageFile;
 
   ReviewsState copyWith({
     String? contractorId,
@@ -49,20 +53,23 @@ class ReviewsState extends Equatable {
     ReviewsStateStatus? status,
     String? date,
     String? username,
+    List<String>? imageUrls,
+    File? imageFile,
   }) {
     return ReviewsState(
-      contractorId: contractorId ?? this.contractorId,
-      errormsg: errormsg ?? this.errormsg,
-      reviews: reviews ?? this.reviews,
-      status: status ?? this.status,
-      reviewerId: reviewerId ?? this.reviewerId,
-      rating: rating ?? this.rating,
-      comment: comment ?? this.comment,
-      upvote: upvote ?? this.upvote,
-      downvote: downvote ?? this.downvote,
-      date: date ?? this.date,
-      username: username ?? this.username,
-    );
+        contractorId: contractorId ?? this.contractorId,
+        errormsg: errormsg ?? this.errormsg,
+        reviews: reviews ?? this.reviews,
+        status: status ?? this.status,
+        reviewerId: reviewerId ?? this.reviewerId,
+        rating: rating ?? this.rating,
+        comment: comment ?? this.comment,
+        upvote: upvote ?? this.upvote,
+        downvote: downvote ?? this.downvote,
+        date: date ?? this.date,
+        username: username ?? this.username,
+        imageUrls: imageUrls ?? this.imageUrls,
+        imageFile: imageFile ?? this.imageFile);
   }
 
   @override
@@ -78,6 +85,8 @@ class ReviewsState extends Equatable {
         downvote,
         date,
         username,
+        imageUrls,
+        imageFile
       ];
 
   @override
