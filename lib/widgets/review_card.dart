@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ReviewCard extends StatelessWidget {
+class ReviewCard extends StatefulWidget {
   const ReviewCard({
     required this.reviewerName,
     required this.rating,
@@ -23,7 +23,17 @@ class ReviewCard extends StatelessWidget {
   final int downvote;
 
   @override
+  _ReviewCardState createState() => _ReviewCardState();
+}
+
+class _ReviewCardState extends State<ReviewCard> {
+  bool upvote_clicked = false;
+  bool downvote_clicked = false;
+  Color upbuttonColors = Colors.grey;
+  Color downbuttonColors = Colors.grey;
+  @override
   Widget build(BuildContext context) {
+    String date = widget.date;
     final reviewImages = <String>[
       'assets/samplepictures/fix1.jpg',
       'assets/samplepictures/fix2.jpg',
@@ -56,7 +66,7 @@ class ReviewCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      reviewerName,
+                      widget.reviewerName,
                       style: GoogleFonts.libreFranklin(
                         fontSize: 16,
                         color: const Color.fromARGB(255, 0, 0, 0),
@@ -64,9 +74,9 @@ class ReviewCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Visibility(
-                      visible: usertype != 'EMPTY',
+                      visible: widget.usertype != 'EMPTY',
                       child: Text(
-                        usertype,
+                        widget.usertype,
                         style: GoogleFonts.libreFranklin(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -84,7 +94,8 @@ class ReviewCard extends StatelessWidget {
                 5,
                 (starIndex) => Icon(
                   Icons.star,
-                  color: starIndex < rating ? Colors.orange : Colors.grey,
+                  color:
+                      starIndex < widget.rating ? Colors.orange : Colors.grey,
                   size: 18,
                 ),
               ),
@@ -100,7 +111,7 @@ class ReviewCard extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             Text(
-              comment,
+              widget.comment,
               style: const TextStyle(
                 fontWeight: FontWeight.w300,
                 fontFamily: 'TimesNewRoman',
@@ -140,24 +151,48 @@ class ReviewCard extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  onPressed: null,
+                  onPressed: () {
+                    setState(() {
+                      if (upvote_clicked == true) {
+                        upvote_clicked = false;
+                        upbuttonColors = Colors.grey;
+                        print(upvote_clicked);
+                      } else {
+                        upvote_clicked = true;
+                        print(upvote_clicked);
+                        upbuttonColors = Colors.orange;
+                      }
+                    });
+                  },
                   icon: Icon(
                     Icons.thumb_up,
-                    color: Colors.grey[350],
+                    color: upbuttonColors,
                     size: 20,
                   ),
                 ),
-                Text(upvote.toString()),
+                Text(widget.upvote.toString()),
                 const SizedBox(width: 5),
                 IconButton(
-                  onPressed: null,
+                  onPressed: () {
+                    setState(() {
+                      if (downvote_clicked == true) {
+                        downvote_clicked = false;
+                        downbuttonColors = Colors.grey;
+                        print(downvote_clicked);
+                      } else {
+                        downvote_clicked = true;
+                        print(downvote_clicked);
+                        downbuttonColors = Colors.orange;
+                      }
+                    });
+                  },
                   icon: Icon(
                     Icons.thumb_down,
-                    color: Colors.grey[350],
+                    color: downbuttonColors,
                     size: 20,
                   ),
                 ),
-                Text(downvote.toString()),
+                Text(widget.downvote.toString()),
               ],
             ),
           ],
