@@ -44,4 +44,6 @@ class ReviewsDataProvider {
       return throw Exception('review data fetch failed$error');
     }
   }
+
+  // Future<void> updateReview(String reviewer_id, String contractor_id, int upvote, int downvote)
 }

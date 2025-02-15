@@ -8,6 +8,8 @@ class ReviewCard extends StatelessWidget {
     required this.comment,
     required this.date,
     required this.usertype,
+    required this.upvote,
+    required this.downvote,
     super.key,
     this.image,
   });
@@ -17,6 +19,8 @@ class ReviewCard extends StatelessWidget {
   final String? image;
   final String date;
   final String usertype;
+  final int upvote;
+  final int downvote;
 
   @override
   Widget build(BuildContext context) {
@@ -135,9 +139,25 @@ class ReviewCard extends StatelessWidget {
             const SizedBox(height: 5),
             Row(
               children: [
-                Icon(Icons.thumb_up, color: Colors.grey[350], size: 20),
+                IconButton(
+                  onPressed: null,
+                  icon: Icon(
+                    Icons.thumb_up,
+                    color: Colors.grey[350],
+                    size: 20,
+                  ),
+                ),
+                Text(upvote.toString()),
                 const SizedBox(width: 5),
-                Icon(Icons.thumb_down, color: Colors.grey[350], size: 20),
+                IconButton(
+                  onPressed: null,
+                  icon: Icon(
+                    Icons.thumb_down,
+                    color: Colors.grey[350],
+                    size: 20,
+                  ),
+                ),
+                Text(downvote.toString()),
               ],
             ),
           ],
