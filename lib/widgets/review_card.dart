@@ -135,9 +135,32 @@ class ReviewCard extends StatelessWidget {
             const SizedBox(height: 5),
             Row(
               children: [
-                Icon(Icons.thumb_up, color: Colors.grey[350], size: 20),
+                IconButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.thumb_up,
+                    color: Colors.grey[300],
+                    size: 20,
+                  ),
+                ),
+                //Icon(Icons.thumb_up, color: Colors.grey[350], size: 20),
                 const SizedBox(width: 5),
-                Icon(Icons.thumb_down, color: Colors.grey[350], size: 20),
+                //Icon(Icons.thumb_down, color: Colors.grey[350], size: 20),
+                IconButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onPressed: () {},
+                  icon:
+                      Icon(Icons.thumb_down, color: Colors.grey[350], size: 20),
+                ),
               ],
             ),
           ],
