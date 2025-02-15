@@ -156,10 +156,10 @@ class _ReviewCardState extends State<ReviewCard> {
                       if (upvote_clicked == true) {
                         upvote_clicked = false;
                         upbuttonColors = Colors.grey;
-                        print(upvote_clicked);
                       } else {
+                        downvote_clicked = false;
                         upvote_clicked = true;
-                        print(upvote_clicked);
+                        downbuttonColors = Colors.grey;
                         upbuttonColors = Colors.orange;
                       }
                     });
@@ -181,7 +181,8 @@ class _ReviewCardState extends State<ReviewCard> {
                         print(downvote_clicked);
                       } else {
                         downvote_clicked = true;
-                        print(downvote_clicked);
+                        upvote_clicked = false;
+                        upbuttonColors = Colors.grey;
                         downbuttonColors = Colors.orange;
                       }
                     });
