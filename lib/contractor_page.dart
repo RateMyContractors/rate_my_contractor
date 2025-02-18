@@ -193,6 +193,8 @@ class ContractorPage extends StatelessWidget {
                                                   .reviews[index].reviewerId,
                                               contractorid: state
                                                   .reviews[index].contractorId,
+                                              reviewid:
+                                                  state.reviews[index].reviewid,
                                             ),
                                           );
                                         },

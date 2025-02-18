@@ -73,14 +73,16 @@ class ReviewsDownButtonPressed extends ReviewsEvent {
     required this.downbutton,
     required this.contractorid,
     required this.reviewerid,
+    required this.reviewid,
   });
 
   final String contractorid;
   final String reviewerid;
   final int downbutton;
+  final String reviewid;
 
   @override
-  List<Object> get props => [downbutton, contractorid, reviewerid];
+  List<Object> get props => [downbutton, contractorid, reviewerid, reviewid];
 
   @override
   String toString() => 'ReviewsDownButtonPressed $downbutton}';
@@ -91,14 +93,16 @@ class ReviewsUpButtonPressed extends ReviewsEvent {
     required this.upbutton,
     required this.contractorid,
     required this.reviewerid,
+    required this.reviewid,
   });
 
   final String contractorid;
   final String reviewerid;
   final int upbutton;
+  final String reviewid;
 
   @override
-  List<Object> get props => [upbutton, contractorid, reviewerid];
+  List<Object> get props => [upbutton, contractorid, reviewerid, reviewid];
 
   @override
   String toString() => 'ReviewsUpButtonPressed $upbutton}';

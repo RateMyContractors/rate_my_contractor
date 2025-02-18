@@ -37,12 +37,14 @@ class ReviewsRepository {
     String contractorId,
     int upvote,
     int downvote,
+    String reviewid,
   ) async {
     await _reviewsDataProvider.updateReview(
       reviewerId,
       contractorId,
       upvote,
       downvote,
+      reviewid,
     );
   }
 }

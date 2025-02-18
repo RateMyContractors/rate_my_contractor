@@ -93,11 +93,16 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
 
     on<ReviewsDownButtonPressed>((event, emit) async {
       try {
+        print(event.reviewerid);
+        print(event.contractorid);
+        print(event.downbutton);
+        print(event.reviewid);
         await repository.updateReview(
           event.reviewerid,
           event.contractorid,
           0,
           event.downbutton,
+          event.reviewid,
         );
       } on Exception catch (error) {
         emit(
@@ -111,8 +116,12 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
 
     on<ReviewsUpButtonPressed>((event, emit) async {
       try {
-        await repository.updateReview(
-            event.reviewerid, event.contractorid, event.upbutton, 0);
+        print(event.reviewerid);
+        print(event.contractorid);
+        print(event.upbutton);
+        print(event.reviewid);
+        await repository.updateReview(event.reviewerid, event.contractorid,
+            event.upbutton, 0, event.reviewid);
       } on Exception catch (error) {
         emit(
           state.copyWith(

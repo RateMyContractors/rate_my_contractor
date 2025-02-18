@@ -14,6 +14,7 @@ class ReviewCard extends StatefulWidget {
     required this.downvote,
     required this.reviewerid,
     required this.contractorid,
+    required this.reviewid,
     super.key,
     this.image,
   });
@@ -27,6 +28,7 @@ class ReviewCard extends StatefulWidget {
   final int downvote;
   final String contractorid;
   final String reviewerid;
+  final String reviewid;
 
   @override
   _ReviewCardState createState() => _ReviewCardState();
@@ -41,6 +43,8 @@ class _ReviewCardState extends State<ReviewCard> {
   Color downbuttonColors = Colors.grey;
   @override
   Widget build(BuildContext context) {
+    print(widget.reviewerid);
+    print(widget.reviewid);
     String date = widget.date;
     final reviewImages = <String>[
       'assets/samplepictures/fix1.jpg',
@@ -163,24 +167,24 @@ class _ReviewCardState extends State<ReviewCard> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        setState(() {
-                          if (upvote_clicked == true) {
-                            upvote_clicked = false;
-                            upbuttonColors = Colors.grey;
-                            upvote_count = -1;
-                          } else {
-                            downvote_clicked = false;
-                            upvote_clicked = true;
-                            downbuttonColors = Colors.grey;
-                            upbuttonColors = Colors.orange;
-                            upvote_count = 1;
-                          }
-                        });
+                        if (upvote_clicked == true) {
+                          upvote_clicked = false;
+                          upbuttonColors = Colors.grey;
+                          upvote_count = -1;
+                        } else {
+                          downvote_clicked = false;
+                          upvote_clicked = true;
+                          downbuttonColors = Colors.grey;
+                          upbuttonColors = Colors.orange;
+                          upvote_count = 1;
+                        }
+
                         context.read<ReviewsBloc>().add(
                               ReviewsUpButtonPressed(
                                 reviewerid: widget.reviewerid,
                                 contractorid: widget.contractorid,
                                 upbutton: upvote_count,
+                                reviewid: widget.reviewid,
                               ),
                             );
                       },
@@ -194,25 +198,24 @@ class _ReviewCardState extends State<ReviewCard> {
                     const SizedBox(width: 5),
                     IconButton(
                       onPressed: () {
-                        setState(() {
-                          if (downvote_clicked == true) {
-                            downvote_clicked = false;
-                            downbuttonColors = Colors.grey;
-                            downvote_count = -1;
-                            print(downvote_clicked);
-                          } else {
-                            downvote_clicked = true;
-                            upvote_clicked = false;
-                            upbuttonColors = Colors.grey;
-                            downbuttonColors = Colors.orange;
-                            downvote_count = 1;
-                          }
-                        });
+                        if (downvote_clicked == true) {
+                          downvote_clicked = false;
+                          downbuttonColors = Colors.grey;
+                          downvote_count = -1;
+                          print(downvote_clicked);
+                        } else {
+                          downvote_clicked = true;
+                          upvote_clicked = false;
+                          upbuttonColors = Colors.grey;
+                          downbuttonColors = Colors.orange;
+                          downvote_count = 1;
+                        }
                         context.read<ReviewsBloc>().add(
                               ReviewsDownButtonPressed(
                                 reviewerid: widget.reviewerid,
                                 contractorid: widget.contractorid,
                                 downbutton: downvote_count,
+                                reviewid: widget.reviewid,
                               ),
                             );
                       },
