@@ -90,6 +90,38 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
         );
       }
     });
+
+    on<ReviewsDownButtonPressed>((event, emit) async {
+      try {
+        await repository.updateReview(
+          event.reviewerid,
+          event.contractorid,
+          0,
+          event.downbutton,
+        );
+      } on Exception catch (error) {
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: ReviewsStateStatus.invalid,
+          ),
+        );
+      }
+    });
+
+    on<ReviewsUpButtonPressed>((event, emit) async {
+      try {
+        await repository.updateReview(
+            event.reviewerid, event.contractorid, event.upbutton, 0);
+      } on Exception catch (error) {
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: ReviewsStateStatus.invalid,
+          ),
+        );
+      }
+    });
   }
   final ReviewsRepository repository;
 }

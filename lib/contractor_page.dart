@@ -189,6 +189,10 @@ class ContractorPage extends StatelessWidget {
                                                   state.reviews[index].upvote,
                                               downvote:
                                                   state.reviews[index].downvote,
+                                              reviewerid: state
+                                                  .reviews[index].reviewerId,
+                                              contractorid: state
+                                                  .reviews[index].contractorId,
                                             ),
                                           );
                                         },
