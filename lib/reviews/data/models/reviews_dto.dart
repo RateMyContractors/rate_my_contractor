@@ -22,7 +22,7 @@ class ReviewsDto {
     return ReviewsDto(
       reviewerId: json['reviewer_id'] as String? ?? '',
       contractorId: json['contractor_id'] as String? ?? '',
-      reviewid: json['reviewer_id'] as String? ?? '',
+      reviewid: json['review_id'] as String? ?? '',
       comment: json['comment'] as String? ?? '',
       rating: json['rating'] as int? ?? 0,
       upvote: json['up_vote'] as int? ?? 0,
@@ -45,5 +45,6 @@ class ReviewsDto {
   @override
   String toString() =>
       'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId,'
-      ' comment: $comment, rating: $rating, name: $username, type: $usertype)';
+      ' comment: $comment, rating: $rating, name: $username, type: $usertype,'
+      ' upvote: $upvote, downvote: $downvote)';
 }

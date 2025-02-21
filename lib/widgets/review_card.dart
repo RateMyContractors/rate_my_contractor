@@ -41,11 +41,11 @@ class _ReviewCardState extends State<ReviewCard> {
   int downvote_count = 0;
   Color upbuttonColors = Colors.grey;
   Color downbuttonColors = Colors.grey;
+
   @override
   Widget build(BuildContext context) {
-    print(widget.reviewerid);
-    print(widget.reviewid);
-    String date = widget.date;
+    final date = widget.date;
+
     final reviewImages = <String>[
       'assets/samplepictures/fix1.jpg',
       'assets/samplepictures/fix2.jpg',
@@ -167,30 +167,54 @@ class _ReviewCardState extends State<ReviewCard> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        if (upvote_clicked == true) {
-                          upvote_clicked = false;
-                          upbuttonColors = Colors.grey;
-                          upvote_count = -1;
-                        } else {
-                          downvote_clicked = false;
-                          upvote_clicked = true;
-                          downbuttonColors = Colors.grey;
-                          upbuttonColors = Colors.orange;
-                          upvote_count = 1;
-                        }
+                        if (state.upvoteClicked == true) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsUpButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  upbutton: -1,
+                                  reviewid: widget.reviewid,
+                                  upbuttonClicked: false,
+                                ),
+                              );
+                        } else if (state.upvoteClicked == false) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsUpButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  upbutton: 1,
+                                  reviewid: widget.reviewid,
+                                  upbuttonClicked: true,
+                                ),
+                              );
+                        } else if (state.upvoteClicked == false &&
+                            state.downvoteClicked == true) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsUpButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  upbutton: 1,
+                                  reviewid: widget.reviewid,
+                                  upbuttonClicked: true,
+                                ),
+                              );
 
-                        context.read<ReviewsBloc>().add(
-                              ReviewsUpButtonPressed(
-                                reviewerid: widget.reviewerid,
-                                contractorid: widget.contractorid,
-                                upbutton: upvote_count,
-                                reviewid: widget.reviewid,
-                              ),
-                            );
+                          context.read<ReviewsBloc>().add(
+                                ReviewsDownButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  downbutton: -1,
+                                  reviewid: widget.reviewid,
+                                  downbuttonClicked: false,
+                                ),
+                              );
+                        }
                       },
                       icon: Icon(
                         Icons.thumb_up,
-                        color: upbuttonColors,
+                        color: state.upvoteClicked == true
+                            ? Colors.orange
+                            : Colors.grey,
                         size: 20,
                       ),
                     ),
@@ -198,30 +222,54 @@ class _ReviewCardState extends State<ReviewCard> {
                     const SizedBox(width: 5),
                     IconButton(
                       onPressed: () {
-                        if (downvote_clicked == true) {
-                          downvote_clicked = false;
-                          downbuttonColors = Colors.grey;
-                          downvote_count = -1;
-                          print(downvote_clicked);
-                        } else {
-                          downvote_clicked = true;
-                          upvote_clicked = false;
-                          upbuttonColors = Colors.grey;
-                          downbuttonColors = Colors.orange;
-                          downvote_count = 1;
+                        if (state.downvoteClicked == true) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsDownButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  downbutton: -1,
+                                  reviewid: widget.reviewid,
+                                  downbuttonClicked: false,
+                                ),
+                              );
+                        } else if (state.downvoteClicked == false) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsDownButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  downbutton: 1,
+                                  reviewid: widget.reviewid,
+                                  downbuttonClicked: true,
+                                ),
+                              );
+                        } else if (state.downvoteClicked == false &&
+                            state.upvoteClicked == true) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsDownButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  downbutton: 1,
+                                  reviewid: widget.reviewid,
+                                  downbuttonClicked: true,
+                                ),
+                              );
+
+                          context.read<ReviewsBloc>().add(
+                                ReviewsUpButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  upbutton: -1,
+                                  reviewid: widget.reviewid,
+                                  upbuttonClicked: false,
+                                ),
+                              );
                         }
-                        context.read<ReviewsBloc>().add(
-                              ReviewsDownButtonPressed(
-                                reviewerid: widget.reviewerid,
-                                contractorid: widget.contractorid,
-                                downbutton: downvote_count,
-                                reviewid: widget.reviewid,
-                              ),
-                            );
                       },
                       icon: Icon(
                         Icons.thumb_down,
-                        color: downbuttonColors,
+                        color: state.downvoteClicked == true
+                            ? Colors.orange
+                            : Colors.grey,
                         size: 20,
                       ),
                     ),

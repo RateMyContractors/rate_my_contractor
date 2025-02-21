@@ -1,5 +1,4 @@
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
-import 'package:rate_my_contractor/reviews/data/models/votes_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ReviewsDataProvider {
@@ -54,7 +53,6 @@ class ReviewsDataProvider {
     String reviewid,
   ) async {
     try {
-      //we are eiher sending 1 upvote, -1 upvote, 1 downvote or -1 downvote, or 0 as in no upvote was made, and 0 as in no downvote was made
       final votesJson = await _supabaseClient
           .from('Reviews')
           .select()
@@ -63,7 +61,6 @@ class ReviewsDataProvider {
           .eq('review_id', reviewid);
       final reviewsObjList =
           votesJson.map<ReviewsDto>(ReviewsDto.fromJson).toList().first;
-
       if (upvote == 0) {
         final supaDownVotes = reviewsObjList.downvote;
         await _supabaseClient
@@ -74,9 +71,10 @@ class ReviewsDataProvider {
             .eq('review_id', reviewid);
       } else if (downVote == 0) {
         final supaUpVotes = reviewsObjList.upvote;
+        final vote = supaUpVotes + upvote;
         await _supabaseClient
             .from('Reviews')
-            .update({'up_vote': supaUpVotes + upvote})
+            .update({'up_vote': vote})
             .eq('contractor_id', contractorId)
             .eq('reviewer_id', reviewerId)
             .eq('review_id', reviewid);
