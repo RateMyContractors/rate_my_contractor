@@ -15,6 +15,8 @@ class ReviewCard extends StatefulWidget {
     required this.reviewerid,
     required this.contractorid,
     required this.reviewid,
+    required this.upvoteClicked,
+    required this.downvoteClicked,
     super.key,
     this.image,
   });
@@ -29,6 +31,8 @@ class ReviewCard extends StatefulWidget {
   final String contractorid;
   final String reviewerid;
   final String reviewid;
+  final bool upvoteClicked;
+  final bool downvoteClicked;
 
   @override
   _ReviewCardState createState() => _ReviewCardState();
@@ -167,38 +171,8 @@ class _ReviewCardState extends State<ReviewCard> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        if (state.upvoteClicked == true) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsUpButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  upbutton: -1,
-                                  reviewid: widget.reviewid,
-                                  upbuttonClicked: false,
-                                ),
-                              );
-                        } else if (state.upvoteClicked == false) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsUpButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  upbutton: 1,
-                                  reviewid: widget.reviewid,
-                                  upbuttonClicked: true,
-                                ),
-                              );
-                        } else if (state.upvoteClicked == false &&
-                            state.downvoteClicked == true) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsUpButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  upbutton: 1,
-                                  reviewid: widget.reviewid,
-                                  upbuttonClicked: true,
-                                ),
-                              );
-
+                        if (widget.upvoteClicked == false &&
+                            widget.downvoteClicked == true) {
                           context.read<ReviewsBloc>().add(
                                 ReviewsDownButtonPressed(
                                   reviewerid: widget.reviewerid,
@@ -208,11 +182,41 @@ class _ReviewCardState extends State<ReviewCard> {
                                   downbuttonClicked: false,
                                 ),
                               );
+
+                          context.read<ReviewsBloc>().add(
+                                ReviewsUpButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  upbutton: 1,
+                                  reviewid: widget.reviewid,
+                                  upbuttonClicked: true,
+                                ),
+                              );
+                        } else if (widget.upvoteClicked == true) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsUpButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  upbutton: -1,
+                                  reviewid: widget.reviewid,
+                                  upbuttonClicked: false,
+                                ),
+                              );
+                        } else if (widget.upvoteClicked == false) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsUpButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  upbutton: 1,
+                                  reviewid: widget.reviewid,
+                                  upbuttonClicked: true,
+                                ),
+                              );
                         }
                       },
                       icon: Icon(
                         Icons.thumb_up,
-                        color: state.upvoteClicked == true
+                        color: widget.upvoteClicked == true
                             ? Colors.orange
                             : Colors.grey,
                         size: 20,
@@ -222,38 +226,8 @@ class _ReviewCardState extends State<ReviewCard> {
                     const SizedBox(width: 5),
                     IconButton(
                       onPressed: () {
-                        if (state.downvoteClicked == true) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsDownButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  downbutton: -1,
-                                  reviewid: widget.reviewid,
-                                  downbuttonClicked: false,
-                                ),
-                              );
-                        } else if (state.downvoteClicked == false) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsDownButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  downbutton: 1,
-                                  reviewid: widget.reviewid,
-                                  downbuttonClicked: true,
-                                ),
-                              );
-                        } else if (state.downvoteClicked == false &&
-                            state.upvoteClicked == true) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsDownButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  downbutton: 1,
-                                  reviewid: widget.reviewid,
-                                  downbuttonClicked: true,
-                                ),
-                              );
-
+                        if (widget.downvoteClicked == false &&
+                            widget.upvoteClicked == true) {
                           context.read<ReviewsBloc>().add(
                                 ReviewsUpButtonPressed(
                                   reviewerid: widget.reviewerid,
@@ -263,11 +237,40 @@ class _ReviewCardState extends State<ReviewCard> {
                                   upbuttonClicked: false,
                                 ),
                               );
+                          context.read<ReviewsBloc>().add(
+                                ReviewsDownButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  downbutton: 1,
+                                  reviewid: widget.reviewid,
+                                  downbuttonClicked: true,
+                                ),
+                              );
+                        } else if (widget.downvoteClicked == true) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsDownButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  downbutton: -1,
+                                  reviewid: widget.reviewid,
+                                  downbuttonClicked: false,
+                                ),
+                              );
+                        } else if (widget.downvoteClicked == false) {
+                          context.read<ReviewsBloc>().add(
+                                ReviewsDownButtonPressed(
+                                  reviewerid: widget.reviewerid,
+                                  contractorid: widget.contractorid,
+                                  downbutton: 1,
+                                  reviewid: widget.reviewid,
+                                  downbuttonClicked: true,
+                                ),
+                              );
                         }
                       },
                       icon: Icon(
                         Icons.thumb_down,
-                        color: state.downvoteClicked == true
+                        color: widget.downvoteClicked == true
                             ? Colors.orange
                             : Colors.grey,
                         size: 20,

@@ -12,6 +12,8 @@ class ReviewsDto {
     required this.date,
     required this.username,
     required this.usertype,
+    this.upvoteClicked = false,
+    this.downvoteClicked = false,
   });
 
   factory ReviewsDto.fromJson(Map<String, dynamic> json) {
@@ -30,8 +32,34 @@ class ReviewsDto {
       date: dateOnly,
       username: json['username'] as String? ?? '',
       usertype: json['user_type'] as String? ?? '',
+      upvoteClicked: false,
+      downvoteClicked: false,
     );
   }
+
+  //copyWith method allows us to specify only the fields we want to change,
+  //while the rest retain their existing values.
+  ReviewsDto copyWith({
+    int? upvote,
+    int? downvote,
+    bool? upvoteClicked,
+    bool? downvoteClicked,
+  }) {
+    return ReviewsDto(
+        reviewid: reviewid,
+        contractorId: contractorId,
+        reviewerId: reviewerId,
+        comment: comment,
+        rating: rating,
+        upvote: upvote ?? this.upvote,
+        downvote: downvote ?? this.downvote,
+        date: date,
+        username: username,
+        usertype: usertype,
+        upvoteClicked: upvoteClicked ?? this.upvoteClicked,
+        downvoteClicked: downvoteClicked ?? this.downvoteClicked);
+  }
+
   final String reviewid;
   final String contractorId;
   final String reviewerId;
@@ -42,6 +70,9 @@ class ReviewsDto {
   final String date;
   final String username;
   final String usertype;
+  final bool upvoteClicked;
+  final bool downvoteClicked;
+
   @override
   String toString() =>
       'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId,'

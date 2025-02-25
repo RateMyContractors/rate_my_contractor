@@ -94,9 +94,19 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
 
     on<ReviewsDownButtonPressed>((event, emit) async {
       try {
+        final updateReviews = state.reviews.map((review) {
+          if (review.reviewid == event.reviewid) {
+            return review.copyWith(
+              downvote: review.downvote + event.downbutton,
+              downvoteClicked: event.downbuttonClicked,
+              upvoteClicked: false,
+            );
+          }
+          return review;
+        }).toList();
         emit(
           state.copyWith(
-            upvoteClicked: event.downbuttonClicked,
+            reviews: updateReviews,
           ),
         );
         await repository.updateReview(
@@ -118,10 +128,19 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
 
     on<ReviewsUpButtonPressed>((event, emit) async {
       try {
+        final updateReviews = state.reviews.map((review) {
+          if (review.reviewid == event.reviewid) {
+            return review.copyWith(
+              upvote: review.upvote + event.upbutton,
+              upvoteClicked: event.upbuttonClicked,
+              downvoteClicked: false,
+            );
+          }
+          return review;
+        }).toList();
+
         emit(
-          state.copyWith(
-            upvoteClicked: event.upbuttonClicked,
-          ),
+          state.copyWith(reviews: updateReviews),
         );
         await repository.updateReview(
           event.reviewerid,
