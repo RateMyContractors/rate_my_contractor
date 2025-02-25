@@ -32,8 +32,6 @@ class ReviewsDto {
       date: dateOnly,
       username: json['username'] as String? ?? '',
       usertype: json['user_type'] as String? ?? '',
-      upvoteClicked: false,
-      downvoteClicked: false,
     );
   }
 
@@ -46,18 +44,19 @@ class ReviewsDto {
     bool? downvoteClicked,
   }) {
     return ReviewsDto(
-        reviewid: reviewid,
-        contractorId: contractorId,
-        reviewerId: reviewerId,
-        comment: comment,
-        rating: rating,
-        upvote: upvote ?? this.upvote,
-        downvote: downvote ?? this.downvote,
-        date: date,
-        username: username,
-        usertype: usertype,
-        upvoteClicked: upvoteClicked ?? this.upvoteClicked,
-        downvoteClicked: downvoteClicked ?? this.downvoteClicked);
+      reviewid: reviewid,
+      contractorId: contractorId,
+      reviewerId: reviewerId,
+      comment: comment,
+      rating: rating,
+      upvote: upvote ?? this.upvote,
+      downvote: downvote ?? this.downvote,
+      date: date,
+      username: username,
+      usertype: usertype,
+      upvoteClicked: upvoteClicked ?? this.upvoteClicked,
+      downvoteClicked: downvoteClicked ?? this.downvoteClicked,
+    );
   }
 
   final String reviewid;

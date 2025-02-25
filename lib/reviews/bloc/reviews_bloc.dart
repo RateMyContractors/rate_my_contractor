@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:rate_my_contractor/reviews/domain/reviews_repository.dart';

@@ -39,14 +39,14 @@ class ReviewCard extends StatefulWidget {
   final bool downvoteClicked;
 
   @override
-  _ReviewCardState createState() => _ReviewCardState();
+  ReviewCardState createState() => ReviewCardState();
 }
 
-class _ReviewCardState extends State<ReviewCard> {
-  bool upvote_clicked = false;
-  bool downvote_clicked = false;
-  int upvote_count = 0;
-  int downvote_count = 0;
+class ReviewCardState extends State<ReviewCard> {
+  bool upvoteclicked = false;
+  bool downvoteclicked = false;
+  int upvotecount = 0;
+  int downvotecount = 0;
   Color upbuttonColors = Colors.grey;
   Color downbuttonColors = Colors.grey;
 
@@ -173,7 +173,6 @@ class _ReviewCardState extends State<ReviewCard> {
                 const SizedBox(height: 5),
                 BlocBuilder<AuthenticationBloc, AuthenticationState>(
                   builder: (c, state) {
-                    final username = state.user?.username;
                     return Row(
                       children: [
                         IconButton(
@@ -203,7 +202,8 @@ class _ReviewCardState extends State<ReviewCard> {
                                               BlocProvider.value(
                                                 value:
                                                     BlocProvider.of<SearchBloc>(
-                                                        context),
+                                                  context,
+                                                ),
                                               ),
                                               BlocProvider.value(
                                                 value: BlocProvider.of<
@@ -261,7 +261,8 @@ class _ReviewCardState extends State<ReviewCard> {
                                               BlocProvider.value(
                                                 value:
                                                     BlocProvider.of<SearchBloc>(
-                                                        context),
+                                                  context,
+                                                ),
                                               ),
                                               BlocProvider.value(
                                                 value: BlocProvider.of<
@@ -294,7 +295,7 @@ class _ReviewCardState extends State<ReviewCard> {
                       ],
                     );
                   },
-                )
+                ),
               ],
             ),
           ),
