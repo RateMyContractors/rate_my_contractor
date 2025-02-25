@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
+import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
+import 'package:rate_my_contractor/authentication/login/screens/login_page.dart';
+import 'package:rate_my_contractor/contractor_list/bloc/search_bloc.dart';
 import 'package:rate_my_contractor/reviews/bloc/reviews_bloc.dart';
 
 class ReviewCard extends StatefulWidget {
@@ -167,123 +171,222 @@ class _ReviewCardState extends State<ReviewCard> {
                   ],
                 ),
                 const SizedBox(height: 5),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        if (widget.upvoteClicked == false &&
-                            widget.downvoteClicked == true) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsDownButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  downbutton: -1,
-                                  reviewid: widget.reviewid,
-                                  downbuttonClicked: false,
+                BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                  builder: (c, state) {
+                    final username = state.user?.username;
+                    return Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            if (state.status !=
+                                AuthenticationStatus.authenticated) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Please log in to upvote a review.',
+                                  ),
+                                  action: SnackBarAction(
+                                    label: 'OK',
+                                    textColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    onPressed: () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute<LoginPage>(
+                                          builder: (_) => MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider.value(
+                                                value: BlocProvider.of<
+                                                    AuthenticationBloc>(
+                                                  context,
+                                                ),
+                                              ),
+                                              BlocProvider.value(
+                                                value:
+                                                    BlocProvider.of<SearchBloc>(
+                                                        context),
+                                              ),
+                                              BlocProvider.value(
+                                                value: BlocProvider.of<
+                                                    ReviewsBloc>(context),
+                                              ),
+                                            ],
+                                            child: const LoginPage(
+                                              route: '',
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               );
-
-                          context.read<ReviewsBloc>().add(
-                                ReviewsUpButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  upbutton: 1,
-                                  reviewid: widget.reviewid,
-                                  upbuttonClicked: true,
+                              return;
+                            }
+                            thumbsUp(context);
+                          },
+                          icon: Icon(
+                            Icons.thumb_up,
+                            color: widget.upvoteClicked == true
+                                ? Colors.orange
+                                : Colors.grey,
+                            size: 20,
+                          ),
+                        ),
+                        Text(widget.upvote.toString()),
+                        const SizedBox(width: 5),
+                        IconButton(
+                          onPressed: () {
+                            if (state.status !=
+                                AuthenticationStatus.authenticated) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Please log in to downvote reviews',
+                                  ),
+                                  action: SnackBarAction(
+                                    label: 'OK',
+                                    textColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    onPressed: () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute<LoginPage>(
+                                          builder: (_) => MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider.value(
+                                                value: BlocProvider.of<
+                                                    AuthenticationBloc>(
+                                                  context,
+                                                ),
+                                              ),
+                                              BlocProvider.value(
+                                                value:
+                                                    BlocProvider.of<SearchBloc>(
+                                                        context),
+                                              ),
+                                              BlocProvider.value(
+                                                value: BlocProvider.of<
+                                                    ReviewsBloc>(context),
+                                              ),
+                                            ],
+                                            child: const LoginPage(
+                                              route: '',
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               );
-                        } else if (widget.upvoteClicked == true) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsUpButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  upbutton: -1,
-                                  reviewid: widget.reviewid,
-                                  upbuttonClicked: false,
-                                ),
-                              );
-                        } else if (widget.upvoteClicked == false) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsUpButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  upbutton: 1,
-                                  reviewid: widget.reviewid,
-                                  upbuttonClicked: true,
-                                ),
-                              );
-                        }
-                      },
-                      icon: Icon(
-                        Icons.thumb_up,
-                        color: widget.upvoteClicked == true
-                            ? Colors.orange
-                            : Colors.grey,
-                        size: 20,
-                      ),
-                    ),
-                    Text(widget.upvote.toString()),
-                    const SizedBox(width: 5),
-                    IconButton(
-                      onPressed: () {
-                        if (widget.downvoteClicked == false &&
-                            widget.upvoteClicked == true) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsUpButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  upbutton: -1,
-                                  reviewid: widget.reviewid,
-                                  upbuttonClicked: false,
-                                ),
-                              );
-                          context.read<ReviewsBloc>().add(
-                                ReviewsDownButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  downbutton: 1,
-                                  reviewid: widget.reviewid,
-                                  downbuttonClicked: true,
-                                ),
-                              );
-                        } else if (widget.downvoteClicked == true) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsDownButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  downbutton: -1,
-                                  reviewid: widget.reviewid,
-                                  downbuttonClicked: false,
-                                ),
-                              );
-                        } else if (widget.downvoteClicked == false) {
-                          context.read<ReviewsBloc>().add(
-                                ReviewsDownButtonPressed(
-                                  reviewerid: widget.reviewerid,
-                                  contractorid: widget.contractorid,
-                                  downbutton: 1,
-                                  reviewid: widget.reviewid,
-                                  downbuttonClicked: true,
-                                ),
-                              );
-                        }
-                      },
-                      icon: Icon(
-                        Icons.thumb_down,
-                        color: widget.downvoteClicked == true
-                            ? Colors.orange
-                            : Colors.grey,
-                        size: 20,
-                      ),
-                    ),
-                    Text(widget.downvote.toString()),
-                  ],
-                ),
+                              return;
+                            }
+                            thumbsDown(context);
+                          },
+                          icon: Icon(
+                            Icons.thumb_down,
+                            color: widget.downvoteClicked == true
+                                ? Colors.orange
+                                : Colors.grey,
+                            size: 20,
+                          ),
+                        ),
+                        Text(widget.downvote.toString()),
+                      ],
+                    );
+                  },
+                )
               ],
             ),
           ),
         );
       },
     );
+  }
+
+  void thumbsDown(BuildContext context) {
+    if (widget.downvoteClicked == false && widget.upvoteClicked == true) {
+      context.read<ReviewsBloc>().add(
+            ReviewsUpButtonPressed(
+              reviewerid: widget.reviewerid,
+              contractorid: widget.contractorid,
+              upbutton: -1,
+              reviewid: widget.reviewid,
+              upbuttonClicked: false,
+            ),
+          );
+      context.read<ReviewsBloc>().add(
+            ReviewsDownButtonPressed(
+              reviewerid: widget.reviewerid,
+              contractorid: widget.contractorid,
+              downbutton: 1,
+              reviewid: widget.reviewid,
+              downbuttonClicked: true,
+            ),
+          );
+    } else if (widget.downvoteClicked == true) {
+      context.read<ReviewsBloc>().add(
+            ReviewsDownButtonPressed(
+              reviewerid: widget.reviewerid,
+              contractorid: widget.contractorid,
+              downbutton: -1,
+              reviewid: widget.reviewid,
+              downbuttonClicked: false,
+            ),
+          );
+    } else if (widget.downvoteClicked == false) {
+      context.read<ReviewsBloc>().add(
+            ReviewsDownButtonPressed(
+              reviewerid: widget.reviewerid,
+              contractorid: widget.contractorid,
+              downbutton: 1,
+              reviewid: widget.reviewid,
+              downbuttonClicked: true,
+            ),
+          );
+    }
+  }
+
+  void thumbsUp(BuildContext context) {
+    if (widget.upvoteClicked == false && widget.downvoteClicked == true) {
+      context.read<ReviewsBloc>().add(
+            ReviewsDownButtonPressed(
+              reviewerid: widget.reviewerid,
+              contractorid: widget.contractorid,
+              downbutton: -1,
+              reviewid: widget.reviewid,
+              downbuttonClicked: false,
+            ),
+          );
+
+      context.read<ReviewsBloc>().add(
+            ReviewsUpButtonPressed(
+              reviewerid: widget.reviewerid,
+              contractorid: widget.contractorid,
+              upbutton: 1,
+              reviewid: widget.reviewid,
+              upbuttonClicked: true,
+            ),
+          );
+    } else if (widget.upvoteClicked == true) {
+      context.read<ReviewsBloc>().add(
+            ReviewsUpButtonPressed(
+              reviewerid: widget.reviewerid,
+              contractorid: widget.contractorid,
+              upbutton: -1,
+              reviewid: widget.reviewid,
+              upbuttonClicked: false,
+            ),
+          );
+    } else if (widget.upvoteClicked == false) {
+      context.read<ReviewsBloc>().add(
+            ReviewsUpButtonPressed(
+              reviewerid: widget.reviewerid,
+              contractorid: widget.contractorid,
+              upbutton: 1,
+              reviewid: widget.reviewid,
+              upbuttonClicked: true,
+            ),
+          );
+    }
   }
 }
