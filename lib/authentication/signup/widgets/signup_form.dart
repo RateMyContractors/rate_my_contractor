@@ -70,41 +70,37 @@ class SignupForm extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.4,
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            children: [
-              const Padding(padding: EdgeInsets.all(12)),
-              const Expanded(
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
+          child: Flexible(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Padding(padding: EdgeInsets.all(12)),
+                  const Text(
+                    'Sign Up',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  const Text('Create your account to get started'),
+                  _ContractorAndUserButton(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _FirstNameInput(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _LastNameInput(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _UsernameInput(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _EmailInput(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _PasswordInput(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _ReEnterPasswordInput(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  _SignUpButton(),
+                  const Padding(padding: EdgeInsets.all(12)),
+                ],
               ),
-              const Expanded(
-                child: Text('Create your account to get started'),
-              ),
-              Expanded(
-                child: _ContractorAndUserButton(),
-              ),
-              const Expanded(
-                child: Padding(padding: EdgeInsets.all(12)),
-              ),
-              _FirstNameInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _LastNameInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _UsernameInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _EmailInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _PasswordInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              _ReEnterPasswordInput(),
-              const Padding(padding: EdgeInsets.all(12)),
-              Expanded(
-                child: _SignUpButton(),
-              ),
-              const Padding(padding: EdgeInsets.all(12)),
-            ],
+            ),
           ),
         ),
       ),
