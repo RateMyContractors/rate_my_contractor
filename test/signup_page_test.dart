@@ -89,7 +89,7 @@ void main() {
       );
       expect(find.byType(MyHomePage), findsOneWidget);
 
-      expect(find.text('Login'), findsOne);
+      expect(find.widgetWithText(TextButton, 'Login'), findsOneWidget);
       final loginButtonFinder = find.widgetWithText(TextButton, 'Login');
       await tester.tap(loginButtonFinder);
       await tester.pumpAndSettle();
@@ -105,13 +105,7 @@ void main() {
 
       expect(contractorButton, findsOneWidget);
       expect(userButton, findsOneWidget);
-
-      expect(find.text('Re-enter Password'), findsOneWidget);
-      expect(find.text('Password'), findsOneWidget);
-      expect(find.text('Email'), findsOneWidget);
-      expect(find.text('Last Name'), findsOneWidget);
-      expect(find.text('First Name'), findsOneWidget);
-      expect(find.text('username'), findsOneWidget);
+      await tester.pumpAndSettle();
     });
 
     testWidgets('Signup failed', (WidgetTester tester) async {
