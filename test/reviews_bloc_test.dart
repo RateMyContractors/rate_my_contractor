@@ -37,22 +37,24 @@ void main() {
 
     test('UpButton pressed', () {
       const searchtext = ReviewsUpButtonPressed(
-          upbutton: 1,
-          contractorid: '',
-          reviewerid: '',
-          reviewid: '',
-          upbuttonClicked: true);
+        upbutton: 1,
+        contractorid: '',
+        reviewerid: '',
+        reviewid: '',
+        upbuttonClicked: true,
+      );
 
       expect(searchtext.toString(), 'ReviewsUpButtonPressed 1}');
     });
 
     test('DownButton pressed', () {
       const searchtext = ReviewsDownButtonPressed(
-          downbutton: 1,
-          contractorid: '',
-          reviewerid: '',
-          reviewid: '',
-          downbuttonClicked: true);
+        downbutton: 1,
+        contractorid: '',
+        reviewerid: '',
+        reviewid: '',
+        downbuttonClicked: true,
+      );
 
       expect(searchtext.toString(), 'ReviewsDownButtonPressed 1}');
     });
