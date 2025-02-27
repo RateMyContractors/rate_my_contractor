@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rate_my_contractor/authentication/login/models/email.dart';
+import 'package:rate_my_contractor/authentication/login/models/password.dart';
 
 void main() {
   group('forms input', () {
@@ -10,10 +11,23 @@ void main() {
       expect(emailpure.error, EmailValidationError.empty);
     });
     test('Email dirty', () {
-      const emailpure = Email.dirty('test');
-      expect(emailpure.value, 'test');
-      expect(emailpure.isValid, true);
-      expect(emailpure.error, null);
+      const emaildirty = Email.dirty('test');
+      expect(emaildirty.value, 'test');
+      expect(emaildirty.isValid, true);
+      expect(emaildirty.error, null);
+    });
+
+    test('Password Pure', () {
+      const passwordpure = Password.pure();
+      expect(passwordpure.value, '');
+      expect(passwordpure.isValid, false);
+      expect(passwordpure.error, PasswordValidationError.empty);
+    });
+    test('Password dirty', () {
+      const passworddirty = Email.dirty('test');
+      expect(passworddirty.value, 'test');
+      expect(passworddirty.isValid, true);
+      expect(passworddirty.error, null);
     });
   });
 }
