@@ -5,12 +5,13 @@ void main() {
   group('testing user model', () {
     test('testing toString', () {
       const fakeUser = User(
-          id: 'test',
-          email: 'test',
-          firstname: 'test',
-          lastname: 'test',
-          username: 'test',
-          usertype: 'test');
+        id: 'test',
+        email: 'test',
+        firstname: 'test',
+        lastname: 'test',
+        username: 'test',
+        usertype: 'test',
+      );
       expect(
           fakeUser.toString(),
           'User{status: AuthenticationStatus.unknown,id: test,email: test, '
