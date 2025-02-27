@@ -141,9 +141,14 @@ void main() {
       await tester.scrollUntilVisible(find.text('Write a review'), 100);
       await tester.tap(find.text('Write a review'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('"Z" ELECTRIC'));
-      await tester.tap(find.text('Create Review'));
-      await tester.tap(find.text('Overall Rating'));
+      expect(find.text('"Z" ELECTRIC'), findsOneWidget);
+      expect(
+        tester.widget<Align>(find.byType(Align).first).alignment,
+        Alignment.centerLeft,
+      );
+      expect(find.text('Create Review'), findsOneWidget);
+      expect(find.text('Overall Rating'), findsOneWidget);
+      expect(find.text('Add a written review'), findsOneWidget);
 
       expect(find.text('Upload'), findsWidgets);
     });
