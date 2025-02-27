@@ -151,6 +151,8 @@ void main() {
       expect(find.text('Add a written review'), findsOneWidget);
 
       expect(find.text('Upload'), findsWidgets);
+      expect(find.byIcon(Icons.upload), findsOneWidget);
+      expect(find.text('Post'), findsWidgets);
     });
   });
 }
