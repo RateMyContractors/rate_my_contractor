@@ -34,5 +34,27 @@ void main() {
       expect: () =>
           [const ReviewsState(rating: 5, status: ReviewsStateStatus.valid)],
     );
+
+    test('UpButton pressed', () {
+      const searchtext = ReviewsUpButtonPressed(
+          upbutton: 1,
+          contractorid: '',
+          reviewerid: '',
+          reviewid: '',
+          upbuttonClicked: true);
+
+      expect(searchtext.toString(), 'ReviewsUpButtonPressed 1}');
+    });
+
+    test('DownButton pressed', () {
+      const searchtext = ReviewsDownButtonPressed(
+          downbutton: 1,
+          contractorid: '',
+          reviewerid: '',
+          reviewid: '',
+          downbuttonClicked: true);
+
+      expect(searchtext.toString(), 'ReviewsDownButtonPressed 1}');
+    });
   });
 }
