@@ -21,6 +21,9 @@ class SearchTextUpdated extends SearchEvent {
 
 class SearchButtonPressed extends SearchEvent {
   const SearchButtonPressed();
+
+  @override
+  String toString() => 'Search Button Pressed';
 }
 
 class SearchFilterPressed extends SearchEvent {

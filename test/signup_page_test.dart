@@ -112,18 +112,28 @@ void main() {
       when(() => mockAuthenticationBloc.state)
           .thenReturn(const AuthenticationState.unauthenticated());
 
+      whenListen(
+        mockSignupBloc,
+        Stream.fromIterable([
+          const SignUpState(status: FormzSubmissionStatus.failure),
+        ]),
+      );
+
       await tester.pumpWidget(
         RepositoryProvider<AuthenticationRepository>.value(
           value: mockAuthenticationRepository,
           child: MaterialApp(
-            home: MultiBlocProvider(
-              providers: [
-                BlocProvider<SearchBloc>.value(value: mockSearchBloc),
-                BlocProvider<AuthenticationBloc>.value(
-                  value: mockAuthenticationBloc,
-                ),
-              ],
-              child: const MyHomePage(title: 'Contractor Home Page'),
+            home: ScaffoldMessenger(
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider<SearchBloc>.value(value: mockSearchBloc),
+                  BlocProvider<AuthenticationBloc>.value(
+                    value: mockAuthenticationBloc,
+                  ),
+                  BlocProvider<SignUpBloc>.value(value: mockSignupBloc),
+                ],
+                child: const MyHomePage(title: 'Contractor Home Page'),
+              ),
             ),
             routes: {
               '/login': (context) => MultiBlocProvider(
@@ -159,10 +169,10 @@ void main() {
 
       await tester.tap(signUpText);
       await tester.pumpAndSettle();
-      expect(find.byType(SignupPage), findsOneWidget);
+      expect(find.byType(SignupForm), findsOneWidget);
 
-      when(() => mockSignupBloc.state)
-          .thenReturn(const SignUpState(status: FormzSubmissionStatus.failure));
+      mockSignupBloc
+          .emit(const SignUpState(status: FormzSubmissionStatus.failure));
     });
   });
 }

@@ -29,4 +29,10 @@ void main() {
 
     expect(searchtext.toString(), 'Search filtered {sort: true}');
   });
+
+  test('SearchButton pressed', () {
+    const searchtext = SearchButtonPressed();
+
+    expect(searchtext.toString(), 'Search Button Pressed');
+  });
 }
