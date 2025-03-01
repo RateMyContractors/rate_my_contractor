@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
 class ReviewsDto extends Equatable {
-  ReviewsDto({
+  const ReviewsDto({
     required this.reviewid,
     required this.contractorId,
     required this.reviewerId,

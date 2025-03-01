@@ -41,7 +41,7 @@ void main() {
       build: () {
         when(() => mockRepository.getReviews(any())).thenAnswer(
           (_) async => [
-            ReviewsDto(
+            const ReviewsDto(
               reviewid: '1',
               contractorId: '122344',
               reviewerId: '',
@@ -60,8 +60,9 @@ void main() {
       act: (bloc) => bloc.add(const ReviewsRequest(contractorId: '122344')),
       expect: () => [
         const ReviewsState(status: ReviewsStateStatus.loading),
-        ReviewsState(reviews: [
-          ReviewsDto(
+        const ReviewsState(
+          reviews: [
+            ReviewsDto(
               reviewid: '1',
               contractorId: '122344',
               reviewerId: '',
@@ -71,8 +72,11 @@ void main() {
               downvote: 0,
               date: '2024-02-28',
               username: 'JohnDoe',
-              usertype: 'Client')
-        ], status: ReviewsStateStatus.success),
+              usertype: 'Client',
+            ),
+          ],
+          status: ReviewsStateStatus.success,
+        ),
       ],
     );
 
