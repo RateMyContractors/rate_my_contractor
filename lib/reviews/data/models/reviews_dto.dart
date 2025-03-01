@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
-class ReviewsDto {
+class ReviewsDto extends Equatable {
   ReviewsDto({
     required this.reviewid,
     required this.contractorId,
@@ -72,6 +73,21 @@ class ReviewsDto {
   final bool upvoteClicked;
   final bool downvoteClicked;
 
+  @override
+  List<Object?> get props => [
+        reviewid,
+        contractorId,
+        reviewerId,
+        comment,
+        rating,
+        upvote,
+        downvote,
+        date,
+        username,
+        usertype,
+        upvoteClicked,
+        downvoteClicked,
+      ];
   @override
   String toString() =>
       'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId,'
