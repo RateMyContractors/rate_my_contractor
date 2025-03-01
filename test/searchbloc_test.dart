@@ -93,5 +93,49 @@ void main() {
         ),
       ],
     );
+
+    blocTest<SearchBloc, SearchState>(
+      'search sort pressed',
+      build: () {
+        when(
+          () => mockRepository.getContractors(
+            any(),
+            sortcontractors: any(named: 'sortcontractors'),
+          ),
+        ).thenAnswer(
+          (_) async => <Contractor>[
+            const Contractor(
+              id: '1',
+              companyName: 'test',
+              address: 'test123',
+              tags: ['hi'],
+              phone: '123',
+              licenses: [],
+              totalRating: [],
+            ),
+          ],
+        );
+        return SearchBloc(mockRepository);
+      },
+      act: (bloc) => bloc.add(const SearchSortPressed(sort: true)),
+      expect: () => [
+        const SearchState(status: SearchStateStatus.valid),
+        const SearchState(status: SearchStateStatus.loading),
+        const SearchState(
+          contractors: [
+            Contractor(
+              id: '1',
+              companyName: 'test',
+              address: 'test123',
+              tags: ['hi'],
+              phone: '123',
+              licenses: [],
+              totalRating: [],
+            ),
+          ],
+          status: SearchStateStatus.success,
+        ),
+      ],
+    );
   });
 }
