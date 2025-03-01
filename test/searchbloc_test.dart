@@ -137,5 +137,48 @@ void main() {
         ),
       ],
     );
+
+    blocTest<SearchBloc, SearchState>(
+      'search filter pressed',
+      build: () {
+        when(
+          () => mockRepository.getContractors(
+            any(),
+            sortcontractors: any(named: 'sortcontractors'),
+          ),
+        ).thenAnswer(
+          (_) async => <Contractor>[
+            const Contractor(
+              id: '1',
+              companyName: 'test',
+              address: 'test123',
+              tags: ['hi'],
+              phone: '123',
+              licenses: [],
+              totalRating: [],
+            ),
+          ],
+        );
+        return SearchBloc(mockRepository);
+      },
+      act: (bloc) => bloc.add(const SearchFilterPressed(filter: 100)),
+      expect: () => [
+        const SearchState(
+          filter: 100,
+          contractors: [
+            Contractor(
+              id: '1',
+              companyName: 'test',
+              address: 'test123',
+              tags: ['hi'],
+              phone: '123',
+              licenses: [],
+              totalRating: [],
+            ),
+          ],
+          status: SearchStateStatus.success,
+        ),
+      ],
+    );
   });
 }
