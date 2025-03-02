@@ -20,9 +20,7 @@ class ContractorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const scrollPhysics = NeverScrollableScrollPhysics();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-      ),
+      appBar: AppBar(),
       body: BlocBuilder<ReviewsBloc, ReviewsState>(
         builder: (context, state) {
           final reviews = state.reviews;
@@ -187,6 +185,21 @@ class ContractorPage extends StatelessWidget {
                                               date: state.reviews[index].date,
                                               usertype:
                                                   state.reviews[index].usertype,
+                                              upvote:
+                                                  state.reviews[index].upvote,
+                                              downvote:
+                                                  state.reviews[index].downvote,
+                                              reviewerid: state
+                                                  .reviews[index].reviewerId,
+                                              contractorid: state
+                                                  .reviews[index].contractorId,
+                                              reviewid:
+                                                  state.reviews[index].reviewid,
+                                              upvoteClicked: state
+                                                  .reviews[index].upvoteClicked,
+                                              downvoteClicked: state
+                                                  .reviews[index]
+                                                  .downvoteClicked,
                                             ),
                                           );
                                         },

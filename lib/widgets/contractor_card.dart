@@ -161,30 +161,6 @@ class ContractorCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              SizedBox(
-                width: 2000,
-                height: 35,
-                child: TextButton(
-                  onPressed: () {
-                    // Add your contact logic here
-                  },
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
-                    backgroundColor: const Color.fromARGB(255, 2, 2, 2),
-                  ),
-                  child: const Text(
-                    'Contact',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(223, 221, 221, 1),
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         );

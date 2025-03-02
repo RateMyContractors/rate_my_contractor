@@ -31,4 +31,20 @@ class ReviewsRepository {
     final dataSetReviews = await _reviewsDataProvider.getReviews(contractorId);
     return dataSetReviews;
   }
+
+  Future<void> updateReview(
+    String reviewerId,
+    String contractorId,
+    int upvote,
+    int downvote,
+    String reviewid,
+  ) async {
+    await _reviewsDataProvider.updateReview(
+      reviewerId,
+      contractorId,
+      upvote,
+      downvote,
+      reviewid,
+    );
+  }
 }

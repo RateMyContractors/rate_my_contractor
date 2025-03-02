@@ -44,4 +44,43 @@ class ReviewsDataProvider {
       return throw Exception('review data fetch failed$error');
     }
   }
+
+  Future<void> updateReview(
+    String reviewerId,
+    String contractorId,
+    int upvote,
+    int downVote,
+    String reviewid,
+  ) async {
+    try {
+      final votesJson = await _supabaseClient
+          .from('Reviews')
+          .select()
+          .eq('contractor_id', contractorId)
+          .eq('reviewer_id', reviewerId)
+          .eq('review_id', reviewid);
+      final reviewsObjList =
+          votesJson.map<ReviewsDto>(ReviewsDto.fromJson).toList().first;
+      if (upvote == 0) {
+        final supaDownVotes = reviewsObjList.downvote;
+        await _supabaseClient
+            .from('Reviews')
+            .update({'down_vote': supaDownVotes + downVote})
+            .eq('contractor_id', contractorId)
+            .eq('reviewer_id', reviewerId)
+            .eq('review_id', reviewid);
+      } else if (downVote == 0) {
+        final supaUpVotes = reviewsObjList.upvote;
+        final vote = supaUpVotes + upvote;
+        await _supabaseClient
+            .from('Reviews')
+            .update({'up_vote': vote})
+            .eq('contractor_id', contractorId)
+            .eq('reviewer_id', reviewerId)
+            .eq('review_id', reviewid);
+      }
+    } on Exception catch (error) {
+      throw Exception('updating review $error');
+    }
+  }
 }

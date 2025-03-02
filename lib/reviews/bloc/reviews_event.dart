@@ -67,3 +67,49 @@ class ReviewsRequest extends ReviewsEvent {
   @override
   String toString() => 'Reviews requested {contractorId: $contractorId}';
 }
+
+class ReviewsDownButtonPressed extends ReviewsEvent {
+  const ReviewsDownButtonPressed({
+    required this.downbutton,
+    required this.contractorid,
+    required this.reviewerid,
+    required this.reviewid,
+    required this.downbuttonClicked,
+  });
+
+  final String contractorid;
+  final String reviewerid;
+  final int downbutton;
+  final String reviewid;
+  final bool downbuttonClicked;
+
+  @override
+  List<Object> get props =>
+      [downbutton, contractorid, reviewerid, reviewid, downbuttonClicked];
+
+  @override
+  String toString() => 'ReviewsDownButtonPressed $downbutton}';
+}
+
+class ReviewsUpButtonPressed extends ReviewsEvent {
+  const ReviewsUpButtonPressed({
+    required this.upbutton,
+    required this.contractorid,
+    required this.reviewerid,
+    required this.reviewid,
+    required this.upbuttonClicked,
+  });
+
+  final String contractorid;
+  final String reviewerid;
+  final int upbutton;
+  final String reviewid;
+  final bool upbuttonClicked;
+
+  @override
+  List<Object> get props =>
+      [upbutton, contractorid, reviewerid, reviewid, upbuttonClicked];
+
+  @override
+  String toString() => 'ReviewsUpButtonPressed $upbutton}';
+}

@@ -46,6 +46,7 @@ class LoginPage extends StatelessWidget {
         }
       },
       child: Scaffold(
+        appBar: AppBar(),
         body: Center(
           child: BlocProvider(
             create: (context) => LoginBloc(

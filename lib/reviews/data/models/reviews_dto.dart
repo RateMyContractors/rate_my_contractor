@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
-class ReviewsDto {
-  ReviewsDto({
+class ReviewsDto extends Equatable {
+  const ReviewsDto({
     required this.reviewid,
     required this.contractorId,
     required this.reviewerId,
@@ -12,6 +13,8 @@ class ReviewsDto {
     required this.date,
     required this.username,
     required this.usertype,
+    this.upvoteClicked = false,
+    this.downvoteClicked = false,
   });
 
   factory ReviewsDto.fromJson(Map<String, dynamic> json) {
@@ -22,7 +25,7 @@ class ReviewsDto {
     return ReviewsDto(
       reviewerId: json['reviewer_id'] as String? ?? '',
       contractorId: json['contractor_id'] as String? ?? '',
-      reviewid: json['reviewer_id'] as String? ?? '',
+      reviewid: json['review_id'] as String? ?? '',
       comment: json['comment'] as String? ?? '',
       rating: json['rating'] as int? ?? 0,
       upvote: json['up_vote'] as int? ?? 0,
@@ -32,6 +35,31 @@ class ReviewsDto {
       usertype: json['user_type'] as String? ?? '',
     );
   }
+
+  //copyWith method allows us to specify only the fields we want to change,
+  //while the rest retain their existing values.
+  ReviewsDto copyWith({
+    int? upvote,
+    int? downvote,
+    bool? upvoteClicked,
+    bool? downvoteClicked,
+  }) {
+    return ReviewsDto(
+      reviewid: reviewid,
+      contractorId: contractorId,
+      reviewerId: reviewerId,
+      comment: comment,
+      rating: rating,
+      upvote: upvote ?? this.upvote,
+      downvote: downvote ?? this.downvote,
+      date: date,
+      username: username,
+      usertype: usertype,
+      upvoteClicked: upvoteClicked ?? this.upvoteClicked,
+      downvoteClicked: downvoteClicked ?? this.downvoteClicked,
+    );
+  }
+
   final String reviewid;
   final String contractorId;
   final String reviewerId;
@@ -42,8 +70,27 @@ class ReviewsDto {
   final String date;
   final String username;
   final String usertype;
+  final bool upvoteClicked;
+  final bool downvoteClicked;
+
+  @override
+  List<Object?> get props => [
+        reviewid,
+        contractorId,
+        reviewerId,
+        comment,
+        rating,
+        upvote,
+        downvote,
+        date,
+        username,
+        usertype,
+        upvoteClicked,
+        downvoteClicked,
+      ];
   @override
   String toString() =>
       'ReviewsDto(reviewerid: $reviewerId, contractorid: $contractorId,'
-      ' comment: $comment, rating: $rating, name: $username, type: $usertype)';
+      ' comment: $comment, rating: $rating, name: $username, type: $usertype,'
+      ' upvote: $upvote, downvote: $downvote)';
 }
