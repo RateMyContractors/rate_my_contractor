@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -236,9 +238,14 @@ class ReviewForm extends StatelessWidget {
                         : Column(
                             children: [
                               IconButton(
-                                onPressed: () {
-                                  ImagePicker()
+                                onPressed: () async {
+                                  var image = await ImagePicker()
                                       .pickImage(source: ImageSource.gallery);
+                                  if (image != null) {
+                                    BlocProvider.of<ReviewsBloc>(context).add(
+                                        ReviewsImagePicked(
+                                            imageFile: File(image.path)));
+                                  }
                                 },
                                 icon: Icon(
                                   Icons.upload,
@@ -252,6 +259,10 @@ class ReviewForm extends StatelessWidget {
                           ),
                   ),
                   const SizedBox(height: 15),
+                  Visibility(
+                    visible: state.image != null,
+                    child: Image(image: FileImage(state.image!)),
+                  ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Row(

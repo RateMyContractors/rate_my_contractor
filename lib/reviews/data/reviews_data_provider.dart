@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -81,6 +83,19 @@ class ReviewsDataProvider {
       }
     } on Exception catch (error) {
       throw Exception('updating review $error');
+    }
+  }
+
+  Future<String> uploadImageToSupabase(File imageFile, String reviewid) async {
+    try {
+      await _supabaseClient.storage
+          .from('images')
+          .upload('reviews/$reviewid', imageFile);
+      return _supabaseClient.storage
+          .from('reviews')
+          .getPublicUrl('reviews/$reviewid');
+    } on Exception catch (error) {
+      return throw Exception('upload to supabase failed $error');
     }
   }
 }

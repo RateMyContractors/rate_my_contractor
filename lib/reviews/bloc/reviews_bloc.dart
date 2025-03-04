@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
@@ -147,6 +149,24 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
           event.upbutton,
           0,
           event.reviewid,
+        );
+      } on Exception catch (error) {
+        emit(
+          state.copyWith(
+            errormsg: '$error',
+            status: ReviewsStateStatus.invalid,
+          ),
+        );
+      }
+    });
+
+    on<ReviewsImagePicked>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(
+            image: event.imageFile,
+            status: ReviewsStateStatus.valid,
+          ),
         );
       } on Exception catch (error) {
         emit(

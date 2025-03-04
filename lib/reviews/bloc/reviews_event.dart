@@ -113,3 +113,15 @@ class ReviewsUpButtonPressed extends ReviewsEvent {
   @override
   String toString() => 'ReviewsUpButtonPressed $upbutton}';
 }
+
+class ReviewsImagePicked extends ReviewsEvent {
+  const ReviewsImagePicked({required this.imageFile});
+
+  final File imageFile;
+
+  @override
+  List<Object> get props => [imageFile];
+
+  @override
+  String toString() => 'ReviewsImagePicked $imageFile}';
+}

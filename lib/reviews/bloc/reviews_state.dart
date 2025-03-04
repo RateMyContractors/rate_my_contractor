@@ -27,6 +27,7 @@ class ReviewsState extends Equatable {
     this.usertype = '',
     this.upvoteClicked = false,
     this.downvoteClicked = false,
+    this.image,
   });
   final ReviewsStateStatus status;
   final String contractorId;
@@ -42,6 +43,7 @@ class ReviewsState extends Equatable {
   final String usertype;
   final bool upvoteClicked;
   final bool downvoteClicked;
+  final File? image;
 
   ReviewsState copyWith({
     String? contractorId,
@@ -58,6 +60,7 @@ class ReviewsState extends Equatable {
     String? usertype,
     bool upvoteClicked = false,
     bool downvoteClicked = false,
+    File? image,
   }) {
     return ReviewsState(
       contractorId: contractorId ?? this.contractorId,
@@ -74,6 +77,7 @@ class ReviewsState extends Equatable {
       usertype: usertype ?? this.usertype,
       upvoteClicked: upvoteClicked,
       downvoteClicked: downvoteClicked,
+      image: image ?? this.image,
     );
   }
 
@@ -93,6 +97,7 @@ class ReviewsState extends Equatable {
         usertype,
         upvoteClicked,
         downvoteClicked,
+        image,
       ];
 
   @override
