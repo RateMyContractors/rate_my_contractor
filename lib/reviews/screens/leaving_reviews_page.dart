@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -239,12 +238,18 @@ class ReviewForm extends StatelessWidget {
                             children: [
                               IconButton(
                                 onPressed: () async {
-                                  var image = await ImagePicker()
+                                  final image = await ImagePicker()
                                       .pickImage(source: ImageSource.gallery);
                                   if (image != null) {
-                                    BlocProvider.of<ReviewsBloc>(context).add(
-                                        ReviewsImagePicked(
-                                            imageFile: File(image.path)));
+                                    final List<int> imageBytes =
+                                        await image.readAsBytes();
+                                    final base64String =
+                                        base64Encode(imageBytes);
+                                    context.read<ReviewsBloc>().add(
+                                          ReviewsImagePicked(
+                                            base64String: base64String,
+                                          ),
+                                        );
                                   }
                                 },
                                 icon: Icon(
@@ -260,8 +265,12 @@ class ReviewForm extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   Visibility(
-                    visible: state.image != null,
-                    child: Image(image: FileImage(state.image!)),
+                    visible: state.baseImg != '',
+                    child: state.baseImg != ''
+                        ? Image.memory(
+                            base64Decode(state.baseImg),
+                          )
+                        : Container(),
                   ),
                   Align(
                     alignment: Alignment.centerRight,

@@ -164,7 +164,7 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
       try {
         emit(
           state.copyWith(
-            image: event.imageFile,
+            baseImg: event.base64String,
             status: ReviewsStateStatus.valid,
           ),
         );

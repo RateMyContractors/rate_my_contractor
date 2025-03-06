@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/widgets.dart';
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:rate_my_contractor/reviews/data/reviews_data_provider.dart';
 

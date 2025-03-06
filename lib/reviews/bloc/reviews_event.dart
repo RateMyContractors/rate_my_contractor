@@ -115,13 +115,13 @@ class ReviewsUpButtonPressed extends ReviewsEvent {
 }
 
 class ReviewsImagePicked extends ReviewsEvent {
-  const ReviewsImagePicked({required this.imageFile});
+  const ReviewsImagePicked({required this.base64String});
 
-  final File imageFile;
-
-  @override
-  List<Object> get props => [imageFile];
+  final String base64String;
 
   @override
-  String toString() => 'ReviewsImagePicked $imageFile}';
+  List<Object> get props => [base64String];
+
+  @override
+  String toString() => 'ReviewsImagePicked $base64String}';
 }
