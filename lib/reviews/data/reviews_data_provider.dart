@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'dart:convert';
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -86,14 +85,19 @@ class ReviewsDataProvider {
     }
   }
 
-  Future<String> uploadImageToSupabase(File imageFile, String reviewid) async {
+  Future<String> uploadImageToSupabase(
+    String baseString,
+    String reviewerid,
+    String contractorid,
+  ) async {
     try {
+      final imageFile = base64Decode(baseString);
       await _supabaseClient.storage
           .from('images')
-          .upload('reviews/$reviewid', imageFile);
+          .uploadBinary('reviews/$contractorid/$reviewerid', imageFile);
       return _supabaseClient.storage
           .from('reviews')
-          .getPublicUrl('reviews/$reviewid');
+          .getPublicUrl('reviews/$contractorid/$reviewerid');
     } on Exception catch (error) {
       return throw Exception('upload to supabase failed $error');
     }

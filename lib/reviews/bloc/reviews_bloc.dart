@@ -36,6 +36,11 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
 
     on<ReviewsFormButtonPressed>((event, emit) async {
       try {
+        await repository.uploadImageToSupabase(
+          state.baseImg,
+          event.reviewerid,
+          event.contractorid,
+        );
         await repository.createReview(
           event.contractorid,
           event.reviewerid,

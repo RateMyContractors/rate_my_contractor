@@ -49,9 +49,13 @@ class ReviewsRepository {
     );
   }
 
-  Future<String> uploadImageToSupabase(File files, String reviewid) async {
-    final imageurl =
-        await _reviewsDataProvider.uploadImageToSupabase(files, reviewid);
+  Future<String> uploadImageToSupabase(
+      String basestring, String reviewerid, String contractorid) async {
+    final imageurl = await _reviewsDataProvider.uploadImageToSupabase(
+      basestring,
+      reviewerid,
+      contractorid,
+    );
     return imageurl;
   }
 }
