@@ -13,6 +13,7 @@ class ReviewsDto extends Equatable {
     required this.date,
     required this.username,
     required this.usertype,
+    required this.imageurls,
     this.upvoteClicked = false,
     this.downvoteClicked = false,
   });
@@ -33,6 +34,10 @@ class ReviewsDto extends Equatable {
       date: dateOnly,
       username: json['username'] as String? ?? '',
       usertype: json['user_type'] as String? ?? '',
+      imageurls: (json['image_urls'] as List<dynamic>?)
+              ?.map((item) => item as String)
+              .toList() ??
+          [],
     );
   }
 
@@ -57,6 +62,7 @@ class ReviewsDto extends Equatable {
       usertype: usertype,
       upvoteClicked: upvoteClicked ?? this.upvoteClicked,
       downvoteClicked: downvoteClicked ?? this.downvoteClicked,
+      imageurls: imageurls,
     );
   }
 
@@ -72,6 +78,7 @@ class ReviewsDto extends Equatable {
   final String usertype;
   final bool upvoteClicked;
   final bool downvoteClicked;
+  final List<String> imageurls;
 
   @override
   List<Object?> get props => [
@@ -87,6 +94,7 @@ class ReviewsDto extends Equatable {
         usertype,
         upvoteClicked,
         downvoteClicked,
+        imageurls,
       ];
   @override
   String toString() =>

@@ -200,6 +200,8 @@ class ContractorPage extends StatelessWidget {
                                               downvoteClicked: state
                                                   .reviews[index]
                                                   .downvoteClicked,
+                                              imageurl: state
+                                                  .reviews[index].imageurls,
                                             ),
                                           );
                                         },

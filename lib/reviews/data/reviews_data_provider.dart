@@ -16,6 +16,7 @@ class ReviewsDataProvider {
     int downvote,
     String username,
     String usertype,
+    List<String> imageurls,
   ) async {
     try {
       await _supabaseClient.from('Reviews').insert({
@@ -25,6 +26,7 @@ class ReviewsDataProvider {
         'comment': comment,
         'username': username,
         'user_type': usertype,
+        'image_urls': imageurls,
       });
     } on Exception catch (error) {
       Exception('supabase issue$error');
@@ -96,7 +98,7 @@ class ReviewsDataProvider {
           .from('images')
           .uploadBinary('reviews/$contractorid/$reviewerid', imageFile);
       return _supabaseClient.storage
-          .from('reviews')
+          .from('images')
           .getPublicUrl('reviews/$contractorid/$reviewerid');
     } on Exception catch (error) {
       return throw Exception('upload to supabase failed $error');

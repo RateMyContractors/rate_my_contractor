@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:rate_my_contractor/reviews/data/models/reviews_dto.dart';
 import 'package:rate_my_contractor/reviews/data/reviews_data_provider.dart';
 
@@ -15,6 +14,7 @@ class ReviewsRepository {
     int downvote,
     String username,
     String usertype,
+    List<String> imageurls,
   ) async {
     await _reviewsDataProvider.createReview(
       contractorId,
@@ -25,6 +25,7 @@ class ReviewsRepository {
       downvote,
       username,
       usertype,
+      imageurls,
     );
   }
 
@@ -50,7 +51,10 @@ class ReviewsRepository {
   }
 
   Future<String> uploadImageToSupabase(
-      String basestring, String reviewerid, String contractorid) async {
+    String basestring,
+    String reviewerid,
+    String contractorid,
+  ) async {
     final imageurl = await _reviewsDataProvider.uploadImageToSupabase(
       basestring,
       reviewerid,
