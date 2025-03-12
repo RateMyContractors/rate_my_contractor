@@ -197,10 +197,24 @@ class ReviewForm extends StatelessWidget {
                               Column(
                                 children: [
                                   IconButton(
-                                    onPressed: () {
-                                      ImagePicker().pickImage(
+                                    onPressed: () async {
+                                      final image =
+                                          await ImagePicker().pickImage(
                                         source: ImageSource.gallery,
                                       );
+                                      if (image != null) {
+                                        final List<int> imageBytes =
+                                            await image.readAsBytes();
+                                        final base64String =
+                                            base64Encode(imageBytes);
+
+                                        if (!context.mounted) return;
+                                        context.read<ReviewsBloc>().add(
+                                              ReviewsImagePicked(
+                                                base64String: base64String,
+                                              ),
+                                            );
+                                      }
                                     },
                                     icon: Icon(
                                       Icons.upload,
