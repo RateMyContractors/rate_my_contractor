@@ -245,6 +245,8 @@ class ReviewForm extends StatelessWidget {
                                         await image.readAsBytes();
                                     final base64String =
                                         base64Encode(imageBytes);
+
+                                    if (!context.mounted) return;
                                     context.read<ReviewsBloc>().add(
                                           ReviewsImagePicked(
                                             base64String: base64String,

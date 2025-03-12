@@ -41,8 +41,6 @@ class ReviewsDto extends Equatable {
     );
   }
 
-  //copyWith method allows us to specify only the fields we want to change,
-  //while the rest retain their existing values.
   ReviewsDto copyWith({
     int? upvote,
     int? downvote,
