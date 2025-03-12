@@ -36,83 +36,97 @@ void main() {
           [const ReviewsState(rating: 5, status: ReviewsStateStatus.valid)],
     );
 
-    // blocTest<ReviewsBloc, ReviewsState>(
-    //   'reviews form button pressed',
-    //   build: () {
-    //     when(
-    //       () => mockRepository.createReview(
-    //         any(),
-    //         any(),
-    //         any(),
-    //         any(),
-    //         any(),
-    //         any(),
-    //         any(),
-    //         any(),
-    //         any(),
-    //       ),
-    //     ).thenAnswer(
-    //       (_) async => Future.value(),
-    //     );
-    //     when(() => mockRepository.getReviews('nk')).thenAnswer(
-    //       (_) async => [
-    //         const ReviewsDto(
-    //           rating: 1,
-    //           comment: '123',
-    //           upvote: 1,
-    //           downvote: 0,
-    //           username: 'b',
-    //           usertype: 'user',
-    //           reviewid: '',
-    //           contractorId: 'nk',
-    //           reviewerId: 'nk',
-    //           date: '',
-    //           imageurls: ['hi'],
-    //         ),
-    //       ],
-    //     );
-    //     return ReviewsBloc(mockRepository);
-    //   },
-    //   act: (bloc) => bloc.add(
+    /// START OF LINE
 
-    //     const ReviewsFormButtonPressed(
-    //       contractorid: 'nk',
-    //       reviewerid: 'nk',
-    //       rating: 1,
-    //       comment: '123',
-    //       upvote: 1,
-    //       downvote: 0,
-    //       username: 'b',
-    //       usertype: 'user',
-    //     ),
-    //   ),
-    //   expect: () => [
-    //     const ReviewsState(
-    //       status: ReviewsStateStatus.passed,
-    //     ),
-    //     const ReviewsState(
-    //       status: ReviewsStateStatus.loading,
-    //     ),
-    //     const ReviewsState(
-    //       reviews: [
-    //         ReviewsDto(
-    //           rating: 1,
-    //           comment: '123',
-    //           upvote: 1,
-    //           downvote: 0,
-    //           username: 'b',
-    //           usertype: 'user',
-    //           reviewid: '',
-    //           contractorId: 'nk',
-    //           reviewerId: 'nk',
-    //           date: '',
-    //           imageurls: ['hi'],
-    //         ),
-    //       ],
-    //       status: ReviewsStateStatus.success,
-    //     ),
-    //   ],
-    // );
+    blocTest<ReviewsBloc, ReviewsState>(
+      'reviews form button pressed',
+      build: () {
+        when(
+          () => mockRepository.uploadImageToSupabase(
+            any(),
+            any(),
+            any(),
+          ),
+        ).thenAnswer(
+          (_) async => 'hi',
+        );
+
+        when(
+          () => mockRepository.createReview(
+            any(),
+            any(),
+            any(),
+            any(),
+            any(),
+            any(),
+            any(),
+            any(),
+            any(),
+          ),
+        ).thenAnswer(
+          (_) async => Future.value(),
+        );
+
+        when(() => mockRepository.getReviews('nk')).thenAnswer(
+          (_) async => [
+            const ReviewsDto(
+              rating: 1,
+              comment: '123',
+              upvote: 1,
+              downvote: 0,
+              username: 'b',
+              usertype: 'user',
+              reviewid: '',
+              contractorId: 'nk',
+              reviewerId: 'nk',
+              date: '',
+              imageurls: ['hi'],
+            ),
+          ],
+        );
+        return ReviewsBloc(mockRepository);
+      },
+      act: (bloc) => bloc.add(
+        const ReviewsFormButtonPressed(
+          contractorid: 'nk',
+          reviewerid: 'nk',
+          rating: 1,
+          comment: '123',
+          upvote: 1,
+          downvote: 0,
+          username: 'b',
+          usertype: 'user',
+        ),
+      ),
+      expect: () => [
+        const ReviewsState(
+          status: ReviewsStateStatus.passed,
+        ),
+        const ReviewsState(
+          status: ReviewsStateStatus.loading,
+        ),
+        const ReviewsState(
+          reviews: [
+            ReviewsDto(
+              rating: 1,
+              comment: '123',
+              upvote: 1,
+              downvote: 0,
+              username: 'b',
+              usertype: 'user',
+              reviewid: '',
+              contractorId: 'nk',
+              reviewerId: 'nk',
+              date: '',
+              imageurls: ['hi'],
+            ),
+          ],
+          status: ReviewsStateStatus.success,
+        ),
+      ],
+    );
+
+    /// END OF LINES
 
     blocTest<ReviewsBloc, ReviewsState>(
       'emits reviews when reviews request',
