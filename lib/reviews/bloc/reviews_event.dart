@@ -113,3 +113,15 @@ class ReviewsUpButtonPressed extends ReviewsEvent {
   @override
   String toString() => 'ReviewsUpButtonPressed $upbutton}';
 }
+
+class ReviewsImagePicked extends ReviewsEvent {
+  const ReviewsImagePicked({required this.base64String});
+
+  final String base64String;
+
+  @override
+  List<Object> get props => [base64String];
+
+  @override
+  String toString() => 'ReviewsImagePicked $base64String}';
+}

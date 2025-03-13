@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -196,10 +197,24 @@ class ReviewForm extends StatelessWidget {
                               Column(
                                 children: [
                                   IconButton(
-                                    onPressed: () {
-                                      ImagePicker().pickImage(
+                                    onPressed: () async {
+                                      final image =
+                                          await ImagePicker().pickImage(
                                         source: ImageSource.gallery,
                                       );
+                                      if (image != null) {
+                                        final List<int> imageBytes =
+                                            await image.readAsBytes();
+                                        final base64String =
+                                            base64Encode(imageBytes);
+
+                                        if (!context.mounted) return;
+                                        context.read<ReviewsBloc>().add(
+                                              ReviewsImagePicked(
+                                                base64String: base64String,
+                                              ),
+                                            );
+                                      }
                                     },
                                     icon: Icon(
                                       Icons.upload,
@@ -236,9 +251,22 @@ class ReviewForm extends StatelessWidget {
                         : Column(
                             children: [
                               IconButton(
-                                onPressed: () {
-                                  ImagePicker()
+                                onPressed: () async {
+                                  final image = await ImagePicker()
                                       .pickImage(source: ImageSource.gallery);
+                                  if (image != null) {
+                                    final List<int> imageBytes =
+                                        await image.readAsBytes();
+                                    final base64String =
+                                        base64Encode(imageBytes);
+
+                                    if (!context.mounted) return;
+                                    context.read<ReviewsBloc>().add(
+                                          ReviewsImagePicked(
+                                            base64String: base64String,
+                                          ),
+                                        );
+                                  }
                                 },
                                 icon: Icon(
                                   Icons.upload,
@@ -252,6 +280,14 @@ class ReviewForm extends StatelessWidget {
                           ),
                   ),
                   const SizedBox(height: 15),
+                  Visibility(
+                    visible: state.baseImg != '',
+                    child: state.baseImg != ''
+                        ? Image.memory(
+                            base64Decode(state.baseImg),
+                          )
+                        : Container(),
+                  ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Row(

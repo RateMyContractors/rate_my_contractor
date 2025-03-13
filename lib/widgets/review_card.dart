@@ -21,13 +21,12 @@ class ReviewCard extends StatefulWidget {
     required this.reviewid,
     required this.upvoteClicked,
     required this.downvoteClicked,
+    required this.imageurl,
     super.key,
-    this.image,
   });
   final String reviewerName;
   final int rating;
   final String comment;
-  final String? image;
   final String date;
   final String usertype;
   final int upvote;
@@ -37,6 +36,7 @@ class ReviewCard extends StatefulWidget {
   final String reviewid;
   final bool upvoteClicked;
   final bool downvoteClicked;
+  final List<String> imageurl;
 
   @override
   ReviewCardState createState() => ReviewCardState();
@@ -54,11 +54,6 @@ class ReviewCardState extends State<ReviewCard> {
   Widget build(BuildContext context) {
     final date = widget.date;
 
-    final reviewImages = <String>[
-      'assets/samplepictures/fix1.jpg',
-      'assets/samplepictures/fix2.jpg',
-      'assets/samplepictures/fix3.jpg',
-    ];
     return BlocBuilder<ReviewsBloc, ReviewsState>(
       builder: (context, state) {
         return Container(
@@ -149,7 +144,7 @@ class ReviewCardState extends State<ReviewCard> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: reviewImages.length,
+                        itemCount: widget.imageurl.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 8),
@@ -159,7 +154,7 @@ class ReviewCardState extends State<ReviewCard> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
-                                  image: NetworkImage(reviewImages[index]),
+                                  image: NetworkImage(widget.imageurl[index]),
                                   fit: BoxFit.cover,
                                 ),
                               ),

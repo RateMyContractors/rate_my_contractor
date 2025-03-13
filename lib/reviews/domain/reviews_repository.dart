@@ -14,6 +14,7 @@ class ReviewsRepository {
     int downvote,
     String username,
     String usertype,
+    List<String> imageurls,
   ) async {
     await _reviewsDataProvider.createReview(
       contractorId,
@@ -24,6 +25,7 @@ class ReviewsRepository {
       downvote,
       username,
       usertype,
+      imageurls,
     );
   }
 
@@ -46,5 +48,18 @@ class ReviewsRepository {
       downvote,
       reviewid,
     );
+  }
+
+  Future<String> uploadImageToSupabase(
+    String basestring,
+    String reviewerid,
+    String contractorid,
+  ) async {
+    final imageurl = await _reviewsDataProvider.uploadImageToSupabase(
+      basestring,
+      reviewerid,
+      contractorid,
+    );
+    return imageurl;
   }
 }

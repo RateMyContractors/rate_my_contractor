@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rate_my_contractor/authentication/bloc/authentication_bloc.dart';
 import 'package:rate_my_contractor/authentication/domain/authentication_repository.dart';
@@ -26,6 +27,8 @@ class MockReviewsBloc extends MockBloc<ReviewsEvent, ReviewsState>
 class MockAuthenticationBloc
     extends MockBloc<AuthenticationEvent, AuthenticationState>
     implements AuthenticationBloc {}
+
+class MockImagePicker extends Mock implements ImagePicker {}
 
 void main() {
   late MockSearchBloc mockSearchBloc;
@@ -120,24 +123,25 @@ void main() {
       ),
     );
     expect(find.byType(ResultsPage), findsOneWidget);
+    await tester.enterText(find.byType(TextField), 'Z');
+
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(ListView),
+            matching: find.text('"Z" ELECTRIC'),
+          )
+          .first,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ContractorPage), findsOneWidget);
   }
 
   group('Reviewform test', () {
     testWidgets('Reviewform is present', (WidgetTester tester) async {
       await settingupReviewForm(tester);
-      await tester.enterText(find.byType(TextField), 'Z');
 
-      await tester.tap(
-        find
-            .descendant(
-              of: find.byType(ListView),
-              matching: find.text('"Z" ELECTRIC'),
-            )
-            .first,
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byType(ContractorPage), findsOneWidget);
       await tester.scrollUntilVisible(find.text('Write a review'), 100);
       await tester.tap(find.text('Write a review'));
       await tester.pumpAndSettle();
@@ -153,6 +157,27 @@ void main() {
       expect(find.text('Upload'), findsWidgets);
       expect(find.byIcon(Icons.upload), findsOneWidget);
       expect(find.text('Post'), findsWidgets);
+    });
+    testWidgets('testing image picker', (WidgetTester tester) async {
+      await settingupReviewForm(tester);
+
+      await tester.scrollUntilVisible(find.text('Write a review'), 100);
+      await tester.tap(find.text('Write a review'));
+      await tester.pumpAndSettle();
+      expect(find.text('"Z" ELECTRIC'), findsOneWidget);
+      expect(
+        tester.widget<Align>(find.byType(Align).first).alignment,
+        Alignment.centerLeft,
+      );
+      expect(find.text('Create Review'), findsOneWidget);
+      expect(find.text('Overall Rating'), findsOneWidget);
+      expect(find.text('Add a written review'), findsOneWidget);
+
+      expect(find.text('Upload'), findsWidgets);
+      expect(find.byIcon(Icons.upload), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.upload));
+      await tester.pumpAndSettle();
+      expect(find.text('Upload'), findsWidgets);
     });
   });
 }

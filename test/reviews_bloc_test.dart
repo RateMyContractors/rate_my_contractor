@@ -36,11 +36,24 @@ void main() {
           [const ReviewsState(rating: 5, status: ReviewsStateStatus.valid)],
     );
 
+    /// START OF LINE
+
     blocTest<ReviewsBloc, ReviewsState>(
       'reviews form button pressed',
       build: () {
         when(
+          () => mockRepository.uploadImageToSupabase(
+            any(),
+            any(),
+            any(),
+          ),
+        ).thenAnswer(
+          (_) async => 'hi',
+        );
+
+        when(
           () => mockRepository.createReview(
+            any(),
             any(),
             any(),
             any(),
@@ -53,6 +66,7 @@ void main() {
         ).thenAnswer(
           (_) async => Future.value(),
         );
+
         when(() => mockRepository.getReviews('nk')).thenAnswer(
           (_) async => [
             const ReviewsDto(
@@ -66,6 +80,7 @@ void main() {
               contractorId: 'nk',
               reviewerId: 'nk',
               date: '',
+              imageurls: ['hi'],
             ),
           ],
         );
@@ -103,12 +118,15 @@ void main() {
               contractorId: 'nk',
               reviewerId: 'nk',
               date: '',
+              imageurls: ['hi'],
             ),
           ],
           status: ReviewsStateStatus.success,
         ),
       ],
     );
+
+    /// END OF LINES
 
     blocTest<ReviewsBloc, ReviewsState>(
       'emits reviews when reviews request',
@@ -126,6 +144,7 @@ void main() {
               date: '2024-02-28',
               username: 'JohnDoe',
               usertype: 'Client',
+              imageurls: ['hi'],
             ),
           ],
         );
@@ -147,6 +166,7 @@ void main() {
               date: '2024-02-28',
               username: 'JohnDoe',
               usertype: 'Client',
+              imageurls: ['hi'],
             ),
           ],
           status: ReviewsStateStatus.success,
